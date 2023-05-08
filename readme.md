@@ -33,7 +33,7 @@ Par la suite, elle souhaite le transformer en site e-commerce et rajouter les fo
 • Référencer tous ses fournisseurs avec leur nom, leur présentation, leur marque et la liste de leurs produits
 • La possibilité pour les visiteurs de créer leur compte avec leur nom, prénom, adresse mail, mot de passe, numéro de téléphone, adresse, ville, code postal
 • Le visiteur pourra donc se connecter avec son email et son mot de passe, elle souhaite le maximum de sécurité avec les données de ses clients
-• Mettre en place un lien de payment (paypal ou carte bleue) elle n' a pas de préférence
+• Mettre en place un lien de payment (Paypal ou carte bleue) elle n' a pas de préférence
 • Mettre en place un listing email
 
 ## installation

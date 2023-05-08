@@ -1,8 +1,8 @@
 import express from "express";
-import { getAdmin } from "../../controllers/AdminController.js";
+import { dashboard } from "../controllers/admin/adminController.js";
 
 const router = express.Router();
 
-router.get("/admin", getAdmin);
+router.get("/admin", dashboard);
 
 export default router;

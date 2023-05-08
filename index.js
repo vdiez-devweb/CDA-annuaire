@@ -9,7 +9,7 @@ import homepageRouter from "./routes/homepageRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import legacyRouter from "./routes/legacyRoutes.js";
-import legacyRouter from "./routes/admin/adminRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 // configurer option dotenv
 dotenv.config();
