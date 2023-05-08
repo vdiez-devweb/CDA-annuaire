@@ -159,9 +159,9 @@ export const getCategories = async (req, res, next) => {
         //console.log(categories);
         if (null == categories) {
             res.status(404).render("category/getCategories", {
-                title: "Erreur Catégories de produits",
+                title: "Catégories de produits",
                 categories: "",
-                message: "Erreur : catégories introuvables."
+                message: "Aucune catégorie enregistrée."
             });
         }
         res.status(200).render("category/getCategories", {

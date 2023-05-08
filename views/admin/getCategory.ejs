@@ -1,0 +1,58 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+
+    <div class="container">
+        <div><h1><%= title %></h1></div>
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-xl-2">
+                <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg" alt="<%= category.categorySlug %> illustration">
+            </div>
+            <div class="col-sm-8 col-md-7 col-xl-10">
+                <h1>Catégorie <%= category.categoryName %> </h1>
+                <p><%= category.categoryDescription %></p>
+            </div>
+        </div>
+    </div>
+   
+    <% if (products) { %>
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- <th scope="col">-</th> -->
+                    <th scope="col">Produit</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(function(currentProduct) { %>
+
+                    <tr>
+                        <!-- <td>
+                        <img class="shadow p-2 rounded" src="/images/<%#= currentProduct.categorySlug %>-75.jpg" alt="<%= currentProduct.categorySlug %> illustration">
+                        </td> -->
+                        <th scope="row"><%= currentProduct.productName %> </th>
+                        <td><%= currentProduct.productPrice %></td>
+                        <td><%= currentProduct.productDescription %></td>
+                        <td>
+                            <div><a href="#" alt="Modifier le produit"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
+                            <div><a href="#" alt="Supprimer le produit"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                        </td>
+                    </tr>
+
+                <% }); %>
+            </tbody>
+        </table>
+    <p>&nbsp;</p>
+
+    <% } else { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>    
+
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

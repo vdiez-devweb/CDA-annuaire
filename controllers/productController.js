@@ -127,20 +127,20 @@ export const getProducts = async (req, res, next) => {
     try{
         const products = await Product.find({});
         if (0 == products.length) {
-            res.status(404).render("Product/getProducts", {
+            res.status(404).render("product/getProducts", {
                 title: "Liste des produits",
                 products: "",
                 message: "Aucun produit trouvé."
             });
         }
 
-        res.status(200).render("Product/getProducts", {
+        res.status(200).render("product/getProducts", {
             title: "Liste des produits",
             message: "",
             products: products 
         });
     } catch(error) {
-        res.status(500).render("Product/getProducts", {
+        res.status(500).render("product/getProducts", {
             title: "Liste des produits",
             products: "",
             message: "Erreur serveur."
