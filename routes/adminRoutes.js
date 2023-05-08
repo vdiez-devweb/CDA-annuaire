@@ -3,7 +3,8 @@ import {
     dashboard,
     getProducts,
     getCategory,
-    // PostCategory
+    postCategory,
+    ajaxPostCategory
 } from "../controllers/admin/adminController.js";
 
 const router = express.Router();
@@ -13,7 +14,8 @@ router.get("/admin/categories", dashboard);
 router.get("/admin/products", getProducts);
 router.get("/admin/category/:categorySlug", getCategory);
 
-// router.post("/admin/create-category", PostCategory);
+router.get("/admin/create-category", postCategory);
+router.post("/admin/ajax-create-category", ajaxPostCategory);
 
 
 export default router;

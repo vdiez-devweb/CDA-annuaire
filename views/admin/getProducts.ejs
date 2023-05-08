@@ -6,6 +6,9 @@
     <div class="container">
 
         <div><h1><%= title %></h1></div>
+        <% if (flashMessage) { %>
+            <p class="alert alert-success"><%= flashMessage %></p>
+        <% } %>  
         <% if (products) { %>
             <table class="table">
                 <thead>

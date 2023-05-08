@@ -15,12 +15,14 @@ export const dashboard = async (req, res, next) => {
             title: prefixTitle + "Catégories",
             products: "",
             category: "",
+            flashMessage:"",
             message: "Aucune catégorie répertoriée."
         });
     }
     res.status(200).render("admin/dashboard", {
         title: prefixTitle + "Catégories",
         categories: categories,
+        flashMessage:"",
         message: ""
     });
 };
@@ -38,6 +40,7 @@ export const getProducts = async (req, res, next) => {
             res.status(404).render("admin/getProducts", {
                 title: prefixTitle + "Liste des produits",
                 products: "",
+                flashMessage:"",
                 message: "Aucun produit trouvé."
             });
         }
@@ -45,12 +48,14 @@ export const getProducts = async (req, res, next) => {
         res.status(200).render("admin/getProducts", {
             title: prefixTitle + "Liste des produits",
             message: "",
+            flashMessage:"",
             products: products 
         });
     } catch(error) {
         res.status(500).render("admin/getProducts", {
             title: prefixTitle + "Liste des produits",
             products: "",
+            flashMessage:"",
             message: "Erreur serveur."
         });
     }
@@ -73,6 +78,7 @@ export const getCategory = async (req, res, next) => {
                 title: prefixTitle + "Liste des produits par catégorie",
                 products: "",
                 category: "",
+                flashMessage:"",
                 message: "Catégorie introuvable."
             });
         }
@@ -81,11 +87,13 @@ export const getCategory = async (req, res, next) => {
                 title: prefixTitle + "Liste des produits " + category.categoryName,
                 products: "",
                 category: category,
+                flashMessage:"",
                 message: "Aucun produit dans cette catégorie."
             });
         }
         res.status(200).render("admin/getCategory", {
             title: prefixTitle + "Liste des produits " + category.categoryName,
+            flashMessage:"",
             message: "",
             category: category,
             products: products 
@@ -95,6 +103,7 @@ export const getCategory = async (req, res, next) => {
             title: prefixTitle + "Liste des produits",
             products: "",
             category: "",
+            flashMessage:"",
             message: error
         });
     }
@@ -105,48 +114,51 @@ export const getCategory = async (req, res, next) => {
  * render form to create Category (requête post) in admin dashboard 
  * 
 **/
-// export const PostCategory = (req, res, next) => {
-//     res.status(200).render("admin/createCategory", {
-//         title: prefixTitle + "Création de catégorie ",
-//         message: "",
-//         flashMessage: "",
-//         category: ""
-    
-//     });
-// };
+export const postCategory = (req, res, next) => {
+    res.status(200).render("admin/createCategory", {
+        title: prefixTitle + "Création de catégorie ",
+        message: "",
+        flashMessage: "",
+        category: ""
+    });
+};
 
 /**
  * 
  * Create Category (requête post) in admin dashboard 
  * 
 **/
-// export const ajaxPostCategory = async (req, res, next) => {
-//     // envoyer le nom de la catégorie via req.body
-//     const categoryName = req.body.categoryName;
-//     const categoryDescription = req.body.categoryDescription;
-//     const categorySlug = req.body.categorySlug;
+export const ajaxPostCategory = async (req, res, next) => {
+    // envoyer le nom de la catégorie via req.body
+    const categoryName = req.body.categoryName;
+    const categoryDescription = req.body.categoryDescription;
+    const categorySlug = req.body.categorySlug;
 
-//     try{
-//         // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
-//         const category = await Category.create({
-//             // categoryName: categoryName,
-//             categoryName, // si la clé = valeur, on ne répète pas
-//             categoryDescription,
-//             categorySlug
-//         });
+    //console.log(categoryName + " " + categorySlug + " " + categoryDescription);
 
-//         res.status(201).render("admin/getCategory", {
-//             title: prefixTitle + "Création de catégorie ",
-//             message: "",
-//             flashMessage: "Catégorie " + category.categoryName + "créée",
-//             category: category
-//         });
-//     } catch(error) {
-//         res.status(500).render("admin/getCategory", {
-//             title: prefixTitle + "Création d'une catégorie",
-//             products: "",
-//             category: "",
-//             message: error
-//         });
-//     }
-// };
+    try{
+        // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
+        const category = await Category.create({
+            // categoryName: categoryName,
+            categoryName, // si la clé = valeur, on ne répète pas
+            categoryDescription,
+            categorySlug
+        });
+
+        res.status(201).render("admin/getCategory", {
+            title: prefixTitle + "Création de catégorie ",
+            message: "Aucun produit enregistré",
+            products: "",
+            flashMessage: "Catégorie " + category.categoryName + "créée",
+            category: category
+        });
+    } catch(error) {
+        res.status(500).render("admin/getCategory", {
+            title: prefixTitle + "Création d'une catégorie",
+            products: "",
+            category: "",
+            flashMessage:"",
+            message: error
+        });
+    }
+};

@@ -9,8 +9,13 @@
             <div>
                 <p>Bienvenue sur le Panneau d'administration Concept Institut</p>
                 <h1><%= title %></h1>
+                <div><a href="<%=baseURL%>/admin/create-category" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a></div>                
+
             </div>
          </div>
+         <% if (flashMessage) { %>
+            <p class="alert alert-success"><%= flashMessage %></p>
+        <% } %>  
         <% if (categories) { %>
             <table class="table">
                 <thead>
