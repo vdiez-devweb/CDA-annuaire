@@ -1,7 +1,8 @@
-    <h1>Liste des catégories</h1>
+    <h1>Liste des catégories de produits</h1>
+    <p>Nos produits sont vendus exclusivement à l'institut pour le moment. n'hésitez pas à nous contacter.</p>
+
     <p><%= message %></p>
     <% if (categories) { %>
-        <p>
             <div class="row">
             <% categories.forEach(function(currentCategory) { %>
                 <div class="col-sm-3">
@@ -11,11 +12,11 @@
                         <div class="card-body">
                         <h2 class="card-title"><%= currentCategory.categoryName %></h2>
                         <p class="card-text"><%= currentCategory.categoryDescription %></p>
-                        <a href="category/<%= currentCategory.categorySlug %>" class="btn btn-primary">Voir les produits de la catégorie </a>                
+                        <a href="category/<%= currentCategory.categorySlug %>" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass px-1"></i> Voir les produits de la catégorie </a>                
                         </div>
                     </div>
                 </div>
             <% }); %>
             </div>
-        </p>
+          <p>&nbsp;</p>
     <% } %>

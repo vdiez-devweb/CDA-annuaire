@@ -16,7 +16,7 @@
                                 <p><%= currentProduct.productDescription %></p>
                             </div>
                             <!-- afficher la catégorie de produit -->
-                            <div><a class="btn btn-primary btn-sm" role="button" href="product/<%= currentProduct._id %>">Voir fiche produit</a></div>
+                            <div><a class="btn btn-outline-secondary btn-sm" role="button" href="product/<%= currentProduct._id %>">Voir fiche produit</a></div>
                         </div>
                     </div>
                 </div>
@@ -26,6 +26,6 @@
         <% } %>
     </div>
 
-    <a class="btn btn-primary btn-sm mb-5" role="button" href="../categories">Retour à la liste des catégories</a>
+    <a class="btn btn-success btn-sm mb-5" role="button" href="../categories">Retour à la liste des catégories</a>
 
     <%- include('../_footer'); %>

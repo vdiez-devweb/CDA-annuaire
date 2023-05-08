@@ -1,7 +1,17 @@
 * {
     font-family: 'Tajawal', sans-serif;
+    /* limiter la hauteur de <body> à 100%. */
+    -moz-box-sizing: border-box; box-sizing: border-box; 
 }
-
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
 h1 {
     font-family: 'Amatic SC', cursive;
 }
@@ -9,13 +19,19 @@ h2, h3, h4, h5, h6 {
     font-family: 'Bad Script', cursive;
 }
 
-a {
+a, nav a {
     text-decoration: none;
     color:darkolivegreen;
 }
-a:hover {
-    color:darkslategray;
+a:hover, nav a:hover {
+    color:darkgreen;
+}
+
+.container {
+    padding-bottom: 20px;
 }
 footer {
-    background-color:#cc9966;
+    background-color:antiquewhite;
+    border-top: 1px solid rgb(206, 205, 205);
+    position: absolute; bottom: 0; left: 0; right: 0;
 }
