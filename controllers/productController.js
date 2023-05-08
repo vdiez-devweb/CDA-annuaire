@@ -71,17 +71,17 @@ export const apiUpdateProduct = async (req, res, next) => {
 **/
 export const apiGetProduct = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.ProductId;
+    const id = req.params.productId;
     try{
-        const Product = await Product.findOne({ "_id": id });
-        if (null == Product) {
-            res.status(404).json({ "message": "la catégorie n'existe pas" });
+        const product = await Product.findOne({ "_id": id });
+        if (null == product) {
+            res.status(404).json({ "message": "le produit n'existe pas" });
         }
-        res.status(200).json({ Product });
+        res.status(200).json({ product });
     } catch(err) {
         res.status(500).json({ "message": "serveur erreur" });
     }
-    const apiProducts = await Product.find({});
+    // const apiProducts = await Product.find({});
  
 };
 
@@ -210,27 +210,27 @@ export const apiGetProducts = async (req, res, next) => {
  * delete a single Product in webApp 
  * 
 **/
-export const deleteProduct = async (req, res, next) => {
-    //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
+// export const deleteProduct = async (req, res, next) => {
+//     //on récupère l'identifiant donné dans la route paramétrique
+//     const id = req.params.productId;
 
-    try{
-        //je veux stocker le nom de la catégorie à supprimer
-        const result = await Product.findByIdAndDelete({ "_id": id });
+//     try{
+//         //je veux stocker le nom de la catégorie à supprimer
+//         const result = await Product.findByIdAndDelete({ "_id": id });
 
-        res.status(200).render("product/deleteProduct", {
-            title: "Suppression produit",
-            // product: result,
-            message: "Produit " + result.productName + " supprimé."
-        });
-    } catch {
-        res.status(404).render("product/deleteProduct", {
-            title: "Erreur suppression produit",
-            // product: null,
-            message: "Erreur : produit introuvable."
-        });
-    }
-};
+//         res.status(200).render("product/deleteProduct", {
+//             title: "Suppression produit",
+//             // product: result,
+//             message: "Produit " + result.productName + " supprimé."
+//         });
+//     } catch {
+//         res.status(404).render("product/deleteProduct", {
+//             title: "Erreur suppression produit",
+//             // product: null,
+//             message: "Erreur : produit introuvable."
+//         });
+//     }
+// };
 
 /**
  * 
@@ -239,15 +239,15 @@ export const deleteProduct = async (req, res, next) => {
 **/
 export const apiDeleteProduct = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.ProductId;
+    const id = req.params.productId;
 
     try{
-        const Product = await Product.deleteOne({ "_id": id });
-        console.log(Product);
+        const product = await Product.deleteOne({ "_id": id });
+        console.log(product);
 
-        res.status(200).json({ "Erreur": "catégorie supprimée." });
+        res.status(200).json({ "Message": "Produit supprimé." });
     } catch {
-        res.status(404).json("Erreur : catégorie introuvable.");
+        res.status(404).json("Erreur : Produit introuvable.");
     }
 };
 

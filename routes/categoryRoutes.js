@@ -7,7 +7,7 @@ import {
     apiGetCategory,
     getCategories,  
     getCategory, 
-    deleteCategory,
+    // deleteCategory,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
@@ -22,7 +22,7 @@ router.delete("/api/delete-category/:categoryId", apiDeleteCategory);
 router.get("/categories", getCategories);
 // router.get("/category/:categoryId", getCategory);
 router.get("/category/:categorySlug", getCategory);
-router.get("/delete-category/:categoryId", deleteCategory);//! ne passe pas si router.delete()
+// router.get("/delete-category/:categoryId", deleteCategory);//! ne passe pas si router.delete()
 
 
 export default router;

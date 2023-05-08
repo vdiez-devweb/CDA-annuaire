@@ -197,30 +197,30 @@ export const apiGetCategories = async (req, res, next) => {
  * delete a single category in webApp 
  * 
 **/
-export const deleteCategory = async (req, res, next) => {
-    //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.categoryId;
+// export const deleteCategory = async (req, res, next) => {
+//     //on récupère l'identifiant donné dans la route paramétrique
+//     const id = req.params.categoryId;
 
-    try{
-        //je veux stocker le nom de la catégorie à supprimer
-        const result = await Category.findByIdAndDelete({ "_id": id });
+//     try{
+//         //je veux stocker le nom de la catégorie à supprimer
+//         const result = await Category.findByIdAndDelete({ "_id": id });
 
-        // const result = await Category.deleteOne({ "_id": id });
-        console.log(result);
+//         // const result = await Category.deleteOne({ "_id": id });
+//         console.log(result);
 
-        res.status(200).render("category/deleteCategory", {
-            title: "Category",
-            category: result,
-            message: "Catégorie " + result.categoryName + " supprimée."
-        });
-    } catch {
-        res.status(404).render("category/deleteCategory", {
-            title: "Category",
-            category: null,
-            message: "Erreur : catégorie introuvable."
-        });
-    }
-};
+//         res.status(200).render("category/deleteCategory", {
+//             title: "Category",
+//             category: result,
+//             message: "Catégorie " + result.categoryName + " supprimée."
+//         });
+//     } catch {
+//         res.status(404).render("category/deleteCategory", {
+//             title: "Category",
+//             category: null,
+//             message: "Erreur : catégorie introuvable."
+//         });
+//     }
+// };
 
 /**
  * 
@@ -235,7 +235,7 @@ export const apiDeleteCategory = async (req, res, next) => {
         const category = await Category.deleteOne({ "_id": id });
         console.log(category);
 
-        res.status(200).json({ "Erreur": "catégorie supprimée." });
+        res.status(200).json({ "Message": "catégorie supprimée." });
     } catch {
         res.status(404).json("Erreur : catégorie introuvable.");
     }
