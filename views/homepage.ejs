@@ -1,0 +1,48 @@
+<%- include('_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+    <h1>Bienvenue sur le site de Concept Institut</h1>
+
+    <p>Votre institut vous accueil sur RDV </p>
+
+    <!-- <div class="col-md-3 text-center">
+        <ul class="list-unstyled mb-0">
+            <li><i class="fas fa-map-marker-alt fa-2x text-dark"></i>
+                <p>4 rue de la beauté, <br/>38000 Grenoble</p>
+            </li>
+
+            <li><i class="fas fa-phone mt-4 fa-2x text-dark"></i>
+                <p>04 76 21 22 23</p>
+            </li>
+
+            <li><i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
+                <p>contact@conceptinstitut.com</p>
+            </li>
+        </ul>
+    </div> -->
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <i class="fas fa-map-marker-alt mt-4 fa-2x text-dark"></i>
+            <p>4 rue de la beauté, <br/>38000 Grenoble</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <i class="fas fa-calendar-days mt-4 fa-2x text-dark"></i>
+            <p>du mardi au vendredi <br/> de 9h à 18h</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <i class="fas fa-phone mt-4 fa-2x text-dark"></i>
+            <p>04 76 21 22 23</p>
+        </div>
+        <div class="col-md-3 text-center">
+            <i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
+            <p>contact@conceptinstitut.com</p>
+        </div>
+    </div>
+
+    <%- include('category/_listCategories'); %>
+
+    <p>
+        <a href="<%=baseURL%>/products">parcourir tous les produits</a>
+    </p>
+    <%- include('_footer'); %>

@@ -1,0 +1,23 @@
+{
+  "name": "brief1-node",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Brief DevOps",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "vdiez-devweb",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

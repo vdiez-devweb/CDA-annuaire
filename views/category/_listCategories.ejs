@@ -1,0 +1,21 @@
+    <h1>Liste des catégories</h1>
+    <p><%= message %></p>
+    <% if (categories) { %>
+        <p>
+            <div class="row">
+            <% categories.forEach(function(currentCategory) { %>
+                <div class="col-sm-3">
+                    <div class="card mw-20">
+                        <!-- <div class="card" style="width: 18rem;"> -->
+                            <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/<%= currentCategory.categorySlug %>.jpg" alt="<%= currentCategory.categorySlug %> illustration">
+                        <div class="card-body">
+                        <h2 class="card-title"><%= currentCategory.categoryName %></h2>
+                        <p class="card-text"><%= currentCategory.categoryDescription %></p>
+                        <a href="category/<%= currentCategory.categorySlug %>" class="btn btn-primary">Voir les produits de la catégorie </a>                
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+            </div>
+        </p>
+    <% } %>

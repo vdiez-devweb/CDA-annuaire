@@ -1,0 +1,21 @@
+* {
+    font-family: 'Tajawal', sans-serif;
+}
+
+h1 {
+    font-family: 'Amatic SC', cursive;
+}
+h2, h3, h4, h5, h6 {
+    font-family: 'Bad Script', cursive;
+}
+
+a {
+    text-decoration: none;
+    color:darkolivegreen;
+}
+a:hover {
+    color:darkslategray;
+}
+footer {
+    background-color:#cc9966;
+}

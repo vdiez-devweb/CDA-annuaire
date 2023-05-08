@@ -35,3 +35,7 @@ Par la suite, elle souhaite le transformer en site e-commerce et rajouter les fo
 • Le visiteur pourra donc se connecter avec son email et son mot de passe, elle souhaite le maximum de sécurité avec les données de ses clients
 • Mettre en place un lien de payment (paypal ou carte bleue) elle n' a pas de préférence
 • Mettre en place un listing email
+
+## installation
+
+<!-- TODO  -->
