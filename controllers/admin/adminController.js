@@ -162,3 +162,42 @@ export const ajaxPostCategory = async (req, res, next) => {
         });
     }
 };
+
+/**
+ * 
+ * delete a single category in webApp 
+ * 
+**/
+export const deleteCategory = async (req, res, next) => {
+    //on récupère l'identifiant donné dans la route paramétrique
+    const categorySlug = req.body.categorySlug;
+
+    try{
+        //je veux stocker le nom de la catégorie à supprimer
+        // const result = await Category.findByIdAndDelete({ "_id": id });
+        
+        
+        //tester si la catégorie a des produits
+        const category = await Category.findOne({ "categorySlug": categorySlug });
+        console.log(category);
+
+        const nbProducts = await Product.count({"productCategory": category.category._id});
+        console.log(nbProducts);
+        
+        //const result = await Category.findByIdAndDelete({ "categorySlug": categorySlug });
+
+        // res.status(200).render("category/deleteCategory", {
+        //     title: "Category",
+        //     category: result,
+        //     message: "Catégorie " + result.categoryName + " supprimée."
+        // });
+    } catch(error) {
+        res.status(404).render("admin/dashboard", {
+            title: "Category",
+            category: null,
+            // message: "Erreur : catégorie introuvable."
+            flashMessage:"",
+            message: error
+        });
+    }
+};

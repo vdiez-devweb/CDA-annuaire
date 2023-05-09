@@ -4,6 +4,7 @@ import {
     getProducts,
     getCategory,
     postCategory,
+    deleteCategory,
     ajaxPostCategory
 } from "../controllers/admin/adminController.js";
 
@@ -16,6 +17,7 @@ router.get("/admin/category/:categorySlug", getCategory);
 
 router.get("/admin/create-category", postCategory);
 router.post("/admin/ajax-create-category", ajaxPostCategory);
+router.get("/admin/delete-category/:categorySlug", deleteCategory);
 
 
 export default router;
