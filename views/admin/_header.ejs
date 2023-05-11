@@ -1,14 +1,17 @@
-<div class="container">
+<div class="container" id="haut">
     <img class="img-fluid mb-0" src="/images/header-admin.jpg">
-    <div><h1 class="bg-secondary text-light px-2 mt-0 text-center">Administration du site de Concept Institut</h1></div>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Les catégories</a>
+    <div class="border-bottom border-white border-2"><h1 class="bg-secondary text-light px-2 m-0 text-center">Administration du site de Concept Institut</h1></div>
+    <ul class="nav justify-content-center bg-light border-bottom mb-3">
+      <li class="nav-item">
+          <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/categories">Les catégories</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Les produits</a>
+          <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/products">Les produits</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">...</a>
+          <a class="btn btn-secondary mx-1" href="<%=baseURL%>/">Accueil du site client</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %> </a>
         </li>
       </ul>

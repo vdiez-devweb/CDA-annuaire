@@ -9,16 +9,22 @@
             <div>
                 <p>Bienvenue sur le Panneau d'administration Concept Institut</p>
                 <h1><%= title %></h1>
-                <div><a href="<%=baseURL%>/admin/create-category" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a></div>                
+              
 
             </div>
          </div>
          <% if (flashMessage) { %>
             <p class="alert alert-success"><%= flashMessage %></p>
-        <% } %>  
+        <% } %>        
+
         <% if (categories) { %>
-            <table class="table">
-                <thead>
+            <div>
+                <a href="<%=baseURL%>/admin/create-category" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a>
+                <a href="<%=baseURL%>/admin/create-product" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a>
+                <a href="<%=baseURL%>/admin/products" class="btn btn-success btn-sm" role="button">Voir tous les produits</a>
+            </div>
+            <table class="table table-bordered mt-3">
+                <thead class="table-light">
                     <tr>
                         <th scope="col">-</th>
                         <th scope="col">Catégorie</th>
@@ -32,16 +38,22 @@
 
                         <tr>
                             <td>
-                            <img class="shadow p-2 rounded" src="/images/<%= currentCategory.categorySlug %>-75.jpg" alt="<%= currentCategory.categorySlug %> illustration">
+                            <% if (currentCategory.categoryImg) { %>
+                                <img class="shadow p-2 rounded" src="/images/<%= currentCategory.categorySlug %>-75.jpg">
+                            <% } else { %>
+                                <img class="shadow p-2 rounded" src="/images/default-75.jpg">
+                            <% }  %>
+
+
                             </td>
                             <th scope="row"><%= currentCategory.categoryName %> </th>
                             <td><%= currentCategory.categorySlug %></td>
                             <td><%= currentCategory.categoryDescription %></td>
                             <td>
                                 <!-- <a href="admin/category/<%= currentCategory.categorySlug %>" alt="Voir les produits de la catégorie"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
-                                <div><a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>" alt="Voir les produits de la catégorie"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les produits</a></div>                
+                                <div><a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les produits</a></div>                
                                 <div><a href="#" alt="Modifier la catégorie"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                                <div><a href="<%=baseURL%>/admin/delete-category/<%= currentCategory.categorySlug %>" alt="Supprimer la catégorie"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                                <div><a href="<%=baseURL%>/admin/delete-category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                             </td>
                         </tr>
 
@@ -52,9 +64,13 @@
 
         <% } else { %>
             <p class="alert alert-warning"><%= message %></p>
-        <% } %>              
+            <div>
+                <a href="<%=baseURL%>/admin/create-category" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a>
+            </div>
+            <% } %>              
   
         <div class="mt-5">
             <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/">Retour à l'accueil du site</a>
+
         </div>
 <%- include('../_footer'); %>

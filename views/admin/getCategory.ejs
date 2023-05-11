@@ -8,21 +8,29 @@
         <% if (flashMessage) { %>
             <p class="alert alert-success"><%= flashMessage %></p>
         <% } %>    
-   
+        <% if (message) { %>
+            <p class="alert alert-warning"><%= message %></p>
+        <% } %>       
         <div class="row">
             <div class="col-sm-4 col-md-3 col-xl-2">
-                <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg" alt="<%= category.categorySlug %> illustration">
+                <% if (category.categoryImg) { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg">
+                <% } else { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/default-150.jpg">
+                <% }  %>
             </div>
-            <div class="col-sm-8 col-md-7 col-xl-10">
-                <h1>Catégorie <%= category.categoryName %> </h1>
+            <div class="col-sm-8 col-md-7 col-xl-10 mt-3">
+                <h3>Catégorie <%= category.categoryName %> </h3>
                 <p><%= category.categoryDescription %></p>
-            </div>
+                <a href="<%#=baseURL%>/admin/create-product/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit dans cette catégorie</a>
+            </div>                
+
         </div>
     </div>
    
     <% if (products) { %>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered">
+            <thead class="table-light">
                 <tr>
                     <!-- <th scope="col">-</th> -->
                     <th scope="col">Produit</th>
@@ -36,14 +44,14 @@
 
                     <tr>
                         <!-- <td>
-                        <img class="shadow p-2 rounded" src="/images/<%#= currentProduct.categorySlug %>-75.jpg" alt="<%= currentProduct.categorySlug %> illustration">
+                        <img class="shadow p-2 rounded" src="/images/<%#= currentProduct.categorySlug %>-75.jpg" alt="<%#= currentProduct.categorySlug %> illustration">
                         </td> -->
                         <th scope="row"><%= currentProduct.productName %> </th>
                         <td><%= currentProduct.productPrice %></td>
                         <td><%= currentProduct.productDescription %></td>
                         <td>
-                            <div><a href="#" alt="Modifier le produit"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                            <div><a href="#" alt="Supprimer le produit"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                            <div><a href="#"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
+                            <div><a href="<%=baseURL%>/admin/delete-product/<%= category.categorySlug %>/<%= currentProduct._id %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                         </td>
                     </tr>
 
@@ -52,12 +60,8 @@
         </table>
     <p>&nbsp;</p>
 
-    <% } else { %>
-        <p class="alert alert-warning"><%= message %></p>
-    <% } %>    
+    <% } %>
 
-    <div><a href="#" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a></div>                
-    <!-- href="<%#=baseURL%>/admin/create-product" -->
 
     <div class="mt-5">
         <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>

@@ -11,13 +11,15 @@ export const apiPostCategory = async (req, res, next) => {
     const categoryName = req.body.categoryName;
     const categoryDescription = req.body.categoryDescription;
     const categorySlug = req.body.categorySlug;
+    const categoryImg = req.body.categoryImg;
 
     // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
     const category = await Category.create({
         // categoryName: categoryName,
         categoryName, // si la clé = valeur, on ne répète pas
         categoryDescription,
-        categorySlug
+        categorySlug,
+        categoryImg 
     });
 
     console.log(category);
@@ -37,6 +39,7 @@ export const apiUpdateCategory = async (req, res, next) => {
     const categoryName = req.body.categoryName;
     const categoryDescription = req.body.categoryDescription;
     const categorySlug = req.body.categorySlug;
+    const categoryImg = req.body.categoryImg;
     try {
         const result = await Category.findByIdAndUpdate(
             { 
@@ -45,7 +48,8 @@ export const apiUpdateCategory = async (req, res, next) => {
             { 
                 categoryName,
                 categoryDescription,
-                categorySlug 
+                categorySlug,
+                categoryImg 
             }, 
             { new: true }
             //  (err, doc)

@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 // pour travailler avec Json
 import bodyParser from  "body-parser"; 
 // module interne de node.Js, pas besoin de la télécharger
@@ -21,6 +22,20 @@ const __dirname = path.resolve();
 
 // Créer App express
 const app = express();
+
+app.use(session({
+        name: process.env.SESSION_NAME,
+        secret: process.env.SESSION_SECRET,
+        cookie: { maxAge: 30000*60*60, secure: false },
+        resave: false,
+        saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
+}));
+// middleware to make 'user' available to all templates
+app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
+    console.log(req.session.user);
+    next();
+  });
 
 // app.locals.baseURL = process.env.BASE_URL;
 app.locals.baseURL = "http://localhost:8082";
@@ -49,3 +64,8 @@ app.use(adminRouter);
 app.listen(8082, () => {
     console.log("Server is listening at port 8082");
 })
+
+// pour couper le serveur automatiquement lors du pipeline. (le lacement du serveur est annulé dans Dockerfile pour permettre le travail en local et push sans décommenter ce bloc)
+setTimeout(() => {
+    process.exit(0);
+  }, 3000);

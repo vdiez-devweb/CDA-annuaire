@@ -1,0 +1,25 @@
+<%- include('_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+    <div><h1 class="bg-secondary text-light px-2 mt-x2 text-center">Accès à l'administration du site de Concept Institut</h1></div>
+    <% if (message) { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>     
+        <form method="post" action="<%=baseURL%>/admin/auth">
+            <div class="row mb-3">
+                <label for="user" class="form-label col-sm-2 ">Nom d'utilisateur</label>
+                <div class="col-md-6 col-xl-3">
+                  <input type="text" class="form-control" id="user" name="user">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="password" class="form-label col-sm-2 ">Mot de passe</label>
+                <div class="col-md-6 col-xl-3">
+                  <input type="password" class="form-control" id="password" name="password">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary m-1">Entrer</button>
+            <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil du site client</a>
+        </form>
+<%- include('_footer'); %>

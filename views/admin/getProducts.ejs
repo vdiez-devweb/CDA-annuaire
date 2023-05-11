@@ -32,7 +32,7 @@
                             <td><%= currentProduct.productDescription %></td>
                             <td>
                                 <div><a href="#" alt="Modifier le produit"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                                <div><a href="#" alt="Supprimer le produit"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                                <div><a href="<%=baseURL%>/admin/delete-product/<%= currentProduct._id %>" alt="Supprimer le produit"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                             </td>
                         </tr>
 

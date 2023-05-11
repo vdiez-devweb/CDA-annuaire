@@ -1,0 +1,48 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+
+    <div class="container">
+        <div><h1><%= title %></h1></div>
+        <% if (flashMessage) { %>
+            <p class="alert alert-success"><%= flashMessage %></p>
+        <% } %>    
+   
+        <div class="row">
+            <!-- <div class="col-sm-4 col-md-3 col-xl-2">
+                <img class="shadow p-2 mb-3 rounded" src="/images/<%#= category.categorySlug %>-150.jpg" alt="<%#= category.categorySlug %> illustration">
+            </div> -->
+        </div>
+    </div>
+   
+    <% if (product) { %>
+        <div class="col-sm-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2><%= product.productName %> </h2>
+                    <div>
+                        <span class="badge bg-success"><%= product.productPrice %> €</span>
+                        <p><%= product.productDescription %></p>
+                    </div>
+                    <div>Catégorie : 
+                        <a href="../admin/category/<%= category.categorySlug %>"><%= category.categoryName %> </a>
+                    </div>
+                    <!-- <div><a class="btn btn-primary btn-sm" role="button" href="../product/<%#= currentProduct._id %>">Voir fiche produit</a></div> -->
+                </div>
+            </div>
+        </div>
+    
+    <p>&nbsp;</p>
+
+    <% } else { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>    
+
+    <div><a href="#" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a></div>                
+    <!-- href="<%#=baseURL%>/admin/create-product" -->
+
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

@@ -6,7 +6,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-md-3 col-xl-2">
-                <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg" alt="<%= category.categorySlug %> illustration">
+                <% if (category.categoryImg) { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg">
+                <% } else { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/default-150.jpg">
+                <% }  %>
+
             </div>
             <div class="col-sm-8 col-md-7 col-xl-10">
                 <h1>Catégorie <%= category.categoryName %> </h1>

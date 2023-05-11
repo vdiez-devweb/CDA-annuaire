@@ -8,7 +8,11 @@
                 <div class="col-sm-3">
                     <div class="card mw-20 mb-3">
                         <!-- <div class="card" style="width: 18rem;"> -->
-                            <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/<%= currentCategory.categorySlug %>.jpg" alt="<%= currentCategory.categorySlug %> illustration">
+                            <% if (currentCategory.categoryImg) { %>
+                                <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/<%= currentCategory.categorySlug %>.jpg">
+                            <% } else { %>
+                                <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/default.jpg">
+                            <% }  %>
                         <div class="card-body">
                         <h2 class="card-title"><%= currentCategory.categoryName %></h2>
                         <p class="card-text"><%= currentCategory.categoryDescription %></p>
