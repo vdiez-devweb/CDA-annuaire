@@ -10,13 +10,22 @@
                 <div class="col-sm-4 col-md-3 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h2><%= currentProduct.productName %> </h2>
-                            <div>
-                                <span class="badge bg-success"><%= currentProduct.productPrice %> €</span>
-                                <p><%= currentProduct.productDescription %></p>
+                            <div class="row">
+                                <div class="col-8">
+                                    <% if (currentProduct.productCategory) { %>
+                                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/category/<%= currentProduct.productCategory.categorySlug %>">                    
+                                            <%= currentProduct.productCategory.categoryName %>
+                                        </a></span>
+                                    <% } else { %> - <% } %>
+                                </div>
+                                <div class="col-4">
+                                    <span class="badge bg-success"><%= currentProduct.productPrice %> €</span>
+                                    <!-- <p><%#= currentProduct.productDescription %></p> -->
+                                </div>
                             </div>
-                            <!-- afficher la catégorie de produit -->
-                            <div><a class="btn btn-outline-secondary btn-sm" role="button" href="product/<%= currentProduct._id %>">Voir fiche produit</a></div>
+                            <h2><%= currentProduct.productName %> </h2>
+                             
+                            <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="product/<%= currentProduct._id %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche produit</a></div>
                         </div>
                     </div>
                 </div>

@@ -10,6 +10,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Catégorie</th>
                         <th scope="col">Produit</th>
                         <th scope="col">Prix</th>
                         <th scope="col">Description</th>
@@ -19,8 +20,15 @@
                 <tbody>
                     <% products.forEach(function(currentProduct) { %>
                         <tr>
+                            <td>
+                                <% if (currentProduct.productCategory) { %>
+                                    <a href="<%=baseURL%>/admin/category/<%= currentProduct.productCategory.categorySlug %>">                    
+                                    <%= currentProduct.productCategory.categorySlug %>
+                                </a>
+                                <% } else { %> - <% } %>
+                            </td>
                             <th scope="row"><%= currentProduct.productName %> </th>
-                            <td><%= currentProduct.productPrice %></td>
+                            <td><%= currentProduct.productPrice %> €</td>
                             <td><%= currentProduct.productDescription %></td>
                             <td>
                                 <div><a href="#" alt="Modifier le produit"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      

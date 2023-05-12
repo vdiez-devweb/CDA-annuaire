@@ -103,12 +103,11 @@ export const dashboard = async (req, res, next) => {
  * get the list of all products in dashboard webApp 
  * 
 **/
-//TODO ajouter le slug aux infos envoyées ?
 export const getProducts = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try{
-        const products = await Product.find({});
+        const products = await Product.find({}).populate("productCategory");
 
         if (0 == products.length) {
             res.status(404).render("admin/getProducts", {
@@ -276,7 +275,6 @@ export const deleteCategory = async (req, res, next) => {
             req.flash('message_error', "erreur, catégorie introuvable.");
             res.status(404).redirect("/admin/categories");
         }
-        
         if (0 != nbProducts) {
             req.flash('message_error', "Impossible de supprimer cette catégorie car elle contient des produits."),
             res.status(500).redirect("/admin/category/" + category.categorySlug);

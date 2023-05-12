@@ -93,8 +93,8 @@ export const apiGetProduct = async (req, res, next) => {
 export const getProduct = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     const id = req.params.productId;
-    try{
-        const product = await Product.findOne({ "_id": id });
+    try{ //je récupère les infos de la catégorie par .populate
+        const product = await Product.findOne({ "_id": id }).populate("productCategory");
         if (null == product) {
             res.status(404).render("product/getProduct", {
                 title: "Erreur Fiche produit",
@@ -102,11 +102,9 @@ export const getProduct = async (req, res, next) => {
                 message: "Erreur : produit introuvable."
             });
         }
-        const category = await Category.findOne({ "_id": product.productCategory });
         res.status(200).render("product/getProduct", {
             title: "Fiche Produit " + product.productName,
             product: product,
-            category: category,
             message: ""
         });
     } catch {
@@ -125,7 +123,8 @@ export const getProduct = async (req, res, next) => {
 **/
 export const getProducts = async (req, res, next) => {
     try{
-        const products = await Product.find({});
+        const products = await Product.find({}).populate("productCategory");
+
         if (0 == products.length) {
             res.status(404).render("product/getProducts", {
                 title: "Liste des produits",
