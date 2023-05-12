@@ -35,3 +35,12 @@ footer {
     border-top: 1px solid rgb(206, 205, 205);
     position: absolute; bottom: 0; left: 0; right: 0;
 }
+
+#scrollUp {
+    /* position: fixed;
+    bottom : 100px;
+    right: 100px; */
+    margin-left: 8%;
+    margin-top: -30px;
+    opacity: 0.5;
+}

@@ -99,7 +99,7 @@ export const apiDeleteCategory = async (req, res, next) => {
 
     try{
         const category = await Category.deleteOne({ "_id": id });
-        console.log(category);
+        //console.log(category);
 
         res.status(200).json({ "Message": "catégorie supprimée." });
     } catch {
@@ -128,7 +128,7 @@ export const apiPostCategory = async (req, res, next) => {
         categoryImg 
     });
 
-    console.log(category);
+    // console.log(category);
     // res.status(201).redirect("/categories");
     // res.status(201).send("category created : ", category);
     res.status(201).json({ category });
@@ -160,12 +160,13 @@ export const apiUpdateCategory = async (req, res, next) => {
             { new: true }
             //  (err, doc)
             );
-            console.log(result);
-        res.status(200).json({ 
-            result
-        });
+            //console.log(result);
+            res.status(200).json({ 
+                result
+            });
     } catch(err) {
         res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+        // res.status(404).json({ err });
     }
 };
 
@@ -186,7 +187,6 @@ export const apiGetCategory = async (req, res, next) => {
     } catch(err) {
         res.status(500).json({ "message": "serveur erreur" });
     }
-    const apiCategories = await Category.find({});
- 
+    // const apiCategories = await Category.find({});
 };
 

@@ -3,6 +3,95 @@ import Category from "../models/Category.js";
 
 /**
  * 
+ * get a single Product in webApp 
+ * 
+**/
+export const getProduct = async (req, res, next) => {
+    //on récupère l'identifiant donné dans la route paramétrique
+    const id = req.params.productId;
+    try{ //je récupère les infos de la catégorie par .populate
+        const product = await Product.findOne({ "_id": id }).populate("productCategory");
+        if (null == product) {
+            res.status(404).render("product/getProduct", {
+                title: "Erreur Fiche produit",
+                product: "",
+                message: "Erreur : produit introuvable."
+            });
+        }
+        res.status(200).render("product/getProduct", {
+            title: "Fiche Produit " + product.productName,
+            product: product,
+            message: ""
+        });
+    } catch {
+        res.status(404).render("product/getProduct", {
+            title: "Erreur Fiche produit",
+            product: "",
+            message: "Erreur serveur."
+        });
+    }
+};
+
+/**
+ * 
+ * get all products in webApp
+ * 
+**/
+export const getProducts = async (req, res, next) => {
+    try{
+        const products = await Product.find({}).populate("productCategory");
+
+        if (0 == products.length) {
+            res.status(404).render("product/getProducts", {
+                title: "Liste des produits",
+                products: "",
+                message: "Aucun produit trouvé."
+            });
+        }
+
+        res.status(200).render("product/getProducts", {
+            title: "Liste des produits",
+            message: "",
+            products: products 
+        });
+    } catch(error) {
+        res.status(500).render("product/getProducts", {
+            title: "Liste des produits",
+            products: "",
+            message: "Erreur serveur."
+        });
+    }
+};
+
+/**
+ * 
+ * delete a single Product in webApp 
+ * 
+**/
+// export const deleteProduct = async (req, res, next) => {
+//     //on récupère l'identifiant donné dans la route paramétrique
+//     const id = req.params.productId;
+
+//     try{
+//         //je veux stocker le nom de la catégorie à supprimer
+//         const result = await Product.findByIdAndDelete({ "_id": id });
+
+//         res.status(200).render("product/deleteProduct", {
+//             title: "Suppression produit",
+//             // product: result,
+//             message: "Produit " + result.productName + " supprimé."
+//         });
+//     } catch {
+//         res.status(404).render("product/deleteProduct", {
+//             title: "Erreur suppression produit",
+//             // product: null,
+//             message: "Erreur : produit introuvable."
+//         });
+//     }
+// };
+
+/**
+ * 
  * Create Product (requête post) in API  //!API
  * 
 **/
@@ -21,8 +110,6 @@ export const apiPostProduct = async (req, res, next) => {
             productCategory: productCategory,
         });
         //renvoyer les infos à la vue
-        // res.status(201).redirect("/products");
-        // res.status(201).send("Product created : ", product);
         res.status(201).json({ product });
     } catch(err) {
         console.log(err);
@@ -87,112 +174,6 @@ export const apiGetProduct = async (req, res, next) => {
 
 /**
  * 
- * get a single Product in webApp 
- * 
-**/
-export const getProduct = async (req, res, next) => {
-    //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
-    try{ //je récupère les infos de la catégorie par .populate
-        const product = await Product.findOne({ "_id": id }).populate("productCategory");
-        if (null == product) {
-            res.status(404).render("product/getProduct", {
-                title: "Erreur Fiche produit",
-                product: "",
-                message: "Erreur : produit introuvable."
-            });
-        }
-        res.status(200).render("product/getProduct", {
-            title: "Fiche Produit " + product.productName,
-            product: product,
-            message: ""
-        });
-    } catch {
-        res.status(404).render("product/getProduct", {
-            title: "Erreur Fiche produit",
-            product: "",
-            message: "Erreur serveur."
-        });
-    }
-};
-
-/**
- * 
- * get all products in webApp
- * 
-**/
-export const getProducts = async (req, res, next) => {
-    try{
-        const products = await Product.find({}).populate("productCategory");
-
-        if (0 == products.length) {
-            res.status(404).render("product/getProducts", {
-                title: "Liste des produits",
-                products: "",
-                message: "Aucun produit trouvé."
-            });
-        }
-
-        res.status(200).render("product/getProducts", {
-            title: "Liste des produits",
-            message: "",
-            products: products 
-        });
-    } catch(error) {
-        res.status(500).render("product/getProducts", {
-            title: "Liste des produits",
-            products: "",
-            message: "Erreur serveur."
-        });
-    }
-};
-
-/**
- * 
- * get all products in webApp
- * 
-**/
-// export const getProductsByCategory = async (req, res, next) => {
-//     const categoryId = req.params.productId;
-
-//     try{
-//         const category = await Category.findOne({ "_id": categoryId });
-//         const products = await Product.find({"productCategory": categoryId});
-//         //Peut-on récupérer la catégorie avec la méthode getCategory ???        
-//         if (0 == category) {
-//             res.status(404).render("product/getProductsByCategory", {
-//                 title: "Liste des produits",
-//                 products: "",
-//                 category: "",
-//                 message: "Catégorie introuvable."
-//             });
-//         }
-//         if (0 == products.length) {
-//             res.status(404).render("product/getProductsByCategory", {
-//                 title: "Liste des produits",
-//                 products: "",
-//                 category: category,
-//                 message: "Aucun produit trouvé."
-//             });
-//         }
-//         res.status(200).render("product/getProductsByCategory", {
-//             title: "Liste des produits",
-//             message: "",
-//             category: category,
-//             products: products 
-//         });
-//     } catch(error) {
-//         res.status(500).render("product/getProductsByCategory", {
-//             title: "Liste des produits",
-//             products: "",
-//             category: "",
-//             message: error
-//         });
-//     }
-// };
-
-/**
- * 
  * get all products in API  //!API
  * 
 **/
@@ -203,33 +184,6 @@ export const apiGetProducts = async (req, res, next) => {
     }
     res.status(200).json({ apiProducts });
  };
-
-/**
- * 
- * delete a single Product in webApp 
- * 
-**/
-// export const deleteProduct = async (req, res, next) => {
-//     //on récupère l'identifiant donné dans la route paramétrique
-//     const id = req.params.productId;
-
-//     try{
-//         //je veux stocker le nom de la catégorie à supprimer
-//         const result = await Product.findByIdAndDelete({ "_id": id });
-
-//         res.status(200).render("product/deleteProduct", {
-//             title: "Suppression produit",
-//             // product: result,
-//             message: "Produit " + result.productName + " supprimé."
-//         });
-//     } catch {
-//         res.status(404).render("product/deleteProduct", {
-//             title: "Erreur suppression produit",
-//             // product: null,
-//             message: "Erreur : produit introuvable."
-//         });
-//     }
-// };
 
 /**
  * 
