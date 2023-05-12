@@ -6,14 +6,10 @@
     <div class="container">
 
         <div><h1><%= title %></h1></div>
-        <% if (flashMessage) { %>
-            <p class="alert alert-success"><%= flashMessage %></p>
-        <% } %>  
         <% if (products) { %>
             <table class="table">
                 <thead>
                     <tr>
-                        <!-- <th scope="col">-</th> -->
                         <th scope="col">Produit</th>
                         <th scope="col">Prix</th>
                         <th scope="col">Description</th>
@@ -22,11 +18,7 @@
                 </thead>
                 <tbody>
                     <% products.forEach(function(currentProduct) { %>
-
                         <tr>
-                            <!-- <td>
-                            <img class="shadow p-2 rounded" src="/images/<%#= currentProduct.categorySlug %>-75.jpg" alt="<%= currentProduct.categorySlug %> illustration">
-                            </td> -->
                             <th scope="row"><%= currentProduct.productName %> </th>
                             <td><%= currentProduct.productPrice %></td>
                             <td><%= currentProduct.productDescription %></td>
@@ -35,7 +27,6 @@
                                 <div><a href="<%=baseURL%>/admin/delete-product/<%= currentProduct._id %>" alt="Supprimer le produit"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                             </td>
                         </tr>
-
                     <% }); %>
                 </tbody>
             </table>

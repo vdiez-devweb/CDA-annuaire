@@ -6,6 +6,7 @@ import bodyParser from  "body-parser";
 import path from "path";
 import connectDB from "./config/connectDB.js";
 import dotenv from "dotenv";
+import flash from "connect-flash";
 import homepageRouter from "./routes/homepageRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
@@ -26,14 +27,16 @@ const app = express();
 app.use(session({
         name: process.env.SESSION_NAME,
         secret: process.env.SESSION_SECRET,
-        cookie: { maxAge: 30000*60*60, secure: false },
+        cookie: { maxAge: 60000, secure: false },
         resave: false,
         saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
 }));
+app.use(flash());
+
 // middleware to make 'user' available to all templates
 app.use(function(req, res, next) {
     res.locals.user = req.session.user;
-    console.log(req.session.user);
+    // console.log(req.session.user);
     next();
   });
 
@@ -44,6 +47,7 @@ app.locals.baseURL = "http://localhost:8082";
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // on indique quel moteur de template on utilise
 app.set("view engine", "ejs");
@@ -64,8 +68,3 @@ app.use(adminRouter);
 app.listen(8082, () => {
     console.log("Server is listening at port 8082");
 })
-
-// pour couper le serveur automatiquement lors du pipeline. (le lacement du serveur est annulé dans Dockerfile pour permettre le travail en local et push sans décommenter ce bloc)
-setTimeout(() => {
-    process.exit(0);
-  }, 3000);

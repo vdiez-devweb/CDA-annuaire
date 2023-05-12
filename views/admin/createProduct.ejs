@@ -5,10 +5,6 @@
 
     <div class="container">
         <div><h1><%= title %></h1></div>
-
-        <% if (flashMessage) { %>
-            <p class="alert alert-success"><%= flashMessage %></p>
-        <% } %> 
         <% if (message) { %>
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
@@ -47,7 +43,6 @@
                     <textarea class="form-control" id="productDescription" name="productDescription" rows="3"></textarea>
                 </div>
             </div>
-
 <!-- TODO ajouter un champ fichier pour l'image -->
             <div class="col-12">
                 <button class="btn btn-success" type="submit" value="post">Créer le produit</button>
@@ -57,9 +52,7 @@
         <% } else { %>  
             <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/create-category"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a>
         <% } %>  
-
     </div>
-   
     <div class="mt-5">
         <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>
     </div>

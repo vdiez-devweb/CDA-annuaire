@@ -15,3 +15,24 @@
           <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %> </a>
         </li>
       </ul>
+
+      <% if (typeof message_success != 'undefined' && message_success != '') { %>
+        <div class="alert alert-success" role="alert">
+             <%= message_success %>
+         </div>
+     <% } %>   
+     <% if (typeof msg_success != 'undefined'  && msg_success != '') { %>
+      <div class="alert alert-success" role="alert">
+           <%= msg_success %>
+       </div>
+   <% } %>   
+   <% if (typeof message_error != 'undefined' && message_error != '') { %>
+    <div class="alert alert-danger" role="alert">
+        <%= message_error %>
+     </div>
+  <% } %>   
+     <% if (typeof msg_error != 'undefined'&& msg_error != '') { %>
+      <div class="alert alert-danger" role="alert">
+          <%= msg_error %>
+       </div>
+    <% } %>   

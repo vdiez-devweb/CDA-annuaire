@@ -5,17 +5,12 @@
 
     <div class="container">
         <div><h1><%= title %></h1></div>
-        <% if (flashMessage) { %>
-            <p class="alert alert-success"><%= flashMessage %></p>
-        <% } %>    
-        
         <% if (message) { %>
             <p class="alert alert-warning"><%= message %></p>
         <% } %>    
         <div><h3>Produit <%= product.productName %></h3></div>
         <p><%= product.productDescription %></p>
         <p><%= product.productPrice %></p>
-
 
         <div class="mt-5">
             <a class="btn btn-outline-secondary btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/products"><i class="fa-solid fa-layer-group px-2"></i>Retour à la liste de tous les produits</a>

@@ -6,9 +6,14 @@
 
 ## table des matières
 
-1. [Sujet du projet](#sujet-du-projet)
-2. [Choix techniques](#choix-techniques)
-3. [Installation du projet](#installation-du-projet)
+- [ECF pour préparation du titre Concepteur Développeur d'application](#ecf-pour-préparation-du-titre-concepteur-développeur-dapplication)
+  - [table des matières](#table-des-matières)
+  - [Sujet du projet](#sujet-du-projet)
+    - [Etape 1](#etape-1)
+    - [Etape 2 facultative](#etape-2-facultative)
+  - [Choix techniques](#choix-techniques)
+  - [Tâches restant à accomplir](#tâches-restant-à-accomplir)
+  - [Installation du projet](#installation-du-projet)
 
 ## Sujet du projet
 
@@ -44,14 +49,6 @@ Par la suite, elle souhaite le transformer en site e-commerce et rajouter les fo
 - Mettre en place un lien de payment (Paypal ou carte bleue) elle n' a pas de préférence
 - Mettre en place un listing email
 
-### Etape 3
-
-ajouter Docker au projet
-
-créer un pipeline sur GitLab pour faire fonctionner la conteneurisation de Docker
-
-Fichiers liés `Dockerfile` et `.gitlab-ci.yml`
-
 ## Choix techniques
 
 l'application web utilise les technologies suivantes :
@@ -63,8 +60,13 @@ l'application web utilise les technologies suivantes :
 - moteur de template pour les vues : EJS v3.1.9
 - CSS : Bootstrap v5.2.3
 - l'authentification dans l'application est simplement gérée par les sessions, avec 1 seul utilisateur administrateur dont les identifiants sont stockés dans les variables globales d'environnement dans le fichier `.env`
-- versioning : git en lien avec gitHub dans un premier temps puis GitLab pour intégrer l'aspect DevOps CI/CD
-- CI/CD, conteneurs : Docker et GitLab pour le pipeline
+- versioning : git en lien avec gitHub (il existe une autre version du repo sur GitLab pour intégrer l'aspect DevOps CI/CD, ce repo GitLab n'est pas maintenu pour le moment)
+- ~~CI/CD, conteneurs : Docker et GitLab pour le pipeline~~
+
+## Tâches restant à accomplir
+
+- Update PRODUITS et CATEGORIES dans le Dashboard admin
+- Vérification des champs dans le front (validation) et le back (unicité, doublons, champs requis etc. ) 
 
 ## Installation du projet
 

@@ -4,13 +4,7 @@
     <%- include('_header'); %>
 
     <div class="container">
-        <div><h1><%= title %></h1></div>
-        <% if (flashMessage) { %>
-            <p class="alert alert-success"><%= flashMessage %></p>
-        <% } %>    
-        <% if (message) { %>
-            <p class="alert alert-warning"><%= message %></p>
-        <% } %>       
+        <div><h1><%= title %></h1></div>    
         <div class="row">
             <div class="col-sm-4 col-md-3 col-xl-2">
                 <% if (category.categoryImg) { %>
@@ -22,7 +16,10 @@
             <div class="col-sm-8 col-md-7 col-xl-10 mt-3">
                 <h3>Catégorie <%= category.categoryName %> </h3>
                 <p><%= category.categoryDescription %></p>
-                <a href="<%#=baseURL%>/admin/create-product/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit dans cette catégorie</a>
+                <% if (message) { %>
+                    <p class="alert alert-warning"><%= message %></p>
+                <% } %>  
+                <a href="<%=baseURL%>/admin/create-product/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit dans cette catégorie</a>
             </div>                
 
         </div>
