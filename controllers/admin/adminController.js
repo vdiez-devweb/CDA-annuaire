@@ -333,21 +333,25 @@ export const deleteProduct = async (req, res, next) => {
 **/
 export const postProduct = async(req, res, next) => {
     const categorySlug = req.params.categorySlug;
-    const categorySelected = await Category.findOne({ "categorySlug": categorySlug });
+    const categorySelected = null;
+    if (categorySlug != null) {
+        categorySelected = await Category.findOne({ "categorySlug": categorySlug });
+        if (categorySelected) categorySelected = categorySelected._id.toString()
+    } 
     const categories = await Category.find({});
 
     if (0 == categories) {
         res.status(404).render("admin/createProduct", {
             title: prefixTitle + " Création de produit",
             categories: "",
+            categorySelected: categorySelected,
             message: "Aucune catégorie répertoriée, vous devez créer une catégorie avant de pouvoir ajouter un produit."
         });
     }
-    console.log(categorySelected._id);
     res.status(200).render("admin/createProduct", {
         title: prefixTitle + " Création de produit",
         categories: categories,
-        categorySelected: categorySelected._id.toString(),
+        categorySelected: categorySelected,
         message: ""
     });
 };
