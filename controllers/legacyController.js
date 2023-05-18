@@ -6,11 +6,7 @@
 // };
 
 export const getLegacy = (req, res, next) => {
-    try{
-        res.render("legacy", {
-            title: "Mentions légales"
-        });
-    } catch (err){
-        console
-    }
+    res.render("legacy", {
+        title: "Mentions légales"
+    });
 };

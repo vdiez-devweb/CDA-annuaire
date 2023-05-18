@@ -28,12 +28,14 @@ a:hover, nav a:hover {
 }
 
 .container {
-    padding-bottom: 20px;
+    padding-bottom: 50px;
+    margin-bottom:50px;
 }
 footer {
     background-color:antiquewhite;
     border-top: 1px solid rgb(206, 205, 205);
     position: absolute; bottom: 0; left: 0; right: 0;
+    margin-top:50px;
 }
 
 #scrollUp {
