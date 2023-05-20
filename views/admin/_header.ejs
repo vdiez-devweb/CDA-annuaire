@@ -1,38 +1,32 @@
 <div class="container" id="haut">
-    <img class="img-fluid mb-0" src="/images/header-admin.jpg">
-    <div class="border-bottom border-white border-2"><h1 class="bg-secondary text-light px-2 m-0 text-center">Administration du site de Concept Institut</h1></div>
-    <ul class="nav justify-content-center bg-light border-bottom mb-3">
-      <li class="nav-item">
-          <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/categories">Les catégories</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/products">Les produits</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-secondary mx-1" href="<%=baseURL%>/">Accueil du site client</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %> </a>
-        </li>
-      </ul>
+  <img class="img-fluid mb-0" src="/images/header-admin.jpg" />
+  <div class="border-bottom border-white border-2">
+    <h1 class="bg-secondary text-light px-2 m-0 text-center">Administration du site de Concept Institut</h1>
+  </div>
+  <ul class="nav justify-content-center bg-light border-bottom mb-3">
+    <li class="nav-item">
+      <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/categories">Les catégories</a>
+    </li>
+    <li class="nav-item">
+      <a class="btn btn-success mx-1" href="<%=baseURL%>/admin/products">Les produits</a>
+    </li>
+    <li class="nav-item">
+      <a class="btn btn-secondary mx-1" href="<%=baseURL%>/">Accueil du site client</a>
+    </li>
+    <li class="nav-item">
+      <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %></a>
+    </li>
+  </ul>
 
-      <% if (typeof message_success != 'undefined' && message_success != '') { %>
-        <div class="alert alert-success" role="alert">
-             <%= message_success %>
-         </div>
-     <% } %>   
-     <% if (typeof msg_success != 'undefined'  && msg_success != '') { %>
-      <div class="alert alert-success" role="alert">
-           <%= msg_success %>
-       </div>
-   <% } %>   
-   <% if (typeof message_error != 'undefined' && message_error != '') { %>
-    <div class="alert alert-danger" role="alert">
-        <%= message_error %>
-     </div>
-  <% } %>   
-     <% if (typeof msg_error != 'undefined'&& msg_error != '') { %>
-      <div class="alert alert-danger" role="alert">
-          <%= msg_error %>
-       </div>
-    <% } %>   
+  <% if (typeof message_success != 'undefined' && message_success != '') { %>
+    <div class="alert alert-success" role="alert"><%= message_success %></div>
+  <% } %> 
+  <% if (typeof msg_success != 'undefined' && msg_success != '') { %>
+    <div class="alert alert-success" role="alert"><%= msg_success %></div>
+  <% } %> 
+  <% if (typeof message_error != 'undefined' && message_error != '') { %>
+    <div class="alert alert-danger" role="alert"><%= message_error %></div>
+  <% } %> 
+  <% if (typeof msg_error != 'undefined'&& msg_error != '') { %>
+    <div class="alert alert-danger" role="alert"><%= msg_error %></div>
+  <% } %>

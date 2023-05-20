@@ -8,6 +8,5 @@ const router = express.Router();
 router.get("/", getHomepage);
 // router.get("/", getCategories);
 
-
 //exporter la logique
 export default router;

@@ -100,50 +100,6 @@ export const dashboard = async (req, res, next) => {
 
 /**
  * 
- * get the list of all products in dashboard webApp 
- * 
-**/
-export const getProducts = async (req, res, next) => {
-    let msg_success = req.flash('message_success');
-    let msg_error = req.flash('message_error');
-    try{
-        const products = await Product.find({}).populate("productCategory");
-
-        if (0 == products.length) {
-            res.status(404).render("admin/getProducts", {
-                title: prefixTitle + "Liste des produits",
-                products: "",
-                message_success: req.flash('message_success'),
-                message_error: req.flash('message_error'),
-                msg_success,
-                msg_error,
-                message: "Aucun produit trouvé."
-            });
-        }
-        res.status(200).render("admin/getProducts", {
-            title: prefixTitle + "Liste des produits",
-            products: products,
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,
-            message: "",
-        });
-    } catch(error) {
-        res.status(500).render("admin/getProducts", {
-            title: prefixTitle + "Liste des produits",
-            products: "",
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,
-            message: error
-        });
-    }
-};
-    
-/**
- * 
  * get a single category with his list of products in dashboard webApp 
  * 
 **/
@@ -291,6 +247,50 @@ export const deleteCategory = async (req, res, next) => {
 
 /**
  * 
+ * get the list of all products in dashboard webApp 
+ * 
+**/
+export const getProducts = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+    try{
+        const products = await Product.find({}).populate("productCategory");
+
+        if (0 == products.length) {
+            res.status(404).render("admin/getProducts", {
+                title: prefixTitle + "Liste des produits",
+                products: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,
+                message: "Aucun produit trouvé."
+            });
+        }
+        res.status(200).render("admin/getProducts", {
+            title: prefixTitle + "Liste des produits",
+            products: products,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: "",
+        });
+    } catch(error) {
+        res.status(500).render("admin/getProducts", {
+            title: prefixTitle + "Liste des produits",
+            products: "",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: error
+        });
+    }
+};
+    
+/**
+ * 
  * delete a single category in webApp 
  * 
 **/
@@ -355,6 +355,7 @@ export const postProduct = async(req, res, next) => {
         message: ""
     });
 };
+
 /**
  * 
  * Create Product (requête post) in admin dashboard 
