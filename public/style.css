@@ -42,6 +42,8 @@ footer {
     /* position: fixed;
     bottom : 100px;
     right: 100px; */
+    text-align: right;
+    margin-right: 8%;
     margin-left: 8%;
     margin-top: -30px;
     opacity: 0.5;
