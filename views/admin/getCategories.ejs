@@ -15,7 +15,7 @@
             <div>
                 <a href="<%=baseURL%>/admin/create-category" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a>
                 <a href="<%=baseURL%>/admin/create-product" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a>
-                <a href="<%=baseURL%>/admin/products" class="btn btn-success btn-sm" role="button">Voir tous les produits</a>
+                <a href="<%=baseURL%>/admin/products" class="btn btn-success btn-sm" role="button"><i class="fa-solid fa-eye px-1"></i> Voir tous les produits</a>
             </div>
             <table class="table table-bordered mt-3">
                 <thead class="table-light">
@@ -64,7 +64,6 @@
             <% } %>              
   
         <div class="mt-5">
-            <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/">Retour à l'accueil du site</a>
-
+            <a href="<%=baseURL%>/admin" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-house-lock pe-2"></i>Retour au panneau d'administration</a>
         </div>
 <%- include('../_footer'); %>

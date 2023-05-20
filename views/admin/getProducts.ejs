@@ -6,6 +6,7 @@
     <div class="container">
 
         <div><h1><%= title %></h1></div>
+        <a href="<%=baseURL%>/admin/create-product" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a>
         <% if (products) { %>
             <table class="table">
                 <thead>
@@ -43,9 +44,7 @@
         <% } else { %>
             <p class="alert alert-warning"><%= message %></p>
         <% } %>              
-        <a href="<%=baseURL%>/admin/create-product" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a>
-
         <div class="mt-5">
-            <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin">Retour au panneau d'administration</a>
+            <a href="<%=baseURL%>/admin" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-house-lock pe-2"></i>Retour au panneau d'administration</a>
         </div>
 <%- include('../_footer'); %>
