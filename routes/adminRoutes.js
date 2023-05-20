@@ -6,6 +6,7 @@ import {
     dashboard,
     getProducts,
     getCategory,
+    getCategories,
     postCategory,
     ajaxPostCategory,
     deleteCategory,
@@ -30,7 +31,7 @@ function isAuthenticated (req, res, next) {
   router.get("/admin/logout", logout);
   
 router.get("/admin", isAuthenticated, dashboard); //pour l'instant dashboard affiche la liste des categories
-router.get("/admin/categories", isAuthenticated, dashboard);
+router.get("/admin/categories", isAuthenticated, getCategories);
 router.get("/admin/products", isAuthenticated, getProducts);
 router.get("/admin/category/:categorySlug", isAuthenticated, getCategory);
 

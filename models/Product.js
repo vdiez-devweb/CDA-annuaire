@@ -8,13 +8,21 @@ const productSchema = new Schema({
     },    
     productPrice: {
         type:Number,
+        require: true,
+        default:null
     },
     productDescription: {
         type:String,
+        require: true,
+        default:null
     },
     productCategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
+    },
+}, {
+    timestamps: { 
+        createdAt: 'createdAt' 
     }
 });
 

@@ -70,6 +70,7 @@ export const logout = (req, res, next) => {
 /**
  * 
  * get the list of all categories in dashboard webApp (it's the homepage of the dashboard)
+ * TODO proposer un affichage type dashboard avec le nb de catégories et de produits, nb de connexion etc.
  * 
 **/
 export const dashboard = async (req, res, next) => {
@@ -88,6 +89,37 @@ export const dashboard = async (req, res, next) => {
         });
     }
     res.status(200).render("admin/dashboard", {
+        title: prefixTitle + "Catégories",
+        categories: categories,
+        message_success: req.flash('message_success'),
+        message_error: req.flash('message_error'),
+        msg_success,
+        msg_error,
+        message: ""
+    });
+};
+
+/**
+ * 
+ * get the list of all categories in dashboard webApp (it's the homepage of the dashboard)
+ * 
+**/
+export const getCategories = async (req, res, next) => {
+    const categories = await Category.find({});
+
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+
+    if (0 == categories) {
+        res.status(404).render("admin/getCategories", {
+            title: prefixTitle + "Catégories",
+            categories: "",
+            msg_success,
+            msg_error,
+            message: "Aucune catégorie répertoriée."
+        });
+    }
+    res.status(200).render("admin/getCategories", {
         title: prefixTitle + "Catégories",
         categories: categories,
         message_success: req.flash('message_success'),
@@ -186,7 +218,7 @@ export const ajaxPostCategory = async (req, res, next) => {
     const categoryName = req.body.categoryName;
     const categoryDescription = req.body.categoryDescription;
     const categorySlug = req.body.categorySlug;
-    const categoryImg = req.body.categoryImg;
+    const categoryImg = req.body.categoryImg ? req.body.categoryImg : false;
 
     try{
         // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
@@ -333,7 +365,7 @@ export const deleteProduct = async (req, res, next) => {
 **/
 export const postProduct = async(req, res, next) => {
     const categorySlug = req.params.categorySlug;
-    const categorySelected = null;
+    let categorySelected = null;
     if (categorySlug != null) {
         categorySelected = await Category.findOne({ "categorySlug": categorySlug });
         if (categorySelected) categorySelected = categorySelected._id.toString()

@@ -11,7 +11,9 @@ const categorySchema = new Schema({
         unique: true
     },
     categoryDescription: {
-        type: String
+        type: String,
+        require: true,
+        default:null
     },
     categorySlug: {
         type: String,
@@ -20,8 +22,14 @@ const categorySchema = new Schema({
         lowercase: true
     },
     categoryImg: { //true if an image exists with slug filename, false if not (then we use a default image)
-        type: Boolean
+        type: Boolean,
+        require: true,
+        default:false
     },
+}, {
+    timestamps: { 
+        createdAt: 'createdAt' 
+    }
 });
 
 //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
