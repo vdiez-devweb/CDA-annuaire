@@ -5,7 +5,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-4 col-md-3 col-xl-2">
+            <div class="col-sm-4 col-md-3 col-xl-2 mb-3">
                 <% if (category.categoryImg) { %>
                     <img class="shadow p-2 mb-3 rounded" src="/images/<%= category.categorySlug %>-150.jpg">
                 <% } else { %>
@@ -18,7 +18,6 @@
                 <p><%= category.categoryDescription %></p>
             </div>
         </div>
-    </div>
    
     <div class="row">
         <% if (products) { %>
@@ -26,12 +25,12 @@
                 <div class="col-sm-4 col-md-3 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h2><%= currentProduct.productName %> </h2>
+                            <h4><%= currentProduct.productName %> </h4>
                             <div>
                                 <span class="badge bg-success"><%= currentProduct.productPrice %> €</span>
                                 <p><%= currentProduct.productDescription %></p>
                             </div>
-                            <div><a class="btn btn-outline-secondary btn-sm" role="button" href="../product/<%= currentProduct._id %>"><i class="fa-solid fa-eye px-1"></i>Voir fiche produit</a></div>
+                            <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="../product/<%= currentProduct._id %>"><i class="fa-solid fa-eye px-1"></i>Voir fiche produit</a></div>
                         </div>
                     </div>
                 </div>

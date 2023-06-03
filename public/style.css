@@ -45,3 +45,8 @@ footer {
     margin-top: -30px;
     opacity: 0.5;
 }
+
+.form-group.required .col-form-label:after {
+    content:" *";
+    color:red;
+  }

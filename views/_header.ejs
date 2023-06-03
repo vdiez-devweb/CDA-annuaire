@@ -2,14 +2,17 @@
     <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg">
     <ul class="nav justify-content-center bg-light border-bottom mb-3">
       <li class="nav-item">
+        <a class="btn btn-success mx-1" href="<%=baseURL%>/"><i class="fa-solid fa-house"></i></a>
+      </li>
+      <li class="nav-item">
         <a class="btn btn-success mx-1" href="<%=baseURL%>/categories">Les catégories</a>
       </li>
       <li class="nav-item">
         <a class="btn btn-success mx-1" href="<%=baseURL%>/products">Les produits</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="btn btn-secondary mx-1" href="<%=baseURL%>/admin">Administration du site</a>
-      </li>
+      </li> -->
       <%  if(user) { %>
       <li class="nav-item">
         <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %> </a>
