@@ -58,7 +58,7 @@ export const auth = (req, res, next) => {
 }
 /**
  * 
- * logout for administrator, go to the homepage of the webapp
+ * logout for administrator, go to the homepage of the admin dashboard
  * 
 **/
 export const logout = (req, res, next) => {
@@ -69,7 +69,7 @@ export const logout = (req, res, next) => {
 
 /**
  * 
- * get the list of all categories in dashboard webApp (it's the homepage of the dashboard)
+ * get the list of all categories in admin dashboard (it's the homepage of the dashboard)
  * TODO proposer un affichage type dashboard avec le nb de catégories et de produits, nb de connexion etc.
  * 
 **/
@@ -101,7 +101,7 @@ export const dashboard = async (req, res, next) => {
 
 /**
  * 
- * get the list of all categories in dashboard webApp (it's the homepage of the dashboard)
+ * get the list of all categories in admin dashboard (it's the homepage of the dashboard)
  * 
 **/
 export const getCategories = async (req, res, next) => {
@@ -132,7 +132,7 @@ export const getCategories = async (req, res, next) => {
 
 /**
  * 
- * get a single category with his list of products in dashboard webApp 
+ * get a single category with his list of products in admin dashboard 
  * 
 **/
 export const getCategory = async (req, res, next) => {
@@ -247,7 +247,7 @@ export const ajaxPostCategory = async (req, res, next) => {
 
 /**
  * 
- * delete a single category in webApp 
+ * delete a single category in admin dashboard 
  * 
 **/
 // TODO supprimer plusieurs catégories en 1 seule fois avec des checkbox
@@ -279,7 +279,7 @@ export const deleteCategory = async (req, res, next) => {
 
 /**
  * 
- * get the list of all products in dashboard webApp 
+ * get the list of all products in admin dashboard 
  * 
 **/
 export const getProducts = async (req, res, next) => {
@@ -320,10 +320,56 @@ export const getProducts = async (req, res, next) => {
         });
     }
 };
+
+/**
+ * 
+ * get a single Product in admin dashboard 
+ * 
+**/
+export const getProduct = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+
+
+    const id = req.params.productId;
+    try{ //je récupère les infos de la catégorie par .populate
+        const product = await Product.findOne({ "_id": id }).populate("productCategory");
+        if (null == product) {
+            res.status(404).render("admin/getProduct", {
+                title: "Erreur Fiche produit",
+                product: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,                
+                message: "Erreur : produit introuvable."
+            });
+        }
+        res.status(200).render("admin/getProduct", {
+            title: "Fiche Produit " + product.productName,
+            product: product,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: ""
+        });
+    } catch {
+        res.status(404).render("admin/getProduct", {
+            title: "Erreur Fiche produit",
+            product: "",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: "Erreur serveur."
+        });
+    }
+};
     
 /**
  * 
- * delete a single category in webApp 
+ * delete a single category in admin dashboard 
  * 
 **/
 // TODO supprimer plusieurs produits en 1 seule fois avec des checkbox
@@ -525,46 +571,86 @@ export const ajaxUpdateProduct = async (req, res, next) => {
 
 /**
  * 
- * get a single Product in Dashboard Admin 
+ * render form to update Product (requête patch) in admin dashboard 
  * 
 **/
-export const getProduct = async (req, res, next) => {
-    let msg_success = req.flash('message_success');
-    let msg_error = req.flash('message_error');
+export const updateCategory = async(req, res, next) => {
+    //on récupère l'identifiant donné dans la route paramétrique
+    const categorySlug = req.params.categorySlug;
+    try{ 
+    
+        const category = await Category.findOne({ "categorySlug": categorySlug });
+//        let categorySelected = product.productCategory._id.toString();
 
+        // if (categorySlug != null) {
+        //     categorySelected = await Category.findOne({ "categorySlug": categorySlug });
+        //     if (categorySelected) categorySelected = categorySelected._id.toString()
+        // }     
 
-    const id = req.params.productId;
-    try{ //je récupère les infos de la catégorie par .populate
-        const product = await Product.findOne({ "_id": id }).populate("productCategory");
-        if (null == product) {
-            res.status(404).render("admin/getProduct", {
-                title: "Erreur Fiche produit",
-                product: "",
-                message_success: req.flash('message_success'),
-                message_error: req.flash('message_error'),
-                msg_success,
-                msg_error,                
-                message: "Erreur : produit introuvable."
+        //const categories = await Category.find({});
+
+        if (null == category) {
+            res.status(404).render("admin/getCategories", {
+                title: "Erreur modification catégorie",
+                category: "",
+                message: "Erreur : Catégorie introuvable."
             });
         }
-        res.status(200).render("admin/getProduct", {
-            title: "Fiche Produit " + product.productName,
-            product: product,
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,
+        // if (0 == category) {
+        //     res.status(404).render("admin/updateCategory", {
+        //         title: prefixTitle + " Modifier une catégorie",
+        //         message: "Erreur : Aucune catégorie répertoriée."
+        //     });
+        // }
+        res.status(200).render("admin/updateCategory", {
+            title: "Modifier catégorie " + category.categoryName,
+            category: category,
             message: ""
         });
     } catch {
-        res.status(404).render("admin/getProduct", {
-            title: "Erreur Fiche produit",
-            product: "",
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,
+        res.status(404).render("admin/getCategories", {
+            title: "Erreur modification catégorie",
+            category: "",
             message: "Erreur serveur."
         });
+    }
+};
+
+/**
+ * TODO WIP
+ * Update Product (requête patch) in admin dashboard 
+ * 
+**/
+export const ajaxUpdateCategory = async (req, res, next) => {
+     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
+     const id = req.body.id;
+     const categorySlug = req.body.categorySlug;
+     const categoryName = req.body.categoryName;
+     const categoryDescription = req.body.categoryDescription;
+     const categoryImg = req.body.categoryImg;
+     const categoryNbProducts = req.body.categoryNbProducts;
+    //TODO rafraîchir le nombre de produits appartenant à cette catégorie
+
+    try{
+        const result = await Category.findByIdAndUpdate(
+        { "_id": id }, 
+        { 
+            categoryName,
+            categorySlug :categorySlug,
+            categoryDescription : categoryDescription,
+            categoryImg: categoryImg,
+            categoryNbProducts: categoryNbProducts,
+        }, 
+        { new: true }
+        //  (err, doc)
+        );
+        if (null == result) {
+            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+        }
+        req.flash('message_success', "Catégorie " + result.categoryName + " modifiée ");
+        res.status(200).redirect("/admin/category/" + categorySlug);
+    } catch(err) {
+        req.flash('message_error', "ERREUR " + err);
+        res.status(500).redirect("/admin/categories/");
     }
 };

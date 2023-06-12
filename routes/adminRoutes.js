@@ -15,7 +15,9 @@ import {
     ajaxPostProduct,
     getProduct,
     updateProduct, 
-    ajaxUpdateProduct
+    ajaxUpdateProduct, 
+    updateCategory,
+    ajaxUpdateCategory
 } from "../controllers/admin/adminController.js";
 
 
@@ -45,11 +47,13 @@ router.get("/admin/delete-product/:categorySlug/:productId", isAuthenticated, de
 router.get("/admin/create-product", isAuthenticated, postProduct);
 router.get("/admin/create-product/:categorySlug", isAuthenticated, postProduct);
 router.get("/admin/update-product/:productId", isAuthenticated, updateProduct);
+router.get("/admin/update-category/:categorySlug", isAuthenticated, updateCategory);
 
 //endpoint
 router.post("/admin/ajax-create-category", isAuthenticated, ajaxPostCategory);
 router.post("/admin/ajax-create-product", isAuthenticated, ajaxPostProduct);
 router.post("/admin/ajax-update-product/:productId", isAuthenticated, ajaxUpdateProduct);
+router.post("/admin/ajax-update-category/", isAuthenticated, ajaxUpdateCategory);
 
 
 export default router;

@@ -19,10 +19,12 @@
                 <% if (message) { %>
                     <p class="alert alert-warning"><%= message %></p>
                 <% } %>  
-                <a href="<%=baseURL%>/admin/create-product/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit dans cette catégorie</a>
+                <a href="<%=baseURL%>/admin/create-product/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm mb-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit dans cette catégorie</a>
+                <br />
+                <a href="<%=baseURL%>/admin/update-category/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>modifier la catégorie</a>
                 <% if (!products) { %>
                 <br/>
-                <a href="<%=baseURL%>/admin/delete-category/<%= category.categorySlug %>" class="btn btn-outline-success btn-sm mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer la catégorie vide</a></div>                 
+                <a href="<%=baseURL%>/admin/delete-category/<%= category.categorySlug %>" class="btn btn-secondary btn-sm mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer la catégorie vide</a></div>                 
                 <% } %>
                  </div>                
 
