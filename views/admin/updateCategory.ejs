@@ -36,6 +36,14 @@
                 </div>
             </div>
             <input id="id" name="id" type="hidden" value="<%= category._id %>">
+            <input id="categoryNbProducts" name="categoryNbProducts" type="hidden" value="<%= nbProductsInBDD %>">
+            <% if (nbProductsInBDD != category.categoryNbProducts) { %>
+                <p class="alert alert-warning">
+                    Le compteur de produits enregistré dans cette catégorie (<%=category.categoryNbProducts %>) est différent du nombre réel de produits vérifié sur serveur (<%= nbProductsInBDD %>). <br />
+                    Cette valeur va être mise à jour à <%= nbProductsInBDD %> quand vous validerez la modification. 
+                </p>
+            <% } %>  
+      
 <!-- TODO ajouter un champ fichier pour l'image -->
             <div class="col-12 form-group">
                 <button class="btn btn-success" type="submit" value="post">Modifier la catégorie</button>

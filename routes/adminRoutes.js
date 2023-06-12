@@ -17,7 +17,8 @@ import {
     updateProduct, 
     ajaxUpdateProduct, 
     updateCategory,
-    ajaxUpdateCategory
+    ajaxUpdateCategory,
+    ajaxUpdateNbProductsInCategory
 } from "../controllers/admin/adminController.js";
 
 
@@ -54,6 +55,8 @@ router.post("/admin/ajax-create-category", isAuthenticated, ajaxPostCategory);
 router.post("/admin/ajax-create-product", isAuthenticated, ajaxPostProduct);
 router.post("/admin/ajax-update-product/:productId", isAuthenticated, ajaxUpdateProduct);
 router.post("/admin/ajax-update-category/", isAuthenticated, ajaxUpdateCategory);
+router.get("/admin/update-count-products/:categoryId", isAuthenticated, ajaxUpdateNbProductsInCategory);
+
 
 
 export default router;

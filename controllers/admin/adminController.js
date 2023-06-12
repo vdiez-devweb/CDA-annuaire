@@ -580,14 +580,8 @@ export const updateCategory = async(req, res, next) => {
     try{ 
     
         const category = await Category.findOne({ "categorySlug": categorySlug });
-//        let categorySelected = product.productCategory._id.toString();
-
-        // if (categorySlug != null) {
-        //     categorySelected = await Category.findOne({ "categorySlug": categorySlug });
-        //     if (categorySelected) categorySelected = categorySelected._id.toString()
-        // }     
-
-        //const categories = await Category.find({});
+        // pour éventuellement mettre à jour le compteur de produits de la catégorie avec le nombre réel de produits enregistré dans la base
+        const count =  await Product.countDocuments({productCategory: category._id});
 
         if (null == category) {
             res.status(404).render("admin/getCategories", {
@@ -596,15 +590,10 @@ export const updateCategory = async(req, res, next) => {
                 message: "Erreur : Catégorie introuvable."
             });
         }
-        // if (0 == category) {
-        //     res.status(404).render("admin/updateCategory", {
-        //         title: prefixTitle + " Modifier une catégorie",
-        //         message: "Erreur : Aucune catégorie répertoriée."
-        //     });
-        // }
         res.status(200).render("admin/updateCategory", {
             title: "Modifier catégorie " + category.categoryName,
             category: category,
+            nbProductsInBDD: count,
             message: ""
         });
     } catch {
@@ -617,7 +606,7 @@ export const updateCategory = async(req, res, next) => {
 };
 
 /**
- * TODO WIP
+ * 
  * Update Product (requête patch) in admin dashboard 
  * 
 **/
@@ -629,8 +618,6 @@ export const ajaxUpdateCategory = async (req, res, next) => {
      const categoryDescription = req.body.categoryDescription;
      const categoryImg = req.body.categoryImg;
      const categoryNbProducts = req.body.categoryNbProducts;
-    //TODO rafraîchir le nombre de produits appartenant à cette catégorie
-
     try{
         const result = await Category.findByIdAndUpdate(
         { "_id": id }, 
@@ -653,4 +640,33 @@ export const ajaxUpdateCategory = async (req, res, next) => {
         req.flash('message_error', "ERREUR " + err);
         res.status(500).redirect("/admin/categories/");
     }
+};
+
+/**
+ * TODO WIP
+ * Update number of Product in a category in admin dashboard 
+ * 
+**/
+export const ajaxUpdateNbProductsInCategory = async (req, res, next) => {
+    const id = req.params.categoryId;
+    const categoryNbProducts =  await Product.countDocuments({productCategory: id});
+    
+   try{
+       const result = await Category.findByIdAndUpdate(
+       { "_id": id }, 
+       { 
+           categoryNbProducts: categoryNbProducts,
+       }, 
+       { new: true }
+       //  (err, doc)
+       );
+       if (null == result) {
+           res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+       }
+       req.flash('message_success', "le compteur de produits de la catégorie " + result.categoryName + " a été rafraîchi ");
+       res.status(200).redirect(req.get('Referrer'));
+   } catch(err) {
+       req.flash('message_error', "ERREUR " + err);
+       res.status(500).redirect(req.get('Referrer'));
+   }
 };

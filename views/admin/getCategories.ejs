@@ -45,9 +45,21 @@
                             <td><%= currentCategory.categoryDescription %></td>
                             <td>
                                 <!-- <a href="admin/category/<%= currentCategory.categorySlug %>" alt="Voir les produits de la catégorie"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
-                                <div><a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les <%= currentCategory.categoryNbProducts %> produits</a></div>                
+                                <div>
+                                    <% if (currentCategory.categoryNbProducts != 0) { %>
+                                        <a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les <%= currentCategory.categoryNbProducts %> produits</a>    
+                                    <% } else {  %>
+                                        <i class="fa-solid fa-0 px-1"></i> aucun produit
+                                    <% }  %>
+                                    <!-- <span  tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Rafraîchir le compteur de produits"> -->
+                                        <a href="<%=baseURL%>/admin/update-count-products/<%= currentCategory._id %>" title="Rafraîchir le compteur de produits"><i class="fa-solid fa-rotate px-1"></i></a>
+                                    <!-- </span> -->
+                                </div>     
+                                
+
                                 <div><a href="<%=baseURL%>/admin/update-category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
                                 <div><a href="<%=baseURL%>/admin/delete-category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                                <div><a href="<%=baseURL%>/admin/create-product/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-square-plus px-1"></i>Créer un produit</a></div>
                             </td>
                         </tr>
 
