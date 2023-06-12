@@ -52,7 +52,7 @@ export const getCategory = async (req, res, next) => {
  * get count of Products in a category in webApp  
  * 
 **/
-export const getCountProductInCategory = async (category) => {
+export const getCountProductInCategory = async (category, count) => {
 //     //? test 1 /////////////////////
     const count =  await Product.countDocuments({productCategory: category._id});
     console.log('mon compteur ' + category._id + " : " + count);
@@ -73,11 +73,11 @@ export const getCountProductInCategory = async (category) => {
  * 
 **/
 export const getCategories = async (req, res, next) => {
-    let countProducts = [];
+    // var countProducts = [];
     // var countProducts = {};
-    // var countProducts = new Map();
+    let countProducts = new Map();
     try{
-        const categories = await Category.find();
+        const categories = await Category.find({});
 
         //TODO récupérer le nb de produit pour chaque catégorie ///////////////////////////////////:
         //? test 3 /////////////////////
@@ -95,47 +95,36 @@ export const getCategories = async (req, res, next) => {
 
         
         //? test 1 /////////////////////
-        categories.forEach(async currentCategory => {
-            let compteur = await getCountProductInCategory(currentCategory)
-            //getCountProductInCategory(currentCategory) returns : Promise { <pending> }
-                // .then((result) => {
+        categories.forEach( currentCategory => {
+            let compteur =  getCountProductInCategory(currentCategory)
+                // .then(function(result){
                 //     console.log(result);
-                // })
-                // .catch((error) =>{
-                //     console.log(error);
                 // })
                 //     .then(function(result){
                 //         compteur = result;
                 //     //countProducts.push({"id": currentCategory._id.toString(), "countProduct":  compteur});
 
                 // })
-                //currentCategory._id returns : new ObjectId("645a519a04393b26b88147e7")
-                //currentCategory._id.toString() returns : '645a519a04393b26b88147e7'
-
+            // console.log('mon compteur intermédiaire : ');console.log(compteur); 
             //?avec countProduct = map
             //countProducts.set(currentCategory._id.toString(),compteur);
-            
+
             //?avec countProduct = objet
             // let idCurrentCat = currentCategory._id.toString();
-            // let currentCount = { currentCategory._id.toString(): compteur }; //! erreur de syntaxe, il faudrait que la clé soit la valeur de la variable, on peut le faire avec Map, mais il faut pouvoir parcourir
+            // let currentCount = { currentCategory._id.toString(): compteur }; ///! erreur de syntaxe, il faudrait que la clé soit la valeur de la variable, on peut le faire avec Map, mais il faut pouvoir parcourir
             // countProducts = Object.assign(currentCount);
-            
+
             //?avec countProduct = array
-            // countProducts.push({"id": currentCategory._id.toString(), "countProduct":  compteur});
-            countProducts.push(compteur);
-            console.log('mon compteur intermédiaire : ' + compteur); 
-
+            countProducts.push({"id": currentCategory._id.toString(), "countProduct":  compteur});
+            // console.log('mon tableau intermédiaire : ');console.log(countProducts);console.log('\n'); 
+            //currentCategory._id returns : new ObjectId("645a519a04393b26b88147e7")
+            //currentCategory._id.toString() returns : '645a519a04393b26b88147e7'
+            //getCountProductInCategory(currentCategory) returns : Promise { <pending> }
         });
-        //? avec countProduct = map
-        // const tabCountProducts = Array.from(countProducts);
+        const tabCountProducts = Array.from(countProducts);
+        console.log(tabCountProducts);
+        // console.log(countProducts);
 
-        //? avec countProduct = objet ou array
-        const tabCountProducts = countProducts;
-        //console.log(tabCountProducts);
-        console.log('mon TABLEAU final : ');
-        countProducts.forEach(currentCompt => {
-            console.log(currentCompt);
-        })
 
         //? test 2 /////////////////////
         //! version avec Promise à résoudre :
@@ -168,7 +157,7 @@ export const getCategories = async (req, res, next) => {
         res.status(500).render("category/getCategories", {
             title: "Erreur Catégories de produits",
             categories: "",
-            countProducts: "",
+            countProducts: tabCountProducts,
             message: error
         });
     }
