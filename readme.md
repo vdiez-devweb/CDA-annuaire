@@ -67,7 +67,9 @@ l'application web utilise les technologies suivantes :
 
 - [X] ajouter l’info de la catégorie dans le tableau de tous les produits (voir comment récupérer le slug ou le nom de la catégorie a partir de l’ID dans EJS ou ajouter un champ dans le model ?)
 - [X] Dans l'API Gérer les middleware (les mettre dans un autre fichier que dans les controller des objets ?)
-- [ ] Update PRODUITS et CATEGORIES dans le Dashboard admin
+- [X] Update PRODUITS dans le Dashboard admin
+- [ ] Update CATEGORIES dans le Dashboard admin
+- [ ] Rediriger sur la page d'où on est venu quand on se log (Dashboard)
 - [ ] ajouter le nb de produits par catégorie dans les affichages client et admin
 - [ ] Vérification des champs dans le front (validation) et le back (unicité, doublons, champs requis etc. ) Dashboard + API
 - [ ] gestionnaire d’erreurs pour traiter les 404 et 500 par exemple

@@ -1,0 +1,58 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+
+    <div class="container">
+        <div><h1><%= title %></h1></div>
+        <% if (message) { %>
+            <p class="alert alert-success"><%= message %></p>
+        <% } %>  
+        <% if (categories) { %>
+            <form method="post" action="<%=baseURL%>/admin/ajax-update-product/<%=product._id %>">
+            <div class="row mb-3 form-group required">
+                <label for="productCategoryId" class="col-sm-2 col-form-label">Catégorie du produit</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="productCategoryId" name="productCategoryId" required="required">
+                    <option>Choisir une catégorie</option>
+                    <% categories.forEach(currentCategory => { %>
+                        <option value="<%=currentCategory._id %>" 
+                            <% if (categorySelected == currentCategory._id) { %> selected   <% }  %>
+                            ><%=currentCategory.categoryName %>
+                        </option>
+                    <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3 form-group required">
+              <label for="productName" class="col-sm-2 col-form-label">Nom du produit</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="productName" name="productName" required="required" value="<%=product.productName %>">
+              </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="productPrice" class="col-sm-2 col-form-label">Prix du produit</label>
+                <div class="col-sm-10">
+                  <input type="number" step=".01" class="form-control" id="productPrice" name="productPrice" value="<%=product.productPrice %>">
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="productDescription" class="col-sm-2 col-form-label">Description du produit</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="productDescription" name="productDescription" rows="3"><%=product.productDescription %></textarea>
+                </div>
+            </div>
+<!-- TODO ajouter un champ fichier pour l'image -->
+            <div class="col-12 form-group">
+                <button class="btn btn-success" type="submit" value="post">Modifier le produit</button>
+                <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+            </div>
+        </form>
+        <% } else { %>  
+            <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/create-category"><i class="fa-solid fa-square-plus px-1"></i>Créer une catégorie</a>
+        <% } %>  
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

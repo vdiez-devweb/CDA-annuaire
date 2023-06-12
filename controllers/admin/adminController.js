@@ -418,3 +418,141 @@ export const ajaxPostProduct = async (req, res, next) => {
         res.status(500).redirect("/admin/products/");
     }
 };
+
+/**
+ * TODO
+ * render form to update Product (requête patch) in admin dashboard 
+ * 
+**/
+export const updateProduct = async(req, res, next) => {
+    //on récupère l'identifiant donné dans la route paramétrique
+    const id = req.params.productId;
+    try{ 
+    
+        const product = await Product.findOne({ "_id": id }).populate("productCategory");
+
+        const categorySlug = product.productCategory.categorySlug;
+        let categorySelected = product.productCategory._id.toString();
+
+        // if (categorySlug != null) {
+        //     categorySelected = await Category.findOne({ "categorySlug": categorySlug });
+        //     if (categorySelected) categorySelected = categorySelected._id.toString()
+        // }     
+
+        const categories = await Category.find({});
+
+        if (null == product) {
+            res.status(404).render("admin/getProducts", {
+                title: "Erreur modification produit",
+                product: "",
+                categories: "",
+                categorySelected: categorySelected,
+                message: "Erreur : produit introuvable."
+            });
+        }
+        if (0 == categories) {
+            res.status(404).render("admin/updateProduct", {
+                title: prefixTitle + " Modifier un produit",
+                categories: "",
+                categorySelected: categorySelected,
+                message: "Erreur : Aucune catégorie répertoriée."
+            });
+        }
+        res.status(200).render("admin/updateProduct", {
+            title: "Modifier Produit " + product.productName,
+            categories: categories,
+            categorySelected: categorySelected,
+            product: product,
+            message: ""
+        });
+    } catch {
+        res.status(404).render("admin/getProducts", {
+            title: "Erreur modification produit",
+            categories: "",
+            categorySelected: categorySelected,
+            product: "",
+            message: "Erreur serveur."
+        });
+    }
+};
+
+/**
+ * TODO
+ * Update Product (requête patch) in admin dashboard 
+ * 
+**/
+export const ajaxUpdateProduct = async (req, res, next) => {
+     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
+     const id = req.params.productId;
+     const productName = req.body.productName;
+     const productDescription = req.body.productDescription;
+     const productPrice = req.body.productPrice;
+     const productCategoryId = req.body.productCategoryId;
+    try{
+        const result = await Product.findByIdAndUpdate(
+        { "_id": id }, 
+        { 
+            productName,
+            productPrice: productPrice,
+            productDescription : productDescription,
+            productCategoryId: productCategoryId,
+        }, 
+        { new: true }
+        //  (err, doc)
+        );
+        if (null == result) {
+            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, produit non trouvé" });
+        }
+        req.flash('message_success', "Produit " + result.productName + " modifié ");
+        res.status(200).redirect("/admin/product/" + id);
+    } catch(err) {
+        req.flash('message_error', "ERREUR " + err);
+        res.status(500).redirect("/admin/products/");
+    }
+};
+
+/**
+ * 
+ * get a single Product in Dashboard Admin 
+ * 
+**/
+export const getProduct = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+
+
+    const id = req.params.productId;
+    try{ //je récupère les infos de la catégorie par .populate
+        const product = await Product.findOne({ "_id": id }).populate("productCategory");
+        if (null == product) {
+            res.status(404).render("admin/getProduct", {
+                title: "Erreur Fiche produit",
+                product: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,                
+                message: "Erreur : produit introuvable."
+            });
+        }
+        res.status(200).render("admin/getProduct", {
+            title: "Fiche Produit " + product.productName,
+            product: product,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: ""
+        });
+    } catch {
+        res.status(404).render("admin/getProduct", {
+            title: "Erreur Fiche produit",
+            product: "",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: "Erreur serveur."
+        });
+    }
+};

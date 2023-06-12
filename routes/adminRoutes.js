@@ -13,7 +13,9 @@ import {
     deleteProduct,
     postProduct,
     ajaxPostProduct,
-
+    getProduct,
+    updateProduct, 
+    ajaxUpdateProduct
 } from "../controllers/admin/adminController.js";
 
 
@@ -32,17 +34,22 @@ function isAuthenticated (req, res, next) {
   
 router.get("/admin", isAuthenticated, dashboard); //pour l'instant dashboard affiche la liste des categories
 router.get("/admin/categories", isAuthenticated, getCategories);
+router.get("/admin/product/:productId", isAuthenticated, getProduct);
 router.get("/admin/products", isAuthenticated, getProducts);
 router.get("/admin/category/:categorySlug", isAuthenticated, getCategory);
 
 router.get("/admin/create-category", isAuthenticated, postCategory);
-router.post("/admin/ajax-create-category", isAuthenticated, ajaxPostCategory);
 router.get("/admin/delete-category/:categorySlug", isAuthenticated, deleteCategory);
 router.get("/admin/delete-product/:productId", isAuthenticated, deleteProduct); 
 router.get("/admin/delete-product/:categorySlug/:productId", isAuthenticated, deleteProduct); 
 router.get("/admin/create-product", isAuthenticated, postProduct);
 router.get("/admin/create-product/:categorySlug", isAuthenticated, postProduct);
+router.get("/admin/update-product/:productId", isAuthenticated, updateProduct);
+
+//endpoint
+router.post("/admin/ajax-create-category", isAuthenticated, ajaxPostCategory);
 router.post("/admin/ajax-create-product", isAuthenticated, ajaxPostProduct);
+router.post("/admin/ajax-update-product/:productId", isAuthenticated, ajaxUpdateProduct);
 
 
 export default router;
