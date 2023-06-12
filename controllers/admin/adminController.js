@@ -334,6 +334,13 @@ export const deleteProduct = async (req, res, next) => {
     try{
         const product = await Product.findByIdAndDelete({ "_id": productId });
         if (null != product) {
+            const category = await Category.findByIdAndUpdate(
+                { "_id": product.productCategory }, 
+                { $inc: { categoryNbProducts: -1 } }, 
+                { new: true }
+                //  (err, doc)
+            );
+
             req.flash('message_success', "Produit " + product.productName + " supprimé.");
             if (categorySlug) {
                 res.status(200).redirect("/admin/category/" + categorySlug);
@@ -409,8 +416,13 @@ export const ajaxPostProduct = async (req, res, next) => {
             productCategory: productCategoryId
         });
 
-        const category = await Category.findOne({ "_id": productCategoryId });
-
+        //const category = await Category.findOne({ "_id": productCategoryId });
+        const category = await Category.findByIdAndUpdate(
+            { "_id": productCategoryId }, 
+            { $inc: { categoryNbProducts: 1 } }, 
+            { new: true }
+            //  (err, doc)
+        );
         req.flash('message_success', "Produit " + product.productName + " créé");
         res.status(201).redirect("/admin/category/" + category.categorySlug);
     } catch(error) {
@@ -420,7 +432,7 @@ export const ajaxPostProduct = async (req, res, next) => {
 };
 
 /**
- * TODO
+ * 
  * render form to update Product (requête patch) in admin dashboard 
  * 
 **/
@@ -477,7 +489,7 @@ export const updateProduct = async(req, res, next) => {
 };
 
 /**
- * TODO
+ * 
  * Update Product (requête patch) in admin dashboard 
  * 
 **/

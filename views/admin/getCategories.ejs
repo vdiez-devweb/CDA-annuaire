@@ -45,7 +45,7 @@
                             <td><%= currentCategory.categoryDescription %></td>
                             <td>
                                 <!-- <a href="admin/category/<%= currentCategory.categorySlug %>" alt="Voir les produits de la catégorie"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
-                                <div><a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les produits</a></div>                
+                                <div><a href="<%=baseURL%>/admin/category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les <%= currentCategory.categoryNbProducts %> produits</a></div>                
                                 <div><a href="#" alt="Modifier la catégorie"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
                                 <div><a href="<%=baseURL%>/admin/delete-category/<%= currentCategory.categorySlug %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                             </td>

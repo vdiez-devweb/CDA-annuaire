@@ -26,6 +26,11 @@ const categorySchema = new Schema({
         require: true,
         default:false
     },
+    categoryNbProducts: {
+        type:Number,
+        require: true,
+        default:0
+    },
 }, {
     timestamps: { 
         createdAt: 'createdAt' 

@@ -70,7 +70,7 @@ l'application web utilise les technologies suivantes :
 - [X] Update PRODUITS dans le Dashboard admin
 - [ ] Update CATEGORIES dans le Dashboard admin
 - [ ] Rediriger sur la page d'où on est venu quand on se log (Dashboard)
-- [ ] ajouter le nb de produits par catégorie dans les affichages client et admin
+- [X] ajouter le nb de produits par catégorie dans les affichages client et admin
 - [ ] Vérification des champs dans le front (validation) et le back (unicité, doublons, champs requis etc. ) Dashboard + API
 - [ ] gestionnaire d’erreurs pour traiter les 404 et 500 par exemple
 - [ ] Dans l'API mettre en place le système d'authentification Basic Auth

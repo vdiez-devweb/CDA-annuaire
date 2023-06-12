@@ -16,7 +16,7 @@
                         <div class="card-body">
                         <h2 class="card-title"><%= currentCategory.categoryName %></h2>
                         <p class="card-text"><%= currentCategory.categoryDescription %></p>
-                        <a href="category/<%= currentCategory.categorySlug %>" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass px-1"></i> Voir les produits de la catégorie </a>                
+                        <a href="category/<%= currentCategory.categorySlug %>" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass px-1"></i> Voir les <%= currentCategory.categoryNbProducts %> produits de la catégorie </a>                
                         </div>
                     </div>
                 </div>
