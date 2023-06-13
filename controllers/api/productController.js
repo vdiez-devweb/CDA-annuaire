@@ -106,7 +106,6 @@ export const apiDeleteProduct = async (req, res, next) => {
 
     try{
         const product = await Product.deleteOne({ "_id": id });
-        console.log(product);
 
         res.status(200).json({ "Message": "Produit supprimé." });
     } catch {

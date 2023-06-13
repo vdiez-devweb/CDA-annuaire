@@ -267,16 +267,15 @@ export const deleteCategory = async (req, res, next) => {
  
     try{
         const category = await Category.findOne({ "categorySlug": categorySlug });
-        const nbProducts = await Product.count({"productCategory": category._id});
         const categoryName = category.categoryName;
 
         if (0 == category) {
             req.flash('message_error', "erreur, catégorie introuvable.");
             res.status(404).redirect("/admin/categories");
         }
-        if (0 != nbProducts) {
+        if (0 != category.categoryNbProducts) {
             req.flash('message_error', "Impossible de supprimer cette catégorie car elle contient des produits."),
-            res.status(500).redirect("/admin/category/" + category.categorySlug);
+            res.status(400).redirect("/admin/category/" + category.categorySlug);
         } else {
             const result = await Category.findByIdAndDelete({ "_id": category._id  });
             req.flash('message_success', "Catégorie " + categoryName + " supprimée");
@@ -284,7 +283,7 @@ export const deleteCategory = async (req, res, next) => {
         }
       } catch(error) {
         req.flash('message_error', error);
-        res.status(200).redirect("/admin/categories");
+        res.status(500).redirect("/admin/categories");
     }
 };
 

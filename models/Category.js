@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
+
 // on importe l'objet Schema de mongoose
 const { Schema } = mongoose;
 
@@ -7,28 +9,27 @@ const categorySchema = new Schema({
     //on ne spécifie pas l'Id, mongoose le fait pour nous
     categoryName: {
         type: String,
-        require: true,
-        unique: true
-    },
-    categoryDescription: {
-        type: String,
-        require: true,
-        default:null
+        required: [true,'Vous devez saisir un nom de catégorie'],
+        unique: [true,'Cette catégorie existe déjà, veuillez saisir un autre nom'],
     },
     categorySlug: {
         type: String,
-        require: true,
-        unique: true,
+        required: [true,'Vous devez saisir un raccourci pour les liens'],
+        unique: [true,'Ce slug existe déjà, veuillez saisir un autre slug'],
         lowercase: true
+    },
+    categoryDescription: {
+        type: String,
+        default:null
     },
     categoryImg: { //true if an image exists with slug filename, false if not (then we use a default image)
         type: Boolean,
-        require: true,
+        required: [true,'Vous devez définir si une image existe ou non pour cette catégorie'],
         default:false
     },
     categoryNbProducts: {
         type:Number,
-        require: true,
+        required: [true,'Vous devez saisir un nombre de produits'],
         default:0
     },
 }, {
@@ -36,6 +37,8 @@ const categorySchema = new Schema({
         createdAt: 'createdAt' 
     }
 });
+
+categorySchema.plugin(uniqueValidator);
 
 //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
 const Category = mongoose.model("Category", categorySchema);

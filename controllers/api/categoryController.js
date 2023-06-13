@@ -45,18 +45,34 @@ export const apiPostCategory = async (req, res, next) => {
     const categoryImg = req.body.categoryImg ? req.body.categoryImg : false;
 
     // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
-    const category = await Category.create({
-        // categoryName: categoryName,
-        categoryName, // si la clé = valeur, on ne répète pas
-        categoryDescription,
-        categorySlug,
-        categoryImg 
-    });
-
-    // console.log(category);
-    // res.status(201).redirect("/categories");
-    // res.status(201).send("category created : ", category);
-    res.status(201).json({ category });
+    try{
+        const category = await Category.create({
+            // categoryName: categoryName,
+            categoryName, // si la clé = valeur, on ne répète pas
+            categoryDescription,
+            categorySlug,
+            categoryImg 
+        });
+        // console.log(category);
+        // res.status(201).redirect("/categories");
+        // res.status(201).send("category created : ", category);
+        res.status(201).json({ category });
+    } catch (error) {
+        if (error.errors) {//si on a des erreurs de validation Mongoose :
+            let customError = {}; //on créé un tableau vide
+            let fieldsInErrors = Object.keys(error.errors); // on récupère les champs qui sont en erreur
+            //on parcours l'objet d'erreurs pour construire la réponse
+            (fieldsInErrors).forEach(currentField => {
+                customError[currentField] = error.errors[currentField]['properties']['message'];
+                if (error.errors[currentField]['properties']['type'] == "unique") {
+                    customError[currentField] = 'Le champ ' + currentField + ' doit être unique, <' 
+                                                + error.errors[currentField]['properties']['value'] + '> existe déjà!';
+                }
+            });
+            res.status(400).json({ customError });
+        }
+        res.status(400).json({ error });
+    }
 };
 
 /**
@@ -89,9 +105,24 @@ export const apiUpdateCategory = async (req, res, next) => {
             res.status(200).json({ 
                 result
             });
-    } catch(err) {
-        res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
-        // res.status(404).json({ err });
+    } catch(error) {
+        let customError = {}; //on créé un objet vide
+        let fieldsInErrors = []; // on créé un tableau vide
+        if (error.errors) {//si on a des erreurs de validation Mongoose :
+            fieldsInErrors = Object.keys(error.errors); // on récupère les champs qui sont en erreur
+            (fieldsInErrors).forEach(currentField => { //on parcours l'objet d'erreurs pour construire la réponse
+                customError[currentField] = error.errors[currentField]['properties']['message'];
+            });
+        }
+        if (error.codeName == "DuplicateKey") {//si on a des erreurs de validation Mongoose (duplication)
+            fieldsInErrors = Object.keys(error.keyValue); // on récupère les champs qui sont en erreur de duplication
+            (fieldsInErrors).forEach(currentField => {
+                customError[currentField] = 'Le champ ' + currentField + ' doit être unique, <' + error['keyValue'][currentField] + '> existe déjà!';
+            });
+            res.status(400).json({ customError });
+        }
+        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+        res.status(400).json({ error });
     }
 };
 

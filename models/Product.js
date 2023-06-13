@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
     productName: {
         type: String,
-        require: true,
+        required: [true,'Vous devez saisir un nom de produit'],
+        unique: true
+        // unique: [true,'Ce produit existe déjà, veuillez saisir un autre nom'],
     },    
     productPrice: {
         type:Number,
-        require: true,
         default:null
     },
     productDescription: {
         type:String,
-        require: true,
         default:null
     },
     productCategory: {
@@ -25,6 +26,8 @@ const productSchema = new Schema({
         createdAt: 'createdAt' 
     }
 });
+
+productSchema.plugin(uniqueValidator);
 
 //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
 const Product = mongoose.model("Product", productSchema);
