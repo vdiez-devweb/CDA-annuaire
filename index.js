@@ -43,8 +43,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.locals.baseURL = process.env.BASE_URL;
-app.locals.baseURL = "http://localhost:8082";
+app.locals.baseURL = process.env.BASE_URL;
 
 //on veut envoyer les requêtes en json
 app.use(bodyParser.json());

@@ -19,9 +19,17 @@ const prefixTitle = "Panneau d'administration - ";
  * 
 **/
 export const login = async (req, res, next) => {
+    let dashboardHomepageURL = process.env.BASE_URL + "/admin";   
+    // si on vient directement sur la page de login (referrer undefined) on renverra sur la homepage du dashboard
+    let referer = (typeof req.get('Referrer') == 'undefined') ? dashboardHomepageURL : req.get('Referrer');
+
+    //si on vient du dashboard admin, on envoie bien le referrer, sinon on renvoie l'url /admin (homepage du dashboard)
+    let fromURL = referer.includes(dashboardHomepageURL) ? referer : dashboardHomepageURL;   
+    
     res.status(403).render("login", {
         title: "Page d'authentification",
-        message: ""
+        message: "",
+        fromURL: fromURL 
     }); 
 }
 /**
@@ -32,6 +40,7 @@ export const login = async (req, res, next) => {
 export const auth = (req, res, next) => {
     const username = req.body.user;
     const password = req.body.password;
+    const fromURL = req.body.fromURL;
 
     if (username && password) {
         if (req.session.authenticated) {
@@ -41,17 +50,19 @@ export const auth = (req, res, next) => {
                 req.session.authenticated = true;
                 req.session.user = { username };
                 req.flash('message_success', 'Bienvenue sur le panneau d\'administration Concept Institut.');
-                res.redirect("/admin");
+                res.redirect(fromURL);
             } else {
                 res.status(403).render("login", {
                     title: "Login",
-                    message: "Erreur mot de passe."
+                    message: "Erreur mot de passe.",
+                    fromURL: fromURL
                 });           
             }
         }
     } else {
         res.status(403).render("login", {
             title: "Login",
+            fromURL: fromURL,
             message: "Erreur login ou mot de passe."
         });
     }
@@ -643,7 +654,7 @@ export const ajaxUpdateCategory = async (req, res, next) => {
 };
 
 /**
- * TODO WIP
+ * 
  * Update number of Product in a category in admin dashboard 
  * 
 **/
