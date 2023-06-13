@@ -8,17 +8,17 @@
         <% if (products) { %>
             <% products.forEach(function(currentProduct) { %>
                 <div class="col-sm-4 col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-body">
+                    <div class="card shadow bg-body rounded">
+                        <div class="card-body bg-light">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col-8 mb-2">
                                     <% if (currentProduct.productCategory) { %>
-                                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/category/<%= currentProduct.productCategory.categorySlug %>">                    
+                                        <span class="badge bg-light"><a href="<%=baseURL%>/category/<%= currentProduct.productCategory.categorySlug %>">                    
                                             <%= currentProduct.productCategory.categoryName %>
                                         </a></span>
                                     <% } else { %> - <% } %>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4 text-end">
                                     <span class="badge bg-success"><%= currentProduct.productPrice %> €</span>
                                     <!-- <p><%#= currentProduct.productDescription %></p> -->
                                 </div>

@@ -5,19 +5,23 @@
     <h1>Détail produit</h1>
     <p><%= message %></p>
     <div class="col-sm-8 col-md-6 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <h2><%= product.productName %> </h2>
-                <div>
-                    <span class="badge bg-success"><%= product.productPrice %> €</span>
-                    <p><%= product.productDescription %></p>
-                </div>
-                <div>Catégorie : 
+        <div class="card shadow bg-body rounded">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-8 mb-2">Catégorie : 
                     <% if (product.productCategory) { %>
-                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/category/<%= product.productCategory.categorySlug %>">                    
+                        <span class="badge bg-light"><a href="<%=baseURL%>/category/<%= product.productCategory.categorySlug %>">                    
                             <%= product.productCategory.categoryName %>
                         </a></span>
                     <% } else { %> - <% } %>
+                    </div>
+                    <div class="col-4 text-end">
+                        <span class="badge rounded-pill bg-success"><%= product.productPrice %> €</span>
+                    </div>
+                </div>
+                <h2><%= product.productName %> </h2>
+                <div>
+                    <p><%= product.productDescription %></p>
                 </div>
             </div>
         </div>
