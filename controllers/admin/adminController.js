@@ -243,8 +243,13 @@ export const ajaxPostCategory = async (req, res, next) => {
         req.flash('message_success', "Catégorie " + category.categoryName + " créée");
         res.status(201).redirect("/admin/category/" + category.categorySlug);
     } catch(error) {
-        //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
+        if (error.errors){
+            req.flash('message_error', "ERREUR " + error);
+            res.status(500).redirect("/admin/create-product/"); 
+            return;           
+        }
         req.flash('message_error', "ERREUR " + error);
+        //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
         res.status(500).redirect("/admin/categories");
         // res.status(500).render("admin/getCategory", {
         //     title: prefixTitle + "Création d'une catégorie",
@@ -429,6 +434,8 @@ export const deleteProduct = async (req, res, next) => {
 export const postProduct = async(req, res, next) => {
     const categorySlug = req.params.categorySlug;
     let categorySelected = null;
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
     if (categorySlug != null) {
         categorySelected = await Category.findOne({ "categorySlug": categorySlug });
         if (categorySelected) categorySelected = categorySelected._id.toString()
@@ -447,6 +454,10 @@ export const postProduct = async(req, res, next) => {
         title: prefixTitle + " Création de produit",
         categories: categories,
         categorySelected: categorySelected,
+        message_success: req.flash('message_success'),
+        message_error: req.flash('message_error'),
+        msg_success,
+        msg_error,    
         message: ""
     });
 };
@@ -482,6 +493,11 @@ export const ajaxPostProduct = async (req, res, next) => {
         req.flash('message_success', "Produit " + product.productName + " créé");
         res.status(201).redirect("/admin/category/" + category.categorySlug);
     } catch(error) {
+        if (error.errors){
+            req.flash('message_error', "ERREUR " + error);
+            res.status(500).redirect("/admin/create-product/"); 
+            return;           
+        }
         req.flash('message_error', "ERREUR " + error);
         res.status(500).redirect("/admin/products/");
     }
@@ -573,8 +589,13 @@ export const ajaxUpdateProduct = async (req, res, next) => {
         }
         req.flash('message_success', "Produit " + result.productName + " modifié ");
         res.status(200).redirect("/admin/product/" + id);
-    } catch(err) {
-        req.flash('message_error', "ERREUR " + err);
+    } catch(error) {
+        if (error.errors){
+            req.flash('message_error', "ERREUR " + error);
+            res.status(500).redirect("/admin/create-product/"); 
+            return;           
+        }
+        req.flash('message_error', "ERREUR " + error);
         res.status(500).redirect("/admin/products/");
     }
 };
@@ -646,8 +667,13 @@ export const ajaxUpdateCategory = async (req, res, next) => {
         }
         req.flash('message_success', "Catégorie " + result.categoryName + " modifiée ");
         res.status(200).redirect("/admin/category/" + categorySlug);
-    } catch(err) {
-        req.flash('message_error', "ERREUR " + err);
+    } catch(error) {
+        if (error.errors){
+            req.flash('message_error', "ERREUR " + error);
+            res.status(500).redirect("/admin/create-product/"); 
+            return;           
+        }        
+        req.flash('message_error', "ERREUR " + error);
         res.status(500).redirect("/admin/categories/");
     }
 };
