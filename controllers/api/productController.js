@@ -13,16 +13,44 @@ export const apiPostProduct = async (req, res, next) => {
     const productCategory = req.body.productCategory;
     try {
         //créer le produit en BDD
-        const product = await Product.create({
+        const productSchema = {
             productName: productName, 
             productPrice: productPrice,
             productDescription : productDescription,
             productCategory: productCategory,
-        });
+        }
+        const product = await Product.create(productSchema);
         //renvoyer les infos à la vue
         res.status(201).json({ product });
-    } catch(err) {
-        console.log(err);
+    } catch(error) {
+        // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
+        // if (error.errors) {//si on a des erreurs de validation Mongoose :
+        //     let customError = {}; //on créé un tableau vide
+        //     let fieldsInErrors = Object.keys(error.errors); // on récupère les champs qui sont en erreur
+            
+
+
+        //     //on parcours l'objet d'erreurs pour construire la réponse
+        //     (fieldsInErrors).forEach(currentField => {
+        //         // switch (error.errors[currentField].) {
+        //         //     case kind:
+                        
+        //         //         break;
+                        
+        //         //         default:
+        //         //             break;
+        //         // }
+                        
+                        
+        //         customError[currentField] = error.errors[currentField]['properties']['message']; //message pour le required
+        //         if (error.errors[currentField]['properties']['type'] == "unique") { // message pour l'unicité
+        //             customError[currentField] = 'Le champ ' + currentField + ' doit être unique, <' 
+        //                                         + error.errors[currentField]['properties']['value'] + '> existe déjà!';
+        //         }
+        //     });
+        //     error = customError;
+        // }
+        res.status(400).json({ error });
     }
 };
 
@@ -56,8 +84,26 @@ export const apiUpdateProduct = async (req, res, next) => {
         res.status(200).json({ 
             result
         });
-    } catch(err) {
-        res.status(404).json({ "ErrorMessage": err });
+    } catch(error) {
+        // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
+        // let customError = {}; //on créé un objet vide
+        // let fieldsInErrors = []; // on créé un tableau vide
+        // if (error.errors) {//si on a des erreurs de validation Mongoose :
+        //     fieldsInErrors = Object.keys(error.errors); // on récupère les champs qui sont en erreur
+        //     (fieldsInErrors).forEach(currentField => { //on parcours l'objet d'erreurs pour construire la réponse
+        //         customError[currentField] = error.errors[currentField]['properties']['message'];
+        //     });
+        //     error = customError;
+        // }
+        // if (error.codeName == "DuplicateKey") {//si on a des erreurs de validation Mongoose (duplication)
+        //     fieldsInErrors = Object.keys(error.keyValue); // on récupère les champs qui sont en erreur de duplication
+        //     (fieldsInErrors).forEach(currentField => {
+        //         customError[currentField] = 'Le champ ' + currentField + ' doit être unique, <' + error['keyValue'][currentField] + '> existe déjà!';
+        //     });
+        //     error = customError;
+        // }
+        res.status(400).json({ error });
+        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
     }
 };
 
@@ -106,7 +152,6 @@ export const apiDeleteProduct = async (req, res, next) => {
 
     try{
         const product = await Product.deleteOne({ "_id": id });
-        console.log(product);
 
         res.status(200).json({ "Message": "Produit supprimé." });
     } catch {
