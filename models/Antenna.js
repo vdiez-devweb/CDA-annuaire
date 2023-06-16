@@ -4,15 +4,15 @@ import uniqueValidator from "mongoose-unique-validator"; // pour permettre d'uti
 const { Schema } = mongoose; // on importe l'objet Schema de mongoose
 
 //on créé l'objet instance de Schema
-const categorySchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait pour nous
-    categoryName: {
+const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait pour nous
+    antennaName: {
         type: String,
         required: [true,'Vous devez saisir un nom de catégorie'],
         unique: [true,'Cette catégorie existe déjà, veuillez saisir un autre nom'],
         minLength:[5,'Le nom de la catégorie doit contenir au moins 5 caractères'],
         maxLength:[100,'Le nom de la catégorie doit contenir au maximum 100 caractères'],
     },
-    categorySlug: {
+    antennaSlug: {
         type: String,
         required: [true,'Vous devez saisir un raccourci pour les liens'],
         unique: [true,'Ce slug existe déjà, veuillez saisir un autre slug'],
@@ -26,17 +26,17 @@ const categorySchema = new Schema({    //on ne spécifie pas l'Id, mongoose le f
             }, message: 'Le slug ne doit contenir que des lettres entre a et z'
         } 
     },
-    categoryDescription: {
+    antennaDescription: {
         type: String,
         maxLength:[250,'La description du la catégorie doit contenir au maximum 250 caractères'],
         default:null
     },
-    categoryImg: { //true if an image exists with slug filename, false if not (then we use a default image)
+    antennaImg: { //true if an image exists with slug filename, false if not (then we use a default image)
         type: Boolean,
         required: [true,'Vous devez définir si une image existe ou non pour cette catégorie'],
         default:false
     },
-    categoryNbProducts: {
+    antennaNbProducts: {
         type:Number,
         required: [true,'Vous devez saisir un nombre de produits'],
         default:0
@@ -46,8 +46,8 @@ const categorySchema = new Schema({    //on ne spécifie pas l'Id, mongoose le f
     timestamps: { createdAt: 'createdAt' } 
 });
 
-categorySchema.plugin(uniqueValidator);
+antennaSchema.plugin(uniqueValidator);
 
-const Category = mongoose.model("Category", categorySchema); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
+const Antenna = mongoose.model("Antenna", antennaSchema); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
 
-export default Category;
+export default Antenna;

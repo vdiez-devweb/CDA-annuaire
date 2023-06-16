@@ -1,27 +1,27 @@
-import Product from "../../models/Product.js";
+import Session from "../../models/Session.js";
 
 /**
  * 
- * Create Product (requête post) in API  //!API
+ * Create Session (requête post) in API  //!API
  * 
 **/
-export const apiPostProduct = async (req, res, next) => {
-    // récupérer les infos du produit à créer via req.body
-    const productName = req.body.productName;
-    const productPrice = req.body.productPrice;
-    const productDescription = req.body.productDescription;
-    const productCategory = req.body.productCategory;
+export const apiPostSession = async (req, res, next) => {
+    // récupérer les infos de la session à créer via req.body
+    const sessionName = req.body.sessionName;
+    const sessionPrice = req.body.sessionPrice;
+    const sessionDescription = req.body.sessionDescription;
+    const sessionCategory = req.body.sessionCategory;
     try {
-        //créer le produit en BDD
-        const productSchema = {
-            productName: productName, 
-            productPrice: productPrice,
-            productDescription : productDescription,
-            productCategory: productCategory,
+        //créer la session en BDD
+        const sessionSchema = {
+            sessionName: sessionName, 
+            sessionPrice: sessionPrice,
+            sessionDescription : sessionDescription,
+            sessionCategory: sessionCategory,
         }
-        const product = await Product.create(productSchema);
+        const session = await Session.create(sessionSchema);
         //renvoyer les infos à la vue
-        res.status(201).json({ product });
+        res.status(201).json({ session });
     } catch(error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
         // if (error.errors) {//si on a des erreurs de validation Mongoose :
@@ -56,30 +56,30 @@ export const apiPostProduct = async (req, res, next) => {
 
 /**
  * 
- * Update Product (requête patch) in API //!API
+ * Update Session (requête patch) in API //!API
  * 
 **/
-export const apiUpdateProduct = async (req, res, next) => {
+export const apiUpdateSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
     const id = req.body.id;
-    const productName = req.body.productName;
-    const productPrice = req.body.productPrice;
-    const productDescription = req.body.productDescription;
-    const productCategory = req.body.productCategory;
+    const sessionName = req.body.sessionName;
+    const sessionPrice = req.body.sessionPrice;
+    const sessionDescription = req.body.sessionDescription;
+    const sessionCategory = req.body.sessionCategory;
     try{
-        const result = await Product.findByIdAndUpdate(
+        const result = await Session.findByIdAndUpdate(
             { "_id": id }, 
             { 
-                productName,
-                productPrice: productPrice,
-                productDescription : productDescription,
-                productCategory: productCategory,
+                sessionName,
+                sessionPrice: sessionPrice,
+                sessionDescription : sessionDescription,
+                sessionCategory: sessionCategory,
             }, 
             { new: true }
             //  (err, doc)
         );
         if (null == result) {
-            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, produit non trouvé" });
+            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, session non trouvée" });
         }
         res.status(200).json({ 
             result
@@ -109,53 +109,53 @@ export const apiUpdateProduct = async (req, res, next) => {
 
 /**
  * 
- * get a single Product in API  //!API
+ * get a single Session in API  //!API
  * 
 **/
-export const apiGetProduct = async (req, res, next) => {
+export const apiGetSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
+    const id = req.params.sessionId;
     try{
-        const product = await Product.findOne({ "_id": id });
-        if (null == product) {
-            res.status(404).json({ "message": "le produit n'existe pas" });
+        const session = await Session.findOne({ "_id": id });
+        if (null == session) {
+            res.status(404).json({ "message": "la session n'existe pas" });
         }
-        res.status(200).json({ product });
+        res.status(200).json({ session });
     } catch(err) {
         res.status(500).json({ "message": "serveur erreur" });
     }
-    // const apiProducts = await Product.find({});
+    // const apiSessions = await Session.find({});
  
 };
 
 /**
  * 
- * get all products in API  //!API
+ * get all sessions in API  //!API
  * 
 **/
-export const apiGetProducts = async (req, res, next) => {
-    const apiProducts = await Product.find();
-    if (0 == apiProducts.length) {
-        res.status(404).json( "Aucun produit n'est trouvé" );
+export const apiGetSessions = async (req, res, next) => {
+    const apiSessions = await Session.find();
+    if (0 == apiSessions.length) {
+        res.status(404).json( "Aucune session n'est trouvée" );
     }
-    res.status(200).json({ apiProducts });
+    res.status(200).json({ apiSessions });
  };
 
 /**
  * 
- * delete a single Product in API  //!API
+ * delete a single Session in API  //!API
  * 
 **/
-export const apiDeleteProduct = async (req, res, next) => {
+export const apiDeleteSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
+    const id = req.params.sessionId;
 
     try{
-        const product = await Product.deleteOne({ "_id": id });
+        const session = await Session.deleteOne({ "_id": id });
 
-        res.status(200).json({ "Message": "Produit supprimé." });
+        res.status(200).json({ "Message": "Session supprimée." });
     } catch {
-        res.status(404).json("Erreur : Produit introuvable.");
+        res.status(404).json("Erreur : Session introuvable.");
     }
 };
 

@@ -1,45 +1,45 @@
-import Category from "../models/Category.js";
-import Product from "../models/Product.js";
+import Antenna from "../models/Antenna.js";
+import Session from "../models/Session.js";
 
 /**
  * 
- * get a single category in webApp 
+ * get a single antenna in webApp 
  * 
 **/
-export const getCategory = async (req, res, next) => {
+export const getAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const categorySlug = req.params.categorySlug;
+    const antennaSlug = req.params.antennaSlug;
     try{
-        const category = await Category.findOne({ "categorySlug": categorySlug });
-        const products = await Product.find({"productCategory": category._id});
+        const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        const sessions = await Session.find({"productAntenna": antenna._id});
 
-        if (0 == category) {
-            res.status(404).render("category/getCategory", {
-                title: "Liste des produits par catégorie",
-                products: "",
-                category: "",
-                message: "Catégorie introuvable."
+        if (0 == antenna) {
+            res.status(404).render("antenna/getAntenna", {
+                title: "Liste des sessions par centre de formation",
+                sessions: "",
+                antenna: "",
+                message: "Centre introuvable."
             });
         }
-        if ("" == products) {
-            res.status(404).render("category/getCategory", {
-                title: "Liste des produits " + category.categoryName,
-                products: "",
-                category: category,
-                message: "Aucun produit trouvé."
+        if ("" == sessions) {
+            res.status(404).render("antenna/getAntenna", {
+                title: "Liste des sessions " + antenna.antennaName,
+                sessions: "",
+                antenna: antenna,
+                message: "Aucune session trouvé."
             });
         }
-        res.status(200).render("category/getCategory", {
-            title: "Liste des produits " + category.categoryName,
+        res.status(200).render("antenna/getAntenna", {
+            title: "Liste des sessions " + antenna.antennaName,
             message: "",
-            category: category,
-            products: products 
+            antenna: antenna,
+            sessions: sessions 
         });
     } catch(error) {
-        res.status(500).render("category/getCategory", {
-            title: "Liste des produits",
-            products: "",
-            category: "",
+        res.status(500).render("antenna/getAntenna", {
+            title: "Liste des sessions",
+            sessions: "",
+            antenna: "",
             message: error
         });
     }
@@ -48,50 +48,50 @@ export const getCategory = async (req, res, next) => {
 
 
 /**
- * TODO utilisé pour récupérer le nb de produit pour chaque catégorie ///////////////////:
- * get count of Products in a category in webApp  
+ * TODO utilisé pour récupérer le nb de session pour chaque centre de formation ///////////////////:
+ * get count of Sessions in a antenna in webApp  
  * 
 **/
-// export const getCountProductInCategory = async (category, compteur, res, next) => {
+// export const getCountSessionInAntenna = async (antenna, compteur, res, next) => {
 //     //? test 1 /////////////////////
-//     const count =  await Product.countDocuments({productCategory: category._id});
-//     console.log('mon compteur ' + category._id + " : " + count);
+//     const count =  await Session.countDocuments({productAntenna: antenna._id});
+//     console.log('mon compteur ' + antenna._id + " : " + count);
 //     // res.end(count);
 //     return count;   
 
 //     //? test 3 ///////////////////// (retirer le async sur la fonction)
 //     // return new Promise(resolve => {
 //     //     setTimeout(() => {
-//     //       resolve(Product.countDocuments({productCategory: category._id}));
+//     //       resolve(Session.countDocuments({productAntenna: antenna._id}));
 //     //     }, 2000);
 //     //   });
 // }
 
 /**
  * 
- * get all categories in webApp
+ * get all antennas in webApp
  * 
 **/
-export const getCategories = async (req, res, next) => {
+export const getAntennas = async (req, res, next) => {
     try{
-        const categories = await Category.find({});
+        const antennas = await Antenna.find({});
 
-        if (null == categories) {
-            res.status(404).render("category/getCategories", {
-                title: "Catégories de produits",
-                categories: "",
-                message: "Aucune catégorie enregistrée."
+        if (null == antennas) {
+            res.status(404).render("antenna/getAntennas", {
+                title: "Liste des centres de formation",
+                antennas: "",
+                message: "Aucun centre enregistré."
             });
         }
-        res.status(200).render("category/getCategories", {
-            title: "Catégories de produits",
-            categories:  categories,
+        res.status(200).render("antenna/getAntennas", {
+            title: "Liste des centres de formation",
+            antennas:  antennas,
             message: ""
         });
     } catch(error) {
-        res.status(500).render("category/getCategories", {
-            title: "Erreur Catégories de produits",
-            categories: "",
+        res.status(500).render("antenna/getAntennas", {
+            title: "Erreur Liste des centres de formation",
+            antennas: "",
             message: error
         });
     }

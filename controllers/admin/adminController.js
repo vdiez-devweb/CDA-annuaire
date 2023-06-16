@@ -1,16 +1,16 @@
-import Category from "../../models/Category.js";
-import Product from "../../models/Product.js";
+import Antenna from "../../models/Antenna.js";
+import Session from "../../models/Session.js";
 
 const prefixTitle = "Panneau d'administration - ";
 
-// function  getCategorySlugFromId (_id) {
-//     const category = Category.findOne({ "_id": _id });
-//     return category.categorySlug;
+// function  getAntennaSlugFromId (_id) {
+//     const antenna = Antenna.findOne({ "_id": _id });
+//     return antenna.antennaSlug;
 // }
 
-// function  getCategoryIdFromSlug (slug) {
-//     const category = Category.findOne({ "categorySlug": slug });
-//     return category._id;
+// function  getAntennaIdFromSlug (slug) {
+//     const antenna = Antenna.findOne({ "antennaSlug": slug });
+//     return antenna._id;
 // }
 
 /**
@@ -80,28 +80,28 @@ export const logout = (req, res, next) => {
 
 /**
  * 
- * get the list of all categories in admin dashboard (it's the homepage of the dashboard)
- * TODO proposer un affichage type dashboard avec le nb de catégories et de produits, nb de connexion etc.
+ * get the list of all antennas in admin dashboard (it's the homepage of the dashboard)
+ * TODO proposer un affichage type dashboard avec le nb de centres de formation et de sessions, nb de connexion etc.
  * 
 **/
 export const dashboard = async (req, res, next) => {
-    const categories = await Category.find({});
+    const antennas = await Antenna.find({});
 
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
-    if (0 == categories) {
+    if (0 == antennas) {
         res.status(404).render("admin/dashboard", {
-            title: prefixTitle + "Catégories",
-            categories: "",
+            title: prefixTitle + "Centres de formation",
+            antennas: "",
             msg_success,
             msg_error,
-            message: "Aucune catégorie répertoriée."
+            message: "Aucun centre de formation répertorié."
         });
     }
     res.status(200).render("admin/dashboard", {
-        title: prefixTitle + "Catégories",
-        categories: categories,
+        title: prefixTitle + "Centres de formation",
+        antennas: antennas,
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
         msg_success,
@@ -112,27 +112,27 @@ export const dashboard = async (req, res, next) => {
 
 /**
  * 
- * get the list of all categories in admin dashboard (it's the homepage of the dashboard)
+ * get the list of all antennas in admin dashboard (it's the homepage of the dashboard)
  * 
 **/
-export const getCategories = async (req, res, next) => {
-    const categories = await Category.find({});
+export const getAntennas = async (req, res, next) => {
+    const antennas = await Antenna.find({});
 
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
-    if (0 == categories) {
-        res.status(404).render("admin/getCategories", {
-            title: prefixTitle + "Catégories",
-            categories: "",
+    if (0 == antennas) {
+        res.status(404).render("admin/getAntennas", {
+            title: prefixTitle + "Centres de formation",
+            antennas: "",
             msg_success,
             msg_error,
-            message: "Aucune catégorie répertoriée."
+            message: "Aucun centre de formation répertorié."
         });
     }
-    res.status(200).render("admin/getCategories", {
-        title: prefixTitle + "Catégories",
-        categories: categories,
+    res.status(200).render("admin/getAntennas", {
+        title: prefixTitle + "Centres de formation",
+        antennas: antennas,
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
         msg_success,
@@ -143,48 +143,48 @@ export const getCategories = async (req, res, next) => {
 
 /**
  * 
- * get a single category with his list of products in admin dashboard 
+ * get a single antenna with his list of sessions in admin dashboard 
  * 
 **/
-export const getCategory = async (req, res, next) => {
+export const getAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const categorySlug = req.params.categorySlug;
+    const antennaSlug = req.params.antennaSlug;
 
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
     try{
-        const category = await Category.findOne({ "categorySlug": categorySlug });
-        const products = await Product.find({"productCategory": category._id});
+        const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        const sessions = await Session.find({"sessionAntenna": antenna._id});
 
-        if (0 == category) {
-            res.status(404).render("admin/getCategory", {
-                title: prefixTitle + "Liste des produits par catégorie",
-                products: "",
-                category: "",
+        if (0 == antenna) {
+            res.status(404).render("admin/getAntenna", {
+                title: prefixTitle + "Liste des sessions par centre de formation",
+                sessions: "",
+                antenna: "",
                 message_success: req.flash('message_success'),
                 message_error: req.flash('message_error'),
                 msg_success,
                 msg_error,
-                message: "Catégorie introuvable."
+                message: "Centre de formation introuvable."
             });
         }
-        if ("" == products) {
-            res.status(200).render("admin/getCategory", {
-                title: prefixTitle + "Liste des produits " + category.categoryName,
-                products: "",
-                category: category,
+        if ("" == sessions) {
+            res.status(200).render("admin/getAntenna", {
+                title: prefixTitle + "Liste des sessions " + antenna.antennaName,
+                sessions: "",
+                antenna: antenna,
                 message_success: req.flash('message_success'),
                 message_error: req.flash('message_error'),
                 msg_success,
                 msg_error,
-                message: "Aucun produit dans cette catégorie."
+                message: "Aucune session dans ce centre de formation."
             });
         }
-        res.status(200).render("admin/getCategory", {
-            title: prefixTitle + "Liste des produits " + category.categoryName,
-            category: category,
-            products: products,
+        res.status(200).render("admin/getAntenna", {
+            title: prefixTitle + "Liste des sessions " + antenna.antennaName,
+            antenna: antenna,
+            sessions: sessions,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -193,10 +193,10 @@ export const getCategory = async (req, res, next) => {
         });
     } catch(error) {
         req.flash('message_error', error);
-        res.status(500).render("admin/getCategory", {
-            title: prefixTitle + "Liste des produits",
-            products: "",
-            category: "",
+        res.status(500).render("admin/getAntenna", {
+            title: prefixTitle + "Liste des sessions",
+            sessions: "",
+            antenna: "",
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -208,53 +208,53 @@ export const getCategory = async (req, res, next) => {
 
 /**
  * 
- * render form to create Category (requête post) in admin dashboard 
+ * render form to create Antenna (requête post) in admin dashboard 
  * 
 **/
-export const postCategory = (req, res, next) => {   
-    res.status(200).render("admin/createCategory", {
-        title: prefixTitle + "Création de catégorie ",
-        category: "",
+export const postAntenna = (req, res, next) => {   
+    res.status(200).render("admin/createAntenna", {
+        title: prefixTitle + "Création de centre de formation ",
+        antenna: "",
         message: ""
     });
 };
 
 /**
  * 
- * Create Category (requête post) in admin dashboard 
+ * Create Antenna (requête post) in admin dashboard 
  * 
 **/
-export const ajaxPostCategory = async (req, res, next) => {
-    // envoyer le nom de la catégorie via req.body
-    const categoryName = req.body.categoryName;
-    const categoryDescription = req.body.categoryDescription;
-    const categorySlug = req.body.categorySlug;
-    const categoryImg = req.body.categoryImg ? req.body.categoryImg : false;
+export const ajaxPostAntenna = async (req, res, next) => {
+    // envoyer le nom du centre de formation via req.body
+    const antennaName = req.body.antennaName;
+    const antennaDescription = req.body.antennaDescription;
+    const antennaSlug = req.body.antennaSlug;
+    const antennaImg = req.body.antennaImg ? req.body.antennaImg : false;
 
     try{
-        // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
-        const category = await Category.create({
-            // categoryName: categoryName,
-            categoryName, // si la clé = valeur, on ne répète pas
-            categoryDescription,
-            categorySlug,
-            categoryImg
+        // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
+        const antenna = await Antenna.create({
+            // antennaName: antennaName,
+            antennaName, // si la clé = valeur, on ne répète pas
+            antennaDescription,
+            antennaSlug,
+            antennaImg
         });
-        req.flash('message_success', "Catégorie " + category.categoryName + " créée");
-        res.status(201).redirect("/admin/category/" + category.categorySlug);
+        req.flash('message_success', "Centre de formation " + antenna.antennaName + " créé");
+        res.status(201).redirect("/admin/antenna/" + antenna.antennaSlug);
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            res.status(500).redirect("/admin/create-product/"); 
+            res.status(500).redirect("/admin/create-session/"); 
             return;           
         }
         req.flash('message_error', "ERREUR " + error);
         //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
-        res.status(500).redirect("/admin/categories");
-        // res.status(500).render("admin/getCategory", {
-        //     title: prefixTitle + "Création d'une catégorie",
-        //     products: "",
-        //     category: "",
+        res.status(500).redirect("/admin/antennas");
+        // res.status(500).render("admin/getAntenna", {
+        //     title: prefixTitle + "Création d'un centre de formation",
+        //     sessions: "",
+        //     antenna: "",
         //     flashMessage:"",
         //     message: error
         // });
@@ -263,60 +263,60 @@ export const ajaxPostCategory = async (req, res, next) => {
 
 /**
  * 
- * delete a single category in admin dashboard 
+ * delete a single antenna in admin dashboard 
  * 
 **/
-// TODO supprimer plusieurs catégories en 1 seule fois avec des checkbox
-export const deleteCategory = async (req, res, next) => {
-    const categorySlug = req.params.categorySlug;
+// TODO supprimer plusieurs centres de formation en 1 seule fois avec des checkbox
+export const deleteAntenna = async (req, res, next) => {
+    const antennaSlug = req.params.antennaSlug;
  
     try{
-        const category = await Category.findOne({ "categorySlug": categorySlug });
-        const categoryName = category.categoryName;
+        const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        const antennaName = antenna.antennaName;
 
-        if (0 == category) {
-            req.flash('message_error', "erreur, catégorie introuvable.");
-            res.status(404).redirect("/admin/categories");
+        if (0 == antenna) {
+            req.flash('message_error', "erreur, centre de formation introuvable.");
+            res.status(404).redirect("/admin/antennas");
         }
-        if (0 != category.categoryNbProducts) {
-            req.flash('message_error', "Impossible de supprimer cette catégorie car elle contient des produits."),
-            res.status(400).redirect("/admin/category/" + category.categorySlug);
+        if (0 != antenna.antennaNbSessions) {
+            req.flash('message_error', "Impossible de supprimer ce centre de formation car il contient des sessions."),
+            res.status(400).redirect("/admin/antenna/" + antenna.antennaSlug);
         } else {
-            const result = await Category.findByIdAndDelete({ "_id": category._id  });
-            req.flash('message_success', "Catégorie " + categoryName + " supprimée");
-            res.status(200).redirect("/admin/categories");
+            const result = await Antenna.findByIdAndDelete({ "_id": antenna._id  });
+            req.flash('message_success', "Centre de formation " + antennaName + " supprimé");
+            res.status(200).redirect("/admin/antennas");
         }
       } catch(error) {
         req.flash('message_error', error);
-        res.status(500).redirect("/admin/categories");
+        res.status(500).redirect("/admin/antennas");
     }
 };
 
 /**
  * 
- * get the list of all products in admin dashboard 
+ * get the list of all sessions in admin dashboard 
  * 
 **/
-export const getProducts = async (req, res, next) => {
+export const getSessions = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try{
-        const products = await Product.find({}).populate("productCategory");
+        const sessions = await Session.find({}).populate("sessionAntenna");
 
-        if (0 == products.length) {
-            res.status(404).render("admin/getProducts", {
-                title: prefixTitle + "Liste des produits",
-                products: "",
+        if (0 == sessions.length) {
+            res.status(404).render("admin/getSessions", {
+                title: prefixTitle + "Liste des sessions",
+                sessions: "",
                 message_success: req.flash('message_success'),
                 message_error: req.flash('message_error'),
                 msg_success,
                 msg_error,
-                message: "Aucun produit trouvé."
+                message: "Aucune session trouvée."
             });
         }
-        res.status(200).render("admin/getProducts", {
-            title: prefixTitle + "Liste des produits",
-            products: products,
+        res.status(200).render("admin/getSessions", {
+            title: prefixTitle + "Liste des sessions",
+            sessions: sessions,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -324,9 +324,9 @@ export const getProducts = async (req, res, next) => {
             message: "",
         });
     } catch(error) {
-        res.status(500).render("admin/getProducts", {
-            title: prefixTitle + "Liste des produits",
-            products: "",
+        res.status(500).render("admin/getSessions", {
+            title: prefixTitle + "Liste des sessions",
+            sessions: "",
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -338,31 +338,31 @@ export const getProducts = async (req, res, next) => {
 
 /**
  * 
- * get a single Product in admin dashboard 
+ * get a single Session in admin dashboard 
  * 
 **/
-export const getProduct = async (req, res, next) => {
+export const getSession = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
 
-    const id = req.params.productId;
-    try{ //je récupère les infos de la catégorie par .populate
-        const product = await Product.findOne({ "_id": id }).populate("productCategory");
-        if (null == product) {
-            res.status(404).render("admin/getProduct", {
-                title: "Erreur Fiche produit",
-                product: "",
+    const id = req.params.sessionId;
+    try{ //je récupère les infos du centre de formation par .populate
+        const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
+        if (null == session) {
+            res.status(404).render("admin/getSession", {
+                title: "Erreur Fiche session",
+                session: "",
                 message_success: req.flash('message_success'),
                 message_error: req.flash('message_error'),
                 msg_success,
                 msg_error,                
-                message: "Erreur : produit introuvable."
+                message: "Erreur : session introuvable."
             });
         }
-        res.status(200).render("admin/getProduct", {
-            title: "Fiche Produit " + product.productName,
-            product: product,
+        res.status(200).render("admin/getSession", {
+            title: "Fiche Session " + session.sessionName,
+            session: session,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -370,9 +370,9 @@ export const getProduct = async (req, res, next) => {
             message: ""
         });
     } catch {
-        res.status(404).render("admin/getProduct", {
-            title: "Erreur Fiche produit",
-            product: "",
+        res.status(404).render("admin/getSession", {
+            title: "Erreur Fiche session",
+            session: "",
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
@@ -384,76 +384,76 @@ export const getProduct = async (req, res, next) => {
     
 /**
  * 
- * delete a single category in admin dashboard 
+ * delete a single antenna in admin dashboard 
  * 
 **/
-// TODO supprimer plusieurs produits en 1 seule fois avec des checkbox
-export const deleteProduct = async (req, res, next) => {
-    const productId = req.params.productId;
-    const categorySlug = req.params.categorySlug;
+// TODO supprimer plusieurs sessions en 1 seule fois avec des checkbox
+export const deleteSession = async (req, res, next) => {
+    const sessionId = req.params.sessionId;
+    const antennaSlug = req.params.antennaSlug;
 
     try{
-        const product = await Product.findByIdAndDelete({ "_id": productId });
-        if (null != product) {
-            const category = await Category.findByIdAndUpdate(
-                { "_id": product.productCategory }, 
-                { $inc: { categoryNbProducts: -1 } }, 
+        const session = await Session.findByIdAndDelete({ "_id": sessionId });
+        if (null != session) {
+            const antenna = await Antenna.findByIdAndUpdate(
+                { "_id": session.sessionAntenna }, 
+                { $inc: { antennaNbSessions: -1 } }, 
                 { new: true }
                 //  (err, doc)
             );
 
-            req.flash('message_success', "Produit " + product.productName + " supprimé.");
-            if (categorySlug) {
-                res.status(200).redirect("/admin/category/" + categorySlug);
+            req.flash('message_success', "La session " + session.sessionName + " supprimée.");
+            if (antennaSlug) {
+                res.status(200).redirect("/admin/antenna/" + antennaSlug);
             } else {
-                res.status(200).redirect("/admin/products/");
+                res.status(200).redirect("/admin/sessions/");
             }
         } else {
-            req.flash('message_error', "ERREUR produit introuvable.");
-            if (categorySlug) {
-                res.status(500).redirect("/admin/category/" + categorySlug);
+            req.flash('message_error', "ERREUR session introuvable.");
+            if (antennaSlug) {
+                res.status(500).redirect("/admin/antenna/" + antennaSlug);
             } else {
-                res.status(500).redirect("/admin/products/");
+                res.status(500).redirect("/admin/sessions/");
             }
         }
       } catch(error) {
         req.flash('message_error', "ERREUR " + error);
-        if (categorySlug) {
-            res.status(500).redirect("/admin/category/" + categorySlug);
+        if (antennaSlug) {
+            res.status(500).redirect("/admin/antenna/" + antennaSlug);
         } else {
-            res.status(500).redirect("/admin/products/");
+            res.status(500).redirect("/admin/sessions/");
         }
     }
 };
 
 /**
  * 
- * render form to create Product (requête post) in admin dashboard 
+ * render form to create Session (requête post) in admin dashboard 
  * 
 **/
-export const postProduct = async(req, res, next) => {
-    const categorySlug = req.params.categorySlug;
-    let categorySelected = null;
+export const postSession = async(req, res, next) => {
+    const antennaSlug = req.params.antennaSlug;
+    let antennaSelected = null;
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
-    if (categorySlug != null) {
-        categorySelected = await Category.findOne({ "categorySlug": categorySlug });
-        if (categorySelected) categorySelected = categorySelected._id.toString()
+    if (antennaSlug != null) {
+        antennaSelected = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        if (antennaSelected) antennaSelected = antennaSelected._id.toString()
     } 
-    const categories = await Category.find({});
+    const antennas = await Antenna.find({});
 
-    if (0 == categories) {
-        res.status(404).render("admin/createProduct", {
-            title: prefixTitle + " Création de produit",
-            categories: "",
-            categorySelected: categorySelected,
-            message: "Aucune catégorie répertoriée, vous devez créer une catégorie avant de pouvoir ajouter un produit."
+    if (0 == antennas) {
+        res.status(404).render("admin/createSession", {
+            title: prefixTitle + " Création de session",
+            antennas: "",
+            antennaSelected: antennaSelected,
+            message: "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session."
         });
     }
-    res.status(200).render("admin/createProduct", {
-        title: prefixTitle + " Création de produit",
-        categories: categories,
-        categorySelected: categorySelected,
+    res.status(200).render("admin/createSession", {
+        title: prefixTitle + " Création de session",
+        antennas: antennas,
+        antennaSelected: antennaSelected,
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
         msg_success,
@@ -464,97 +464,97 @@ export const postProduct = async(req, res, next) => {
 
 /**
  * 
- * Create Product (requête post) in admin dashboard 
+ * Create Session (requête post) in admin dashboard 
  * 
 **/
-export const ajaxPostProduct = async (req, res, next) => {
-    // envoyer le nom de la catégorie via req.body
-    const productName = req.body.productName;
-    const productDescription = req.body.productDescription;
-    const productPrice = req.body.productPrice;
-    const productCategoryId = req.body.productCategoryId;
+export const ajaxPostSession = async (req, res, next) => {
+    // envoyer le nom du centre de formation via req.body
+    const sessionName = req.body.sessionName;
+    const sessionDescription = req.body.sessionDescription;
+    const sessionPrice = req.body.sessionPrice;
+    const sessionAntennaId = req.body.sessionAntennaId;
     
     try{
-        // on créé un nouveau produit avec mongoose (Product est un objet Schema de mongoose déclaré dans le model)
-        const product = await Product.create({
-            productName, // si la clé = valeur, on ne répète pas
-            productDescription,
-            productPrice, 
-            productCategory: productCategoryId
+        // on créé une nouvelle session avec mongoose (Session est un objet Schema de mongoose déclaré dans le model)
+        const session = await Session.create({
+            sessionName, // si la clé = valeur, on ne répète pas
+            sessionDescription,
+            sessionPrice, 
+            sessionAntenna: sessionAntennaId
         });
 
-        //const category = await Category.findOne({ "_id": productCategoryId });
-        const category = await Category.findByIdAndUpdate(
-            { "_id": productCategoryId }, 
-            { $inc: { categoryNbProducts: 1 } }, 
+        //const antenna = await Antenna.findOne({ "_id": sessionAntennaId });
+        const antenna = await Antenna.findByIdAndUpdate(
+            { "_id": sessionAntennaId }, 
+            { $inc: { antennaNbSessions: 1 } }, 
             { new: true }
             //  (err, doc)
         );
-        req.flash('message_success', "Produit " + product.productName + " créé");
-        res.status(201).redirect("/admin/category/" + category.categorySlug);
+        req.flash('message_success', "Session " + session.sessionName + " créée");
+        res.status(201).redirect("/admin/antenna/" + antenna.antennaSlug);
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            res.status(500).redirect("/admin/create-product/"); 
+            res.status(500).redirect("/admin/create-session/"); 
             return;           
         }
         req.flash('message_error', "ERREUR " + error);
-        res.status(500).redirect("/admin/products/");
+        res.status(500).redirect("/admin/sessions/");
     }
 };
 
 /**
  * 
- * render form to update Product (requête patch) in admin dashboard 
+ * render form to update Session (requête patch) in admin dashboard 
  * 
 **/
-export const updateProduct = async(req, res, next) => {
+export const updateSession = async(req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
+    const id = req.params.sessionId;
     try{ 
     
-        const product = await Product.findOne({ "_id": id }).populate("productCategory");
+        const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
 
-        const categorySlug = product.productCategory.categorySlug;
-        let categorySelected = product.productCategory._id.toString();
+        const antennaSlug = session.sessionAntenna.antennaSlug;
+        let antennaSelected = session.sessionAntenna._id.toString();
 
-        // if (categorySlug != null) {
-        //     categorySelected = await Category.findOne({ "categorySlug": categorySlug });
-        //     if (categorySelected) categorySelected = categorySelected._id.toString()
+        // if (antennaSlug != null) {
+        //     antennaSelected = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        //     if (antennaSelected) antennaSelected = antennaSelected._id.toString()
         // }     
 
-        const categories = await Category.find({});
+        const antennas = await Antenna.find({});
 
-        if (null == product) {
-            res.status(404).render("admin/getProducts", {
-                title: "Erreur modification produit",
-                product: "",
-                categories: "",
-                categorySelected: categorySelected,
-                message: "Erreur : produit introuvable."
+        if (null == session) {
+            res.status(404).render("admin/getSessions", {
+                title: "Erreur modification session",
+                session: "",
+                antennas: "",
+                antennaSelected: antennaSelected,
+                message: "Erreur : session introuvable."
             });
         }
-        if (0 == categories) {
-            res.status(404).render("admin/updateProduct", {
-                title: prefixTitle + " Modifier un produit",
-                categories: "",
-                categorySelected: categorySelected,
-                message: "Erreur : Aucune catégorie répertoriée."
+        if (0 == antennas) {
+            res.status(404).render("admin/updateSession", {
+                title: prefixTitle + " Modifier un session",
+                antennas: "",
+                antennaSelected: antennaSelected,
+                message: "Erreur : Aucun centre de formation répertorié."
             });
         }
-        res.status(200).render("admin/updateProduct", {
-            title: "Modifier Produit " + product.productName,
-            categories: categories,
-            categorySelected: categorySelected,
-            product: product,
+        res.status(200).render("admin/updateSession", {
+            title: "Modifier la session " + session.sessionName,
+            antennas: antennas,
+            antennaSelected: antennaSelected,
+            session: session,
             message: ""
         });
     } catch {
-        res.status(404).render("admin/getProducts", {
-            title: "Erreur modification produit",
-            categories: "",
-            categorySelected: categorySelected,
-            product: "",
+        res.status(404).render("admin/getSessions", {
+            title: "Erreur modification session",
+            antennas: "",
+            antennaSelected: antennaSelected,
+            session: "",
             message: "Erreur serveur."
         });
     }
@@ -562,75 +562,75 @@ export const updateProduct = async(req, res, next) => {
 
 /**
  * 
- * Update Product (requête patch) in admin dashboard 
+ * Update Session (requête patch) in admin dashboard 
  * 
 **/
-export const ajaxUpdateProduct = async (req, res, next) => {
+export const ajaxUpdateSession = async (req, res, next) => {
      //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
-     const id = req.params.productId;
-     const productName = req.body.productName;
-     const productDescription = req.body.productDescription;
-     const productPrice = req.body.productPrice;
-     const productCategoryId = req.body.productCategoryId;
+     const id = req.params.sessionId;
+     const sessionName = req.body.sessionName;
+     const sessionDescription = req.body.sessionDescription;
+     const sessionPrice = req.body.sessionPrice;
+     const sessionAntennaId = req.body.sessionAntennaId;
     try{
-        const result = await Product.findByIdAndUpdate(
+        const result = await Session.findByIdAndUpdate(
         { "_id": id }, 
         { 
-            productName,
-            productPrice: productPrice,
-            productDescription : productDescription,
-            productCategoryId: productCategoryId,
+            sessionName,
+            sessionPrice: sessionPrice,
+            sessionDescription : sessionDescription,
+            sessionAntennaId: sessionAntennaId,
         }, 
         { new: true }
         //  (err, doc)
         );
         if (null == result) {
-            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, produit non trouvé" });
+            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, session non trouvée" });
         }
-        req.flash('message_success', "Produit " + result.productName + " modifié ");
-        res.status(200).redirect("/admin/product/" + id);
+        req.flash('message_success', "Session " + result.sessionName + " modifiée");
+        res.status(200).redirect("/admin/session/" + id);
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            res.status(500).redirect("/admin/create-product/"); 
+            res.status(500).redirect("/admin/create-session/"); 
             return;           
         }
         req.flash('message_error', "ERREUR " + error);
-        res.status(500).redirect("/admin/products/");
+        res.status(500).redirect("/admin/sessions/");
     }
 };
 
 /**
  * 
- * render form to update Product (requête patch) in admin dashboard 
+ * render form to update Session (requête patch) in admin dashboard 
  * 
 **/
-export const updateCategory = async(req, res, next) => {
+export const updateAntenna = async(req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const categorySlug = req.params.categorySlug;
+    const antennaSlug = req.params.antennaSlug;
     try{ 
     
-        const category = await Category.findOne({ "categorySlug": categorySlug });
-        // pour éventuellement mettre à jour le compteur de produits de la catégorie avec le nombre réel de produits enregistré dans la base
-        const count =  await Product.countDocuments({productCategory: category._id});
+        const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
+        // pour éventuellement mettre à jour le compteur de sessions du centre de formation avec le nombre réel de sessions enregistrées dans la base
+        const count =  await Session.countDocuments({sessionAntenna: antenna._id});
 
-        if (null == category) {
-            res.status(404).render("admin/getCategories", {
-                title: "Erreur modification catégorie",
-                category: "",
-                message: "Erreur : Catégorie introuvable."
+        if (null == antenna) {
+            res.status(404).render("admin/getAntennas", {
+                title: "Erreur modification centre de formation",
+                antenna: "",
+                message: "Erreur : Centre de formation introuvable."
             });
         }
-        res.status(200).render("admin/updateCategory", {
-            title: "Modifier catégorie " + category.categoryName,
-            category: category,
-            nbProductsInBDD: count,
+        res.status(200).render("admin/updateAntenna", {
+            title: "Modifier le centre de formation " + antenna.antennaName,
+            antenna: antenna,
+            nbSessionsInBDD: count,
             message: ""
         });
     } catch {
-        res.status(404).render("admin/getCategories", {
-            title: "Erreur modification catégorie",
-            category: "",
+        res.status(404).render("admin/getAntennas", {
+            title: "Erreur modification centre de formation",
+            antenna: "",
             message: "Erreur serveur."
         });
     }
@@ -638,68 +638,68 @@ export const updateCategory = async(req, res, next) => {
 
 /**
  * 
- * Update Product (requête patch) in admin dashboard 
+ * Update Session (requête patch) in admin dashboard 
  * 
 **/
-export const ajaxUpdateCategory = async (req, res, next) => {
+export const ajaxUpdateAntenna = async (req, res, next) => {
      //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
      const id = req.body.id;
-     const categorySlug = req.body.categorySlug;
-     const categoryName = req.body.categoryName;
-     const categoryDescription = req.body.categoryDescription;
-     const categoryImg = req.body.categoryImg;
-     const categoryNbProducts = req.body.categoryNbProducts;
+     const antennaSlug = req.body.antennaSlug;
+     const antennaName = req.body.antennaName;
+     const antennaDescription = req.body.antennaDescription;
+     const antennaImg = req.body.antennaImg;
+     const antennaNbSessions = req.body.antennaNbSessions;
     try{
-        const result = await Category.findByIdAndUpdate(
+        const result = await Antenna.findByIdAndUpdate(
         { "_id": id }, 
         { 
-            categoryName,
-            categorySlug :categorySlug,
-            categoryDescription : categoryDescription,
-            categoryImg: categoryImg,
-            categoryNbProducts: categoryNbProducts,
+            antennaName,
+            antennaSlug :antennaSlug,
+            antennaDescription : antennaDescription,
+            antennaImg: antennaImg,
+            antennaNbSessions: antennaNbSessions,
         }, 
         { new: true }
         //  (err, doc)
         );
         if (null == result) {
-            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
         }
-        req.flash('message_success', "Catégorie " + result.categoryName + " modifiée ");
-        res.status(200).redirect("/admin/category/" + categorySlug);
+        req.flash('message_success', "Centre de formation " + result.antennaName + " modifié");
+        res.status(200).redirect("/admin/antenna/" + antennaSlug);
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            res.status(500).redirect("/admin/create-product/"); 
+            res.status(500).redirect("/admin/create-session/"); 
             return;           
         }        
         req.flash('message_error', "ERREUR " + error);
-        res.status(500).redirect("/admin/categories/");
+        res.status(500).redirect("/admin/antennas/");
     }
 };
 
 /**
  * 
- * Update number of Product in a category in admin dashboard 
+ * Update number of Session in a antenna in admin dashboard 
  * 
 **/
-export const ajaxUpdateNbProductsInCategory = async (req, res, next) => {
-    const id = req.params.categoryId;
-    const categoryNbProducts =  await Product.countDocuments({productCategory: id});
+export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
+    const id = req.params.antennaId;
+    const antennaNbSessions =  await Session.countDocuments({sessionAntenna: id});
     
    try{
-       const result = await Category.findByIdAndUpdate(
+       const result = await Antenna.findByIdAndUpdate(
        { "_id": id }, 
        { 
-           categoryNbProducts: categoryNbProducts,
+           antennaNbSessions: antennaNbSessions,
        }, 
        { new: true }
        //  (err, doc)
        );
        if (null == result) {
-           res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+           res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
        }
-       req.flash('message_success', "le compteur de produits de la catégorie " + result.categoryName + " a été rafraîchi ");
+       req.flash('message_success', "le compteur de sessions du centre de formation " + result.antennaName + " a été rafraîchi ");
        res.status(200).redirect(req.get('Referrer'));
    } catch(err) {
        req.flash('message_error', "ERREUR " + err);

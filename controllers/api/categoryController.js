@@ -1,62 +1,62 @@
-import Category from "../../models/Category.js";
+import Antenna from "../../models/Antenna.js";
 
 /**
  * 
- * get all categories in API  //!API
+ * get all antennas in API  //!API
  * 
 **/
-export const apiGetCategories = async (req, res, next) => {
-    const apiCategories = await Category.find({});
-    if (null == apiCategories) {
-        res.status(404).json({ "message": "Aucune catégorie n'est trouvée" });
+export const apiGetAntennas = async (req, res, next) => {
+    const apiAntennas = await Antenna.find({});
+    if (null == apiAntennas) {
+        res.status(404).json({ "message": "Aucun centre de formation n'est trouvé" });
     }
-    res.status(200).json({ apiCategories });
+    res.status(200).json({ apiAntennas });
  };
 
 /**
  * 
- * delete a single category in API //!API
+ * delete a single antenna in API //!API
  * 
 **/
-export const apiDeleteCategory = async (req, res, next) => {
+export const apiDeleteAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.categoryId;
+    const id = req.params.antennaId;
 
     try{
-        const category = await Category.deleteOne({ "_id": id });
-        //console.log(category);
+        const antenna = await Antenna.deleteOne({ "_id": id });
+        //console.log(antenna);
 
-        res.status(200).json({ "Message": "catégorie supprimée." });
+        res.status(200).json({ "Message": "centre de formation supprimé." });
     } catch {
-        res.status(404).json("Erreur : catégorie introuvable.");
+        res.status(404).json("Erreur : centre de formation introuvable.");
     }
 };
 
 /**
  * 
- * Create Category (requête post) in API //!API
+ * Create Antenna (requête post) in API //!API
  * 
 **/
-export const apiPostCategory = async (req, res, next) => {
-    // envoyer le nom de la catégorie via req.body
-    const categoryName = req.body.categoryName;
-    const categoryDescription = req.body.categoryDescription;
-    const categorySlug = req.body.categorySlug;
-    const categoryImg = req.body.categoryImg ? req.body.categoryImg : false;
+export const apiPostAntenna = async (req, res, next) => {
+    // envoyer le nom du centre de formation via req.body
+    const antennaName = req.body.antennaName;
+    const antennaDescription = req.body.antennaDescription;
+    const antennaSlug = req.body.antennaSlug;
+    const antennaImg = req.body.antennaImg ? req.body.antennaImg : false;
 
-    // on créé une nouvelle catégorie avec mongoose (Category est un objet Schema de mongoose déclaré dans le model)
+    // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
     try{
-        const category = await Category.create({
-            // categoryName: categoryName,
-            categoryName, // si la clé = valeur, on ne répète pas
-            categoryDescription,
-            categorySlug,
-            categoryImg 
+        const antenna = await Antenna.create({
+            // antennaName: antennaName,
+            antennaName, // si la clé = valeur, on ne répète pas
+            antennaDescription,
+            antennaSlug,
+            antennaImg 
         });
-        // console.log(category);
-        // res.status(201).redirect("/categories");
-        // res.status(201).send("category created : ", category);
-        res.status(201).json({ category });
+        // console.log(antenna);
+        // res.status(201).redirect("/antennas");
+        // res.status(201).send("antenna created : ", antenna);
+        res.status(201).json({ antenna });
     } catch (error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
         // if (error.errors) {//si on a des erreurs de validation Mongoose :
@@ -78,26 +78,26 @@ export const apiPostCategory = async (req, res, next) => {
 
 /**
  * 
- * Update Category (requête patch) in API //!API
+ * Update Antenna (requête patch) in API //!API
  * 
 **/
-export const apiUpdateCategory = async (req, res, next) => {
+export const apiUpdateAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
     const id = req.body.id;
-    const categoryName = req.body.categoryName;
-    const categoryDescription = req.body.categoryDescription;
-    const categorySlug = req.body.categorySlug;
-    const categoryImg = req.body.categoryImg;
+    const antennaName = req.body.antennaName;
+    const antennaDescription = req.body.antennaDescription;
+    const antennaSlug = req.body.antennaSlug;
+    const antennaImg = req.body.antennaImg;
     try {
-        const result = await Category.findByIdAndUpdate(
+        const result = await Antenna.findByIdAndUpdate(
             { 
                 "_id": id 
             }, 
             { 
-                categoryName,
-                categoryDescription,
-                categorySlug,
-                categoryImg 
+                antennaName,
+                antennaDescription,
+                antennaSlug,
+                antennaImg 
             }, 
             { new: true }
             //  (err, doc)
@@ -124,28 +124,28 @@ export const apiUpdateCategory = async (req, res, next) => {
         //     });
         //     // res.status(400).json({ customError });
         // }
-        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, catégorie non trouvée" });
+        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
         res.status(400).json({ error });
     }
 };
 
 /**
  * 
- * get a single category in API //!API 
+ * get a single antenna in API //!API 
  * 
 **/
-export const apiGetCategory = async (req, res, next) => {
+export const apiGetAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.categoryId;
+    const id = req.params.antennaId;
     try{
-        const category = await Category.findOne({ "_id": id });
-        if (null == category) {
-            res.status(404).json({ "message": "la catégorie n'existe pas" });
+        const antenna = await Antenna.findOne({ "_id": id });
+        if (null == antenna) {
+            res.status(404).json({ "message": "le centre de formation n'existe pas" });
         }
-        res.status(200).json({ category });
+        res.status(200).json({ antenna });
     } catch(err) {
         res.status(500).json({ "message": "serveur erreur" });
     }
-    // const apiCategories = await Category.find({});
+    // const apiAntennas = await Antenna.find({});
 };
 

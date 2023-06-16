@@ -1,31 +1,31 @@
-import Product from "../models/Product.js";
+import Session from "../models/Session.js";
 
 /**
  * 
- * get a single Product in webApp 
+ * get a single Session in webApp 
  * 
 **/
-export const getProduct = async (req, res, next) => {
+export const getSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
-    const id = req.params.productId;
-    try{ //je récupère les infos de la catégorie par .populate
-        const product = await Product.findOne({ "_id": id }).populate("productCategory");
-        if (null == product) {
-            res.status(404).render("product/getProduct", {
-                title: "Erreur Fiche produit",
-                product: "",
-                message: "Erreur : produit introuvable."
+    const id = req.params.sessionId;
+    try{ //je récupère les infos du centre de formation par .populate
+        const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
+        if (null == session) {
+            res.status(404).render("session/getSession", {
+                title: "Erreur Fiche session",
+                session: "",
+                message: "Erreur : session introuvable."
             });
         }
-        res.status(200).render("product/getProduct", {
-            title: "Fiche Produit " + product.productName,
-            product: product,
+        res.status(200).render("session/getSession", {
+            title: "Fiche session " + session.sessionName,
+            session: session,
             message: ""
         });
     } catch {
-        res.status(404).render("product/getProduct", {
-            title: "Erreur Fiche produit",
-            product: "",
+        res.status(404).render("session/getSession", {
+            title: "Erreur Fiche session",
+            session: "",
             message: "Erreur serveur."
         });
     }
@@ -33,30 +33,30 @@ export const getProduct = async (req, res, next) => {
 
 /**
  * 
- * get all products in webApp
+ * get all sessions in webApp
  * 
 **/
-export const getProducts = async (req, res, next) => {
+export const getSessions = async (req, res, next) => {
     try{
-        const products = await Product.find({}).populate("productCategory");
+        const sessions = await Session.find({}).populate("sessionAntenna");
 
-        if (0 == products.length) {
-            res.status(404).render("product/getProducts", {
-                title: "Liste des produits",
-                products: "",
-                message: "Aucun produit trouvé."
+        if (0 == sessions.length) {
+            res.status(404).render("session/getSessions", {
+                title: "Liste des sessions",
+                sessions: "",
+                message: "Aucun session trouvé."
             });
         }
 
-        res.status(200).render("product/getProducts", {
-            title: "Liste des produits",
+        res.status(200).render("session/getSessions", {
+            title: "Liste des sessions",
             message: "",
-            products: products 
+            sessions: sessions 
         });
     } catch(error) {
-        res.status(500).render("product/getProducts", {
-            title: "Liste des produits",
-            products: "",
+        res.status(500).render("session/getSessions", {
+            title: "Liste des sessions",
+            sessions: "",
             message: "Erreur serveur."
         });
     }

@@ -1,4 +1,4 @@
-import Category from "../models/Category.js";
+import Antenna from "../models/Antenna.js";
 
 //on déclare la fonction, 2 façons possibles
 // exports.getHomePage = (req, res, next) => {
@@ -8,11 +8,11 @@ import Category from "../models/Category.js";
 // };
 
 export const getHomepage = async (req, res, next) => {
-    const categories = await Category.find({});
+    const antennas = await Antenna.find({});
 
     res.render("homepage", {
         title: "Accueil",
-        categories: categories,
+        antennas: antennas,
         message: ""
     });
 };

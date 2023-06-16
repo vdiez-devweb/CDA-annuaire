@@ -1,8 +1,8 @@
 {
-  "name": "brief1-node",
+  "name": "annuaire-node",
   "version": "1.0.0",
   "type": "module",
-  "description": "Brief DevOps",
+  "description": "Annuaire Simplon",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
