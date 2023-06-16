@@ -1,25 +1,97 @@
-  <div class="container" id="haut">
-    <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg">
-    <ul class="nav justify-content-center bg-light border-bottom mb-3">
+
+<header>
+  <div class="px-3 py-2 bg-success text-white">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <!-- TODO Logo à mettre ici -->
+        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+          <li>
+            <a href="<%=baseURL%>/" class="nav-link text-secondary">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg> <!-- TODO xlink:href--> 
+              Accueil
+            </a>
+          </li>
+          <li>
+            <a href="<%=baseURL%>/antennas" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg><!-- TODO xlink:href--> 
+              Centres de formation
+            </a>
+          </li>
+          <li>
+            <a href="<%=baseURL%>/sessions" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg><!-- TODO xlink:href--> 
+              Sessions
+            </a>
+          </li>
+          <li>
+            <%  if(user) { %>
+              <a  href="<%=baseURL%>/admin/logout">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg><!-- TODO xlink:href--> 
+                <button type="button" class="btn btn-light text-dark me-2">Déconnexion <%= user.username %> </button>
+              </a>
+            <%  } %>
+          </li>
+          <!-- <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
+              Products
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
+              Customers
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="px-3 py-2 border-bottom mb-3">
+    <div class="container">
+
+    <!-- </div>
+    <div class="container d-flex flex-wrap justify-content-center"> -->
+
+      <p class="lead">
+        This is a lead paragraph. It stands out from regular paragraphs.
+      </p>
+      <div class="text-end">
+        <!-- <button type="button" class="btn btn-light text-dark me-2">Login</button>
+        <button type="button" class="btn btn-success">Sign-up</button> -->
+      </div>
+    </div>
+  </div>
+</header>
+
+
+     
+
+<div class="container main-container" id="haut">
+
+      <!-- <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg"> -->
+    <!-- <ul class="nav justify-content-center bg-light border-bottom mb-3">
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%=baseURL%>/"><i class="fa-solid fa-house"></i></a>
+        <a class="btn btn-success mx-1" href="<%#=baseURL%>/"><i class="fa-solid fa-house"></i></a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%=baseURL%>/antennas">Les centres de formation</a>
+        <a class="btn btn-success mx-1" href="<%#=baseURL%>/antennas">Les centres de formation</a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%=baseURL%>/sessions">Les sessions</a>
+        <a class="btn btn-success mx-1" href="<%#=baseURL%>/sessions">Les sessions</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="btn btn-secondary mx-1" href="<%=baseURL%>/admin">Administration du site</a>
-      </li> -->
-      <%  if(user) { %>
-      <li class="nav-item">
-        <a class="btn btn-outline-secondary mx-1" href="<%=baseURL%>/admin/logout">Déconnexion <%= user.username %> </a>
-      </li>
-      <%  } %>
-    </ul>
-    
+    -->
+    <!-- <li class="nav-item">
+        <a class="btn btn-secondary mx-1" href="<%#=baseURL%>/admin">Administration du site</a>
+      </li> 
+     
+     </ul>
+    -->
+
     <% if (typeof message_success != 'undefined' && message_success != '') { %>
       <div class="alert alert-success" role="alert"><%= message_success %></div>
     <% } %> 
