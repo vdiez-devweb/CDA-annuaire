@@ -75,9 +75,9 @@ export const getAntenna = async (req, res, next) => {
 export const getAntennas = async (req, res, next) => {
     try{
         const antennas = await Antenna.find({});
-
-        if (null == antennas) {
-            res.status(404).render("antenna/getAntennas", {
+        console.log(antennas);
+        if ("" == antennas) {
+            return res.status(404).render("antenna/getAntennas", {
                 title: "Liste des centres de formation",
                 antennas: "",
                 message: "Aucun centre enregistré."

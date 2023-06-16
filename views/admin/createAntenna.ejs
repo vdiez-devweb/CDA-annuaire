@@ -8,36 +8,36 @@
         <% if (message) { %>
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
-        <form method="post" action="<%=baseURL%>/admin/ajax-create-category">
+        <form method="post" action="<%=baseURL%>/admin/ajax-create-antenna">
             <div class="row mb-3 form-group required">
-              <label for="categoryName" class="col-sm-2 col-form-label">Nom de la catégorie</label>
+              <label for="antennaName" class="col-sm-2 col-form-label">Nom du centre de formation</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="categoryName" name="categoryName" required="required">
+                <input type="text" class="form-control" id="antennaName" name="antennaName" required="required">
               </div>
             </div>
             <div class="row mb-3 form-group required">
-                <label for="categorySlug" class="col-sm-2 col-form-label">Slug de la catégorie</label>
+                <label for="antennaSlug" class="col-sm-2 col-form-label">Slug</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="categorySlug" name="categorySlug" required="required">
+                  <input type="text" class="form-control" id="antennaSlug" name="antennaSlug" required="required">
                 </div>
             </div>
             <div class="row mb-3 form-group">
-                <label for="categoryDescription" class="col-sm-2 col-form-label">Description de la catégorie</label>
+                <label for="antennaDescription" class="col-sm-2 col-form-label">Description</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" id="categoryDescription" name="categoryDescription" rows="3"></textarea>
+                    <textarea class="form-control" id="antennaDescription" name="antennaDescription" rows="3"></textarea>
                 </div>
             </div>
             <div class="row mb-3 form-group">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="true" id="categoryImg">
-                    <label class="form-check-label" for="categoryImg">
-                      Présence d'une image nommée avec le Slug de la catégorie ?
+                    <input class="form-check-input" type="checkbox" value="true" id="antennaImg">
+                    <label class="form-check-label" for="antennaImg">
+                      Présence d'une image nommée avec le Slug du centre ?
                     </label>
                 </div>
             </div>
 <!-- TODO ajouter un champ fichier pour l'image -->
             <div class="col-12 form-group">
-                <button class="btn btn-success" type="submit" value="post">Créer la catégorie</button>
+                <button class="btn btn-success" type="submit" value="post">Créer le centre de formation</button>
                 <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
             </div>
         </form>

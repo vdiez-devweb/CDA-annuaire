@@ -1,0 +1,27 @@
+        <h1>Liste des centres de formation</h1>
+        <p></p>
+
+        <p><%= message %></p>
+        <% if (antennas) { %>
+            <div class="row justify-content-center">
+            <% antennas.forEach(function(currentAntenna) { %>
+                <div class="col-8 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="card mw-20 mb-3">
+                        <!-- <div class="card" style="width: 18rem;"> -->
+                            <% if (currentAntenna.antennaImg) { %>
+                                <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/<%= currentAntenna.antennaSlug %>.jpg">
+                            <% } else { %>
+                                <img class="card-img-top shadow p-2 rounded img-fluid" src="/images/default.jpg">
+                            <% }  %>
+                        <div class="card-body">
+                            <h2 class="card-title"><%= currentAntenna.antennaName %></h2>
+                            <p class="card-text"><%= currentAntenna.antennaDescription %></p>
+                            <a href="antenna/<%= currentAntenna.antennaSlug %>" class="btn btn-outline-success"><i class="fa-solid fa-magnifying-glass px-1"></i> Voir les <%= currentAntenna.antennaNbSessions %> sessions du centre</a>                
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+            </div>
+        <% } %>
+        <p>&nbsp;</p>
+

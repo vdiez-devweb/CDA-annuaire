@@ -1,0 +1,33 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('../_header'); %>
+    <h1>Détail de la session</h1>
+    <p><%= message %></p>
+    <div class="col-sm-8 col-md-6 mb-4">
+        <div class="card shadow bg-body rounded">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-8 mb-2">Centre de formation : 
+                    <% if (session.sessionAntenna) { %>
+                        <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
+                            <%= session.sessionAntenna.antennaName %>
+                        </a></span>
+                    <% } else { %> - <% } %>
+                    </div>
+                    <div class="col-4 text-end">
+                        <span class="badge rounded-pill bg-success"><%= session.sessionPrice %> €</span>
+                    </div>
+                </div>
+                <h2><%= session.sessionName %> </h2>
+                <div>
+                    <p><%= session.sessionDescription %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="../antennas" class="btn btn-success btn-sm mb-5" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour à la liste des centres de formation</a>
+    <a href="../sessions" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
+
+<%- include('../_footer'); %>

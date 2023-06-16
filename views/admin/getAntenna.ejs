@@ -1,0 +1,92 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+
+    <div class="container">
+        <div><h1><%= title %></h1></div>    
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-xl-2 mb-4">
+                <% if (antenna.antennaImg) { %>
+                    <img class="shadow p-2 rounded" src="/images/<%= antenna.antennaSlug %>-150.jpg">
+                <% } else { %>
+                    <img class="shadow p-2 rounded" src="/images/default-150.jpg">
+                <% }  %>
+            </div>
+            <div class="col-sm-8 col-md-7 col-xl-10 mt-3">
+                <h3>Centre de formation <%= antenna.antennaName %> </h3>
+                <p><%= antenna.antennaDescription %></p>
+                <% if (message) { %>
+                    <p class="alert alert-warning"><%= message %></p>
+                <% } %>  
+                <a href="<%=baseURL%>/admin/create-session/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm mb-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session dans ce centre</a>
+                <br />
+                <a href="<%=baseURL%>/admin/update-antenna/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>modifier le centre</a>
+                <% if (sessions) { %>
+                    <a href="<%=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>rafraîchir le compteur de sessions</a>
+                <% } else { %>
+                <br/>
+                <a href="<%=baseURL%>/admin/delete-antenna/<%= antenna.antennaSlug %>" class="btn btn-secondary btn-sm mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer le centre sans session</a></div>                 
+                <% } %>
+                 </div>                
+                 Coordonnées à dynamiser
+                 <div class="row">
+                    <div class="col-5 col-md-3 text-center">
+                        <i class="fas fa-map-marker-alt mt-4 fa-2x text-dark"></i>
+                        <p>9 rue du centre <br/>75000 PARIS</p>
+                    </div>
+                    <div class="col-7 col-md-3 text-center">
+                        <i class="fas fa-calendar-days mt-4 fa-2x text-dark"></i>
+                        <p>du mardi au vendredi <br/> de 9h à 18h</p>
+                    </div>
+                    <div class="col-5 col-md-3 text-center">
+                        <i class="fas fa-phone mt-4 fa-2x text-dark"></i>
+                        <p>01 02 03 04 05</p>
+                    </div>
+                    <div class="col-7 col-md-3 text-center">
+                        <i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
+                        <p>contact@conceptinstitut.com</p>
+                    </div>
+                </div>
+        </div>
+   
+    <% if (sessions) { %>
+        <p>Ce centre est lié à <%= antenna.antennaNbSessions %> session(s)</p>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <!-- <th scope="col">-</th> -->
+                    <th scope="col">Session</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sessions.forEach(function(currentSession) { %>
+
+                    <tr>
+                        <!-- <td>
+                        <img class="shadow p-2 rounded" src="/images/<%#= currentSession.antennaSlug %>-75.jpg" alt="<%#= currentSession.antennaSlug %> illustration">
+                        </td> -->
+                        <th scope="row"><%= currentSession.sessionName %> </th>
+                        <td><%= currentSession.sessionPrice %> €</td>
+                        <td><%= currentSession.sessionDescription %></td>
+                        <td>
+                            <div><a href="<%=baseURL%>/admin/session/<%= currentSession._id %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir</a></div>      
+                            <div><a href="<%=baseURL%>/admin/update-session/<%= currentSession._id %>"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
+                            <div><a href="<%=baseURL%>/admin/delete-session/<%= antenna.antennaSlug %>/<%= currentSession._id %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
+                        </td>
+                    </tr>
+
+                <% }); %>
+            </tbody>
+        </table>
+    <p>&nbsp;</p>
+
+    <% } %>
+
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

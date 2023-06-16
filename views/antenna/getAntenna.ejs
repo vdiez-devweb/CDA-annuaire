@@ -1,0 +1,68 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('../_header'); %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-xl-2 mb-3">
+                <% if (antenna.antennaImg) { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/<%= antenna.antennaSlug %>-150.jpg">
+                <% } else { %>
+                    <img class="shadow p-2 mb-3 rounded" src="/images/default-150.jpg">
+                <% }  %>
+
+            </div>
+            <div class="col-sm-8 col-md-7 col-xl-10">
+                <h1>Centre de formation <%= antenna.antennaName %> </h1>
+                <p><%= antenna.antennaDescription %></p>
+                <p>Contient <%= antenna.antennaNbSessions %> centre(s) de formation</p>
+            </div>
+            coordonnées à dynamiser
+    <div class="row">
+        <div class="col-5 col-md-3 text-center">
+            <i class="fas fa-map-marker-alt mt-4 fa-2x text-dark"></i>
+            <p>9 rue du centre <br/>75000 PARIS</p>
+        </div>
+        <div class="col-7 col-md-3 text-center">
+            <i class="fas fa-calendar-days mt-4 fa-2x text-dark"></i>
+            <p>du mardi au vendredi <br/> de 9h à 18h</p>
+        </div>
+        <div class="col-5 col-md-3 text-center">
+            <i class="fas fa-phone mt-4 fa-2x text-dark"></i>
+            <p>01 02 03 04 05</p>
+        </div>
+        <div class="col-7 col-md-3 text-center">
+            <i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
+            <p>contact@conceptinstitut.com</p>
+        </div>
+    </div>
+        </div>
+   
+    <div class="row">
+        <% if (sessions) { %>
+            <% sessions.forEach(function(currentSession) { %>
+                <div class="col-sm-4 col-md-3 mb-3">
+                    <div class="card shadow bg-body rounded">
+                        <div class="card-body bg-light">
+                            <div class="row">
+                                <h4 class="col-8 mb-2"><%= currentSession.sessionName %> </h4>
+                                <div class="col-4 text-end">
+                                    <span class="badge bg-success"><%= currentSession.sessionPrice %> €</span>
+                                </div>
+                                <p><%= currentSession.sessionDescription %></p>
+
+                            </div>
+                            <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="../session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1"></i>Voir fiche du centre</a></div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        <% } else { %>
+            <p class="alert alert-warning"><%= message %></p>
+        <% } %>
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="../antennas"><i class="fa-solid fa-layer-group px-2"></i>Retour à la liste des centres de formation</a>
+    </div>
+<%- include('../_footer'); %>

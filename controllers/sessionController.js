@@ -44,7 +44,7 @@ export const getSessions = async (req, res, next) => {
             res.status(404).render("session/getSessions", {
                 title: "Liste des sessions",
                 sessions: "",
-                message: "Aucun session trouvé."
+                message: "Aucun session trouvée."
             });
         }
 

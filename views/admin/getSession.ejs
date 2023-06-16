@@ -1,0 +1,40 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+    <div class="container">
+    <h1>Détail session</h1>
+    <p><%= message %></p>
+    <div class="col-sm-8 col-md-6 mb-4">
+        <div class="card shadow bg-body rounded">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-8 mb-2">Centre de formation : 
+                    <% if (session.sessionAntenna) { %>
+                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
+                            <%= session.sessionAntenna.antennaName %>
+                        </a></span>
+                    <% } else { %> - <% } %>
+                    </div>
+                    <div class="col-4 text-end">
+                        <span class="badge bg-success"><%= session.sessionPrice %> €</span>
+                    </div>
+                </div>
+                <h2><%= session.sessionName %> </h2>
+                <div>
+                    <p><%= session.sessionDescription %></p>
+                </div>
+                
+                <div class="text-end">
+                    <a href="<%=baseURL%>/admin/update-session/<%= session._id %>">Modifier cette session<i class="fa-solid fa-pen-to-square px-1"></i></a> <br />
+                    <a href="<%=baseURL%>/admin/delete-session/<%= session._id %>">Supprimer cette session<i class="fa-solid fa-trash px-1"></i></a>
+                </div> 
+
+            </div>
+        </div>
+    </div>
+
+    <a href="<%=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>" class="btn btn-success btn-sm mb-5" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour au centre de formation</a>
+    <a href="<%=baseURL%>/admin/sessions" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
+
+<%- include('../_footer'); %>

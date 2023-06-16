@@ -9,12 +9,12 @@ import dotenv from "dotenv";
 import flash from "connect-flash";
 //import des routes
 import homepageRouter from "./routes/homepageRoutes.js";
-import categoryRouter from "./routes/categoryRoutes.js";
-import productRouter from "./routes/productRoutes.js";
+import antennaRouter from "./routes/antennaRoutes.js";
+import sessionRouter from "./routes/sessionRoutes.js";
 import legacyRouter from "./routes/legacyRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
-import apiCategoryRouter from "./routes/api/categoryRoutes.js";
-import apiProductRouter from "./routes/api/productRoutes.js";
+import apiAntennaRouter from "./routes/api/antennaRoutes.js";
+import apiSessionRouter from "./routes/api/sessionRoutes.js";
 
 // configurer option dotenv pour les variables environnement
 dotenv.config();
@@ -63,12 +63,12 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap')); //
 
 //ou utiliser un fichier route
 app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(categoryRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(productRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
+app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
+app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(adminRouter);
-app.use(apiCategoryRouter);
-app.use(apiProductRouter);
+app.use(apiAntennaRouter);
+app.use(apiSessionRouter);
 
 app.listen(process.env.PORT || 8082, () => {
     console.log("Server is listening at port 8082");

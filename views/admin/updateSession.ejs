@@ -1,0 +1,58 @@
+<%- include('../_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+
+    <div class="container">
+        <div><h1><%= title %></h1></div>
+        <% if (message) { %>
+            <p class="alert alert-success"><%= message %></p>
+        <% } %>  
+        <% if (antennas) { %>
+            <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>">
+            <div class="row mb-3 form-group required">
+                <label for="sessionAntennaId" class="col-sm-2 col-form-label">Centre de la session</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="sessionAntennaId" name="sessionAntennaId" required="required">
+                    <option>Choisir un centre de formation</option>
+                    <% antennas.forEach(currentAntenna => { %>
+                        <option value="<%=currentAntenna._id %>" 
+                            <% if (antennaSelected == currentAntenna._id) { %> selected   <% }  %>
+                            ><%=currentAntenna.antennaName %>
+                        </option>
+                    <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3 form-group required">
+              <label for="sessionName" class="col-sm-2 col-form-label">Nom de la session</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="sessionName" name="sessionName" required="required" value="<%=session.sessionName %>">
+              </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="sessionPrice" class="col-sm-2 col-form-label">Prix</label>
+                <div class="col-sm-10">
+                  <input type="number" step=".01" class="form-control" id="sessionPrice" name="sessionPrice" value="<%=session.sessionPrice %>">
+                </div>
+            </div>
+            <div class="row mb-3 form-group">
+                <label for="sessionDescription" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="sessionDescription" name="sessionDescription" rows="3"><%=session.sessionDescription %></textarea>
+                </div>
+            </div>
+<!-- TODO ajouter un champ fichier pour l'image -->
+            <div class="col-12 form-group">
+                <button class="btn btn-success" type="submit" value="post">Modifier la session</button>
+                <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+            </div>
+        </form>
+        <% } else { %>  
+            <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/create-antenna"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
+        <% } %>  
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>
