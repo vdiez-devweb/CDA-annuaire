@@ -49,7 +49,7 @@ export const auth = (req, res, next) => {
             if (password === process.env.ADMIN_PASSWORD && username === process.env.ADMIN_USERNAME) {
                 req.session.authenticated = true;
                 req.session.user = { username };
-                req.flash('message_success', 'Bienvenue sur le panneau d\'administration Concept Institut.');
+                req.flash('message_success', 'Bienvenue sur le panneau d\'administration de l\'annuaire.');
                 res.redirect(fromURL);
             } else {
                 res.status(403).render("login", {
@@ -123,7 +123,7 @@ export const getAntennas = async (req, res, next) => {
 
     if (0 == antennas) {
         res.status(404).render("admin/getAntennas", {
-            title: prefixTitle + "Centres de formation",
+            title: prefixTitle + "Liste des centres de formation",
             antennas: "",
             msg_success,
             msg_error,
@@ -131,7 +131,7 @@ export const getAntennas = async (req, res, next) => {
         });
     }
     res.status(200).render("admin/getAntennas", {
-        title: prefixTitle + "Centres de formation",
+        title: prefixTitle + "Liste des centres de formation",
         antennas: antennas,
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
@@ -443,11 +443,16 @@ export const postSession = async(req, res, next) => {
     const antennas = await Antenna.find({});
 
     if (0 == antennas) {
+        req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session.");
         res.status(404).render("admin/createSession", {
             title: prefixTitle + " Création de session",
             antennas: "",
             antennaSelected: antennaSelected,
-            message: "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session."
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: ""
         });
     }
     res.status(200).render("admin/createSession", {
