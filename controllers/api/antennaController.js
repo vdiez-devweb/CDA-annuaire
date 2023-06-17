@@ -24,7 +24,7 @@ export const apiDeleteAntenna = async (req, res, next) => {
 
     try{
         const antenna = await Antenna.deleteOne({ "_id": id });
-        //console.log(antenna);
+        //console.log(antenna); //? commentaire debug à supprimer ///////////////////////
 
         res.status(200).json({ "Message": "centre de formation supprimé." });
     } catch {
@@ -53,7 +53,7 @@ export const apiPostAntenna = async (req, res, next) => {
             antennaSlug,
             antennaImg 
         });
-        // console.log(antenna);
+        // console.log(antenna); //? commentaire debug à supprimer ///////////////////////
         // res.status(201).redirect("/antennas");
         // res.status(201).send("antenna created : ", antenna);
         res.status(201).json({ antenna });
@@ -102,7 +102,7 @@ export const apiUpdateAntenna = async (req, res, next) => {
             { new: true }
             //  (err, doc)
         );
-        //console.log(result);
+        //console.log(result); //? commentaire debug à supprimer ///////////////////////
         res.status(200).json({ 
             result
         });
@@ -120,7 +120,7 @@ export const apiUpdateAntenna = async (req, res, next) => {
         //     fieldsInErrors = Object.keys(error.keyValue); // on récupère les champs qui sont en erreur de duplication
         //     (fieldsInErrors).forEach(currentField => {
         //         error.message = 'Le champ ' + currentField + ' doit être unique, <' + error['keyValue'][currentField] + '> existe déjà!';
-        //         console.log(error.message); 
+        //         console.log(error.message);  //? commentaire debug à supprimer ///////////////////////
         //     });
         //     // res.status(400).json({ customError });
         // }

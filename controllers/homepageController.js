@@ -10,7 +10,7 @@ import Antenna from "../models/Antenna.js";
 export const getHomepage = async (req, res, next) => {
     try{
         const antennas = await Antenna.find({});
-        console.log(antennas);
+        // console.log(antennas); //? commentaire debug à supprimer ///////////////////////
         if ("" == antennas) {
             return res.status(404).render("homepage", {
                 title: "Accueil",

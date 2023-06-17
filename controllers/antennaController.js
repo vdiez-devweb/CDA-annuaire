@@ -45,28 +45,6 @@ export const getAntenna = async (req, res, next) => {
     }
 };
 
-
-
-/**
- * TODO utilisé pour récupérer le nb de session pour chaque centre de formation ///////////////////:
- * get count of Sessions in a antenna in webApp  
- * 
-**/
-// export const getCountSessionInAntenna = async (antenna, compteur, res, next) => {
-//     //? test 1 /////////////////////
-//     const count =  await Session.countDocuments({productAntenna: antenna._id});
-//     console.log('mon compteur ' + antenna._id + " : " + count);
-//     // res.end(count);
-//     return count;   
-
-//     //? test 3 ///////////////////// (retirer le async sur la fonction)
-//     // return new Promise(resolve => {
-//     //     setTimeout(() => {
-//     //       resolve(Session.countDocuments({productAntenna: antenna._id}));
-//     //     }, 2000);
-//     //   });
-// }
-
 /**
  * 
  * get all antennas in webApp
@@ -75,7 +53,7 @@ export const getAntenna = async (req, res, next) => {
 export const getAntennas = async (req, res, next) => {
     try{
         const antennas = await Antenna.find({});
-        console.log(antennas);
+        //console.log(antennas); //? commentaire debug à supprimer ///////////////////////
         if ("" == antennas) {
             return res.status(404).render("antenna/getAntennas", {
                 title: "Liste des centres de formation",
