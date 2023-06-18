@@ -1,12 +1,6 @@
 <%- include('../_head'); %>
-</head>
-<body>
-    <%- include('_header'); %>
-
+<%- include('_header'); %>
     <div class="container">
-
-        <div><h1><%= title %></h1></div>
-
         <% if (sessions) { %>
             <div><a href="<%=baseURL%>/admin/create-session" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a></div>
 

@@ -3,16 +3,16 @@ import uniqueValidator from "mongoose-unique-validator";
 
 const { Schema } = mongoose;
 
-const productSchema = new Schema({
-    productName: {
+const sessionSchema = new Schema({
+    sessionName: {
         type: String,
-        required: [true,'Vous devez saisir un nom de produit'],
-        minLength:[5,'Le nom de produit doit contenir au moins 5 caractères'],
-        maxLength:[100,'Le nom de produit doit contenir au maximum 100 caractères'],
+        required: [true,'Vous devez saisir un nom de session'],
+        minLength:[5,'Le nom de session doit contenir au moins 5 caractères'],
+        maxLength:[100,'Le nom de session doit contenir au maximum 100 caractères'],
         // unique: true
-        unique: 'Ce produit existe déjà, veuillez saisir un autre nom'
+        unique: 'Ce session existe déjà, veuillez saisir un autre nom'
     },    
-    productPrice: {
+    sessionPrice: {
         type:Number,
         default:null,
         min:[1, 'Le prix ne peut pas être 1'],
@@ -24,12 +24,12 @@ const productSchema = new Schema({
         //     message: props => `doit être un nombre! vous avez saisi ${props.value}`
         //   }
     },
-    productDescription: {
+    sessionDescription: {
         type:String,
-        maxLength:[250,'La description du produit doit contenir au maximum 250 caractères'],
+        maxLength:[250,'La description du session doit contenir au maximum 250 caractères'],
         default:null
     },
-    productCategory: {
+    sessionCategory: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
@@ -39,9 +39,9 @@ const productSchema = new Schema({
     }
 });
 
-productSchema.plugin(uniqueValidator);
+sessionSchema.plugin(uniqueValidator);
 
 //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
-const Product = mongoose.model("Product", productSchema);
+const session = mongoose.model("session", sessionSchema);
 
-export default Product;
+export default session;

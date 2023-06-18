@@ -1,14 +1,6 @@
 <%- include('../_head'); %>
-</head>
-<body>
-    <%- include('_header'); %>
-
+<%- include('_header'); %>
     <div class="container">
-        <div class="row">
-            <!-- <div class="col-sm-4 col-md-3 col-xl-2"> -->
-            <div><h1><%= title %></h1></div>
-         </div>
-
         <% if (antennas) { %>
             <div>
                 <a href="<%=baseURL%>/admin/create-antenna" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>

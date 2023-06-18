@@ -15,6 +15,8 @@ import legacyRouter from "./routes/legacyRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
 import apiAntennaRouter from "./routes/api/antennaRoutes.js";
 import apiSessionRouter from "./routes/api/sessionRoutes.js";
+// import createPopper from '@popperjs/core';
+
 
 // configurer option dotenv pour les variables environnement
 dotenv.config();
@@ -69,6 +71,7 @@ app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET 
 app.use(adminRouter);
 app.use(apiAntennaRouter);
 app.use(apiSessionRouter);
+//app.use(createPopper);
 
 app.listen(process.env.PORT || 8082, () => {
     console.log("Server is listening at port 8082");

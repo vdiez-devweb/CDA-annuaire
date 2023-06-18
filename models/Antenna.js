@@ -7,10 +7,10 @@ const { Schema } = mongoose; // on importe l'objet Schema de mongoose
 const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait pour nous
     antennaName: {
         type: String,
-        required: [true,'Vous devez saisir un nom de catégorie'],
-        unique: [true,'Cette catégorie existe déjà, veuillez saisir un autre nom'],
-        minLength:[5,'Le nom de la catégorie doit contenir au moins 5 caractères'],
-        maxLength:[100,'Le nom de la catégorie doit contenir au maximum 100 caractères'],
+        required: [true,'Vous devez saisir un nom du centre'],
+        unique: [true,'Ce centre existe déjà, veuillez saisir un autre nom'],
+        minLength:[5,'Le nom du centre doit contenir au moins 5 caractères'],
+        maxLength:[100,'Le nom du centre doit contenir au maximum 100 caractères'],
     },
     antennaSlug: {
         type: String,
@@ -28,17 +28,17 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
     },
     antennaDescription: {
         type: String,
-        maxLength:[250,'La description du la catégorie doit contenir au maximum 250 caractères'],
+        maxLength:[250,'La description du centre doit contenir au maximum 250 caractères'],
         default:null
     },
     antennaImg: { //true if an image exists with slug filename, false if not (then we use a default image)
         type: Boolean,
-        required: [true,'Vous devez définir si une image existe ou non pour cette catégorie'],
+        required: [true,'Vous devez définir si une image existe ou non pour ce centre'],
         default:false
     },
-    antennaNbProducts: {
+    antennaNbSessions: {
         type:Number,
-        required: [true,'Vous devez saisir un nombre de produits'],
+        required: [true,'Vous devez saisir un nombre de sessions'],
         default:0
     },
 }, 

@@ -1,0 +1,26 @@
+    <div class="row justify-content-center">
+        <% sessions.forEach(function(currentSession) { %>
+            <div class="col-sm-4 col-md-3 mb-3">
+                <div class="card shadow bg-body rounded">
+                    <div class="card-body bg-light">
+                        <div class="row">
+                            <div class="col-8 mb-2">
+                                <% if (currentSession.sessionAntenna) { %>
+                                    <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
+                                        <%= currentSession.sessionAntenna.antennaName %>
+                                    </a></span>
+                                <% } else { %> - <% } %>
+                            </div>
+                            <div class="col-4 text-end">
+                                <span class="badge bg-success"><%= currentSession.sessionPrice %> €</span>
+                                <!-- <p><%#= currentSession.sessionDescription %></p> -->
+                            </div>
+                        </div>
+                        <h4><%= currentSession.sessionName %> </h4>
+                            
+                        <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%=baseURL%>/session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche centre</a></div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>

@@ -41,7 +41,7 @@ export const getSessions = async (req, res, next) => {
         const sessions = await Session.find({}).populate("sessionAntenna");
 
         if (0 == sessions.length) {
-            res.status(404).render("session/getSessions", {
+            return res.status(404).render("session/getSessions", {
                 title: "Liste des sessions",
                 sessions: "",
                 message: "Aucun session trouvée."

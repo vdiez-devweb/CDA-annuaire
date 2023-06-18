@@ -1,10 +1,6 @@
 <%- include('../_head'); %>
-</head>
-<body>
-    <%- include('_header'); %>
-
+<%- include('_header'); %>
     <div class="container">
-        <div><h1><%= title %></h1></div>
         <% if (message) { %>
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
@@ -12,13 +8,15 @@
             <div class="row mb-3 form-group required">
               <label for="antennaName" class="col-sm-2 col-form-label">Nom du centre</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="antennaName" name="antennaName" required="required">
+                <input type="text" class="form-control" id="antennaName" name="antennaName" required="required"> 
+                <!-- maxlength="100" minlength="5" -->
               </div>
             </div>
             <div class="row mb-3 form-group required">
                 <label for="antennaSlug" class="col-sm-2 col-form-label">Slug</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="antennaSlug" name="antennaSlug" required="required">
+                   <!-- maxlength="16" minlength="3" -->
                 </div>
             </div>
             <div class="row mb-3 form-group">

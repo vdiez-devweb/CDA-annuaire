@@ -5,6 +5,19 @@ font-family: 'Foldit', sans-serif;
 font-family: 'Poiret One', sans-serif;
 font-family: 'Unbounded', sans-serif; */
 
+/* override Boostrap colors */
+:root{
+    --bs-primary: #0d6efd;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    /* --bs-dark: #212529; */
+    --bs-dark: rgb(0, 39, 0);
+}
+
 * {
     /* font-family: 'Tajawal', sans-serif; */
     /* limiter la hauteur de <body> à 100%. */
@@ -19,6 +32,8 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
+    color:rgb(0, 39, 0);
+    ;
 }
 /*h1 {
      font-family: 'Amatic SC', cursive; 
@@ -26,7 +41,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     /* font-family: 'Bad Script', cursive; */
     font-family: 'Unbounded', cursive;
-
+    color:rgb(46, 70, 46);
 }
 
 a, nav a {

@@ -1,67 +1,29 @@
-
+</head>
+<body>
 <header>
   <div class="px-3 py-2 bg-success fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light ">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="<%=baseURL%>/">L'annuaire des Étudiants</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse flex-grow-1 text-right justify-content-end" id="navbarSupportedContent">
-          <ul class="navbar-nav ms-auto flex-nowrap">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="<%=baseURL%>/">Accueil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="<%=baseURL%>/antennas">Les Centres</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="<%=baseURL%>/sessions">Les Sessions</a>
-            </li>
-            <!-- <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li> -->
-          </ul>
-          <!-- <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form> -->
-        </div>
-      </div>
-    </nav>
+    
+    <%- include('_navbar'); %>
+
   </div>
-  <div class="px-3 py-2 border-bottom mb-3">
+  <!-- <div class="px-3 py-2 border-bottom mb-3">
     <div class="container">
 
-    <!-- </div>
-    <div class="container d-flex flex-wrap justify-content-center"> -->
+    </div>
+    <div class="container d-flex flex-wrap justify-content-center">
 
       <p class="lead">
         This is a lead paragraph. It stands out from regular paragraphs.
       </p>
       <div class="text-end">
-        <!-- <button type="button" class="btn btn-light text-dark me-2">Login</button>
-        <button type="button" class="btn btn-success">Sign-up</button> -->
+        <button type="button" class="btn btn-light text-dark me-2">Login</button>
+        <button type="button" class="btn btn-success">Sign-up</button>
       </div>
     </div>
-  </div>
+  </div> -->
 </header>
 
-
-     
-
-<div class="container main-container" id="haut">
+<div class="container main-container mt-5" id="haut">
 
       <!-- <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg"> -->
     <!-- <ul class="nav justify-content-center bg-light border-bottom mb-3">
@@ -81,7 +43,8 @@
      
      </ul>
     -->
-
+    <div><h1 class="pt-5"><%= title %></h1></div>
+    
     <% if (typeof message_success != 'undefined' && message_success != '') { %>
       <div class="alert alert-success" role="alert"><%= message_success %></div>
     <% } %> 
