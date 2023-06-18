@@ -28,7 +28,7 @@
                             <td><%= currentSession.sessionPrice %> €</td>
                             <td><%= currentSession.sessionDescription %></td>
                             <td>
-                                <div><a href="#" alt="Modifier la session"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
+                                <div><a href="<%=baseURL%>/admin/update-session/<%= currentSession._id %>" alt="Modifier la session"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
                                 <div><a href="<%=baseURL%>/admin/delete-session/<%= currentSession._id %>" alt="Supprimer la session"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
                             </td>
                         </tr>

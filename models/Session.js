@@ -29,9 +29,9 @@ const sessionSchema = new Schema({
         maxLength:[250,'La description du session doit contenir au maximum 250 caractères'],
         default:null
     },
-    sessionCategory: {
+    sessionAntenna: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Antenna'
     },
 }, {
     timestamps: { 

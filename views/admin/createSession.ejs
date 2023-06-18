@@ -38,10 +38,14 @@
                     <textarea class="form-control" id="sessionDescription" name="sessionDescription" rows="3"></textarea>
                 </div>
             </div>
+
+             
+                <input id="antennaSlug" name="antennaSlug" type="hidden" value="<% if (antennaSlug) { %><%= antennaSlug %><% } %>">
+            
 <!-- TODO ajouter un champ fichier pour l'image -->
             <div class="col-12 form-group">
                 <button class="btn btn-success" type="submit" value="post">Créer la session</button>
-                <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+                <a href="<%=baseURL%>/admin/sessions" class="btn btn-secondary" role="button">Annuler</a>
             </div>
         </form>
         <% } else { %>  
