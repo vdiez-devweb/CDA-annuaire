@@ -12,11 +12,23 @@ const sessionSchema = new Schema({
         // unique: true
         unique: 'Ce session existe déjà, veuillez saisir un autre nom'
     },    
-    sessionPrice: {
+    sessionNumIdentifier: {
+        type: String,
+        required: [true,'Vous devez saisir un numéro identifiant Ypareo'], // TODO vérifier le nom de l'identifiant + les contraintes regex etc.
+        minLength:[5,'L\'identifiant Ypareo de session doit contenir au moins 5 caractères'],
+        maxLength:[100,'L\'identifiant Ypareo de session doit contenir au maximum 100 caractères'],
+        // unique: true
+        unique: 'Ce session existe déjà, veuillez saisir un autre nom'
+    },    
+    sessionType: {
+        type:String,
+        maxLength:[250,'La description du session doit contenir au maximum 250 caractères'], //TODO enum ?
+        default:null
+    },
+    sessionNbStudents: {    // anciennement sessionPrice
         type:Number,
-        default:null,
-        min:[1, 'Le prix ne peut pas être 1'],
-        max:[1500, 'Le prix ne peut pas dépasser 1500']
+        default:0,
+        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la mise à jour à l'ajout / suppression d'étudiants + refresh de la session
         // validate: {
         //     validator: function(number) {
         //       return (typeof number === 'Number');
@@ -29,9 +41,36 @@ const sessionSchema = new Schema({
         maxLength:[250,'La description du session doit contenir au maximum 250 caractères'],
         default:null
     },
+    sessionAlternation: {
+        type:Boolean,
+        required: [true,'Vous devez définir si alternance ou pas'],
+        default:false //TODO non alternance par défaut ? 
+    },   
+    sessionInternship: {
+        type:Boolean,
+        required: [true,'Vous devez définir si stage ou pas'],
+        default:false //TODO non stage par défaut ? 
+    },  
     sessionAntenna: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Antenna'
+    },
+
+    sessionStatus: {
+        type:Boolean,
+        required: [true,'Vous devez définir le status actif ou non pour cette session'],
+        default:false //TODO Inactif par défaut ? à la création puis on doit l'activer après ?
+    },
+
+    sessionStartDate: {
+        type:Date,
+        required: [true,'Vous devez définir une date de début pour cette session'],
+        default:false //TODO validation
+    },
+    sessionEndDate: {
+        type:Date,
+        required: [true,'Vous devez définir une date de fin pour cette session'],
+        default:false //TODO validation + voir cohérence avec startdate
     },
 }, {
     timestamps: { 

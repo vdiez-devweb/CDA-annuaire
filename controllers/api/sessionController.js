@@ -8,14 +8,14 @@ import Session from "../../models/Session.js";
 export const apiPostSession = async (req, res, next) => {
     // récupérer les infos de la session à créer via req.body
     const sessionName = req.body.sessionName;
-    const sessionPrice = req.body.sessionPrice;
+    const sessionNbStudents = req.body.sessionNbStudents;
     const sessionDescription = req.body.sessionDescription;
     const sessionCategory = req.body.sessionCategory;
     try {
         //créer la session en BDD
         const session = await Session.create({
             sessionName: sessionName, 
-            sessionPrice: sessionPrice,
+            sessionNbStudents: sessionNbStudents,
             sessionDescription : sessionDescription,
             sessionCategory: sessionCategory,
         });
@@ -65,7 +65,7 @@ export const apiUpdateSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
     const id = req.body.id;
     const sessionName = req.body.sessionName;
-    const sessionPrice = req.body.sessionPrice;
+    const sessionNbStudents = req.body.sessionNbStudents;
     const sessionDescription = req.body.sessionDescription;
     const sessionCategory = req.body.sessionCategory;
     try{
@@ -73,7 +73,7 @@ export const apiUpdateSession = async (req, res, next) => {
             { "_id": id }, 
             { 
                 sessionName,
-                sessionPrice: sessionPrice,
+                sessionNbStudents: sessionNbStudents,
                 sessionDescription : sessionDescription,
                 sessionCategory: sessionCategory,
             }, 

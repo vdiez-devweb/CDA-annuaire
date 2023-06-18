@@ -476,7 +476,7 @@ export const ajaxPostSession = async (req, res, next) => {
     const sessionName = req.body.sessionName;
     const antennaSlug = req.body.antennaSlug;
     const sessionDescription = req.body.sessionDescription;
-    const sessionPrice = req.body.sessionPrice;
+    const sessionNbStudents = req.body.sessionNbStudents;
     const sessionAntennaId = req.body.sessionAntennaId;
     
     try{
@@ -484,7 +484,7 @@ export const ajaxPostSession = async (req, res, next) => {
         const session = await Session.create({
             sessionName, // si la clé = valeur, on ne répète pas
             sessionDescription,
-            sessionPrice, 
+            sessionNbStudents, 
             sessionAntenna: sessionAntennaId
         });
 
@@ -569,14 +569,14 @@ export const ajaxUpdateSession = async (req, res, next) => {
      const id = req.params.sessionId;
      const sessionName = req.body.sessionName;
      const sessionDescription = req.body.sessionDescription;
-     const sessionPrice = req.body.sessionPrice;
+     const sessionNbStudents = req.body.sessionNbStudents;
      const sessionAntennaId = req.body.sessionAntennaId;
     try{
         const result = await Session.findByIdAndUpdate(
         { "_id": id }, 
         { 
             sessionName,
-            sessionPrice: sessionPrice,
+            sessionNbStudents: sessionNbStudents,
             sessionDescription : sessionDescription,
             sessionAntenna: sessionAntennaId,
         }, 

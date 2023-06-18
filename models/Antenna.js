@@ -41,6 +41,45 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         required: [true,'Vous devez saisir un nombre de sessions'],
         default:0
     },
+    antennaNbStudents: {
+        type:Number,
+        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la mise à jour à l'ajout / suppression d'étudiants
+        default:0
+    },
+    antennaRegion: {
+        type:String,
+        required: [true,'Vous devez saisir une région'], //TODO ajouter une contrainte enum ?
+        default:'NC'
+    },
+    antennaPhone: {
+        type:Number,
+        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la vérif avec une regex
+        default:0
+    },
+    antennaStatus: {
+        type:Boolean,
+        required: [true,'Vous devez définir le status actif ou non pour ce centre'],
+        default:false //TODO Inactif par défaut ? à la création puis on doit l'activer quand on a saisi des sessions
+    },
+    antennaAddress: {
+        address: {
+            type:String,
+            required: [true,'Vous devez saisir un n° et nom de voie'], 
+            default:'NC'
+        },   
+        zipCode: {
+            type:Number,
+            min:[5, 'Le code format doit avoir 5 chiffres'],
+            max:[5, 'Le code format doit avoir 5 chiffres'],
+            required: [true,'Vous devez saisir un code postal'], //TODO modifier la contrainte par une longueur ?
+            default:'NC'
+        },  
+        city: {
+            type:String,
+            required: [true,'Vous devez saisir une ville'], //TODO ajouter l'utilisation d'une  API pour lier le CP et la ville ?
+            default:'NC'
+        }        
+    }
 }, 
 { 
     timestamps: { createdAt: 'createdAt' } 
