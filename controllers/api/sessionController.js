@@ -13,14 +13,16 @@ export const apiPostSession = async (req, res, next) => {
     const sessionCategory = req.body.sessionCategory;
     try {
         //créer la session en BDD
-        const sessionSchema = {
+        const session = await Session.create({
             sessionName: sessionName, 
             sessionPrice: sessionPrice,
             sessionDescription : sessionDescription,
             sessionCategory: sessionCategory,
-        }
-        const session = await Session.create(sessionSchema);
+        });
         //renvoyer les infos à la vue
+        if (null == session || 0 == session) {
+            return res.status(400).json("Erreur sur la création")
+        }
         res.status(201).json({ session });
     } catch(error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
@@ -50,7 +52,7 @@ export const apiPostSession = async (req, res, next) => {
         //     });
         //     error = customError;
         // }
-        res.status(400).json({ error });
+        res.status(500).json({ error });
     }
 };
 
@@ -75,11 +77,14 @@ export const apiUpdateSession = async (req, res, next) => {
                 sessionDescription : sessionDescription,
                 sessionCategory: sessionCategory,
             }, 
-            { new: true }
+            { 
+                new: true,
+                runValidators:true,
+            }
             //  (err, doc)
         );
         if (null == result) {
-            res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, session non trouvée" });
+            return res.status(404).json({ "Erreur": "mise à jour impossible, session non trouvée" });
         }
         res.status(200).json({ 
             result
@@ -117,12 +122,12 @@ export const apiGetSession = async (req, res, next) => {
     const id = req.params.sessionId;
     try{
         const session = await Session.findOne({ "_id": id });
-        if (null == session) {
-            res.status(404).json({ "message": "la session n'existe pas" });
+        if (null == session || 0 == session) {
+            return res.status(404).json({ "message": "la session n'existe pas" });
         }
         res.status(200).json({ session });
-    } catch(err) {
-        res.status(500).json({ "message": "serveur erreur" });
+    } catch(error) {
+        res.status(500).json(error);
     }
     // const apiSessions = await Session.find({});
  
@@ -134,12 +139,16 @@ export const apiGetSession = async (req, res, next) => {
  * 
 **/
 export const apiGetSessions = async (req, res, next) => {
-    const apiSessions = await Session.find();
-    if (0 == apiSessions.length) {
-        res.status(404).json( "Aucune session n'est trouvée" );
+    try {
+        const apiSessions = await Session.find();
+        if (0 == apiSessions.length || apiSessions == null) {
+            return res.status(404).json( "Aucune session n'est trouvée" );
+        }
+        res.status(200).json({ apiSessions });
+    } catch (error) {
+        res.status(500).json(error);
     }
-    res.status(200).json({ apiSessions });
- };
+};
 
 /**
  * 
@@ -152,10 +161,12 @@ export const apiDeleteSession = async (req, res, next) => {
 
     try{
         const session = await Session.deleteOne({ "_id": id });
-
+        if (0 == session.deletedCount){
+            return res.status(404).json("Erreur : Session introuvable.");
+        }
         res.status(200).json({ "Message": "Session supprimée." });
-    } catch {
-        res.status(404).json("Erreur : Session introuvable.");
+    } catch (error) {
+        res.status(500).json(error);
     }
 };
 

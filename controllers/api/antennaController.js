@@ -7,11 +7,15 @@ import Antenna from "../../models/Antenna.js";
 **/
 export const apiGetAntennas = async (req, res, next) => {
     const apiAntennas = await Antenna.find({});
-    if (null == apiAntennas) {
-        res.status(404).json({ "message": "Aucun centre de formation n'est trouvé" });
+    try{
+        if (null == apiAntennas) {
+            return res.status(404).json({ "message": "Aucun centre de formation n'est trouvé" });
+        }
+        res.status(200).json({ apiAntennas });
+    } catch (error) {
+        res.status(404).json(error);
     }
-    res.status(200).json({ apiAntennas });
- };
+};
 
 /**
  * 
@@ -25,10 +29,13 @@ export const apiDeleteAntenna = async (req, res, next) => {
     try{
         const antenna = await Antenna.deleteOne({ "_id": id });
         //console.log(antenna); //? commentaire debug à supprimer ///////////////////////
+        if (0 == antenna.deletedCount){
+            return res.status(404).json("Erreur : centre de formation introuvable.");
+        }
 
         res.status(200).json({ "Message": "centre de formation supprimé." });
-    } catch {
-        res.status(404).json("Erreur : centre de formation introuvable.");
+    } catch (error) {
+        res.status(404).json(error);
     }
 };
 
@@ -56,6 +63,7 @@ export const apiPostAntenna = async (req, res, next) => {
         // console.log(antenna); //? commentaire debug à supprimer ///////////////////////
         // res.status(201).redirect("/antennas");
         // res.status(201).send("antenna created : ", antenna);
+        
         res.status(201).json({ antenna });
     } catch (error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
@@ -99,10 +107,16 @@ export const apiUpdateAntenna = async (req, res, next) => {
                 antennaSlug,
                 antennaImg 
             }, 
-            { new: true }
+            { 
+                new: true,
+                runValidators:true,
+            }
             //  (err, doc)
         );
         //console.log(result); //? commentaire debug à supprimer ///////////////////////
+        if (null == result) {
+            return res.status(404).json("Erreur : centre de formation introuvable.");
+        }
         res.status(200).json({ 
             result
         });
@@ -125,7 +139,7 @@ export const apiUpdateAntenna = async (req, res, next) => {
         //     // res.status(400).json({ customError });
         // }
         // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
-        res.status(400).json({ error });
+        res.status(500).json({ error });
     }
 };
 
@@ -139,12 +153,12 @@ export const apiGetAntenna = async (req, res, next) => {
     const id = req.params.antennaId;
     try{
         const antenna = await Antenna.findOne({ "_id": id });
-        if (null == antenna) {
-            res.status(404).json({ "message": "le centre de formation n'existe pas" });
+        if (null == antenna || "" == antenna) {
+            return res.status(404).json({ "message": "le centre de formation n'existe pas" });
         }
         res.status(200).json({ antenna });
     } catch(err) {
-        res.status(500).json({ "message": "serveur erreur" });
+        res.status(500).json({ err });
     }
     // const apiAntennas = await Antenna.find({});
 };
