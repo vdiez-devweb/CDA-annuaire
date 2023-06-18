@@ -1,11 +1,13 @@
 <%- include('../_head'); %>
 <%- include('../_header'); %>
-    <p class="alert alert-warning"><%= message %></p>
+    <% if (message != "") { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>
     <div class="col-sm-8 col-md-6 mb-4">
         <div class="card shadow bg-body rounded">
             <div class="card-body bg-light">
                 <div class="row">
-                    <div class="col-8 mb-2">Centre de formation : 
+                    <div class="col-8 mb-2">Centre : 
                     <% if (session.sessionAntenna) { %>
                         <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
                             <%= session.sessionAntenna.antennaName %>

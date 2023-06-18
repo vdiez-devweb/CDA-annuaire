@@ -11,22 +11,22 @@ export const getAntenna = async (req, res, next) => {
     const antennaSlug = req.params.antennaSlug;
     try{
         const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
-        const sessions = await Session.find({"productAntenna": antenna._id});
-
+        
         if (0 == antenna) {
-            res.status(404).render("antenna/getAntenna", {
+            return res.status(404).render("antenna/getAntenna", {
                 title: "Liste des sessions par centre de formation",
                 sessions: "",
                 antenna: "",
                 message: "Centre introuvable."
             });
         }
+        const sessions = await Session.find({"sessionAntenna": antenna._id});
         if ("" == sessions) {
-            res.status(404).render("antenna/getAntenna", {
+            return res.status(404).render("antenna/getAntenna", {
                 title: "Liste des sessions " + antenna.antennaName,
                 sessions: "",
                 antenna: antenna,
-                message: "Aucune session trouvé."
+                message: "Aucune session trouvée."
             });
         }
         res.status(200).render("antenna/getAntenna", {

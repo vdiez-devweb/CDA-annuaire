@@ -183,7 +183,7 @@ export const getAntenna = async (req, res, next) => {
     let message = "";
     try{
         const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
-        console.log(antenna);
+        //console.log(antenna); //? debug à supprimer
         if (0 == antenna || null == antenna) {
             req.flash('message_error', "erreur, centre de formation introuvable.");
             return res.status(404).redirect("/admin/antennas");
