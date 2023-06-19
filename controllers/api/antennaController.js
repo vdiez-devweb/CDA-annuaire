@@ -46,19 +46,31 @@ export const apiDeleteAntenna = async (req, res, next) => {
 **/
 export const apiPostAntenna = async (req, res, next) => {
     // envoyer le nom du centre de formation via req.body
-    const antennaName = req.body.antennaName;
-    const antennaDescription = req.body.antennaDescription;
-    const antennaSlug = req.body.antennaSlug;
-    const antennaImg = req.body.antennaImg ? req.body.antennaImg : false;
-
+    // const antennaName = req.body.antennaName;
+    // const antennaSlug = req.body.antennaSlug;
+    // const antennaDescription = req.body.antennaDescription;
+    // const antennaImg = req.body.antennaImg ? req.body.antennaImg : false;
+    // const antennaRegion = req.body.antennaRegion;
+    // const antennaPhone = req.body.antennaPhone;
+    // const antennaStatus = req.body.antennaStatus ? req.body.antennaStatus : false;
+    // const antennaAddress = req.body.antennaAddress;
+    // const antennaZipCode = req.body.antennaZipCode;
+    // const antennaCity = req.body.antennaCity;
+    const data = req.body;
+    
     // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
     try{
         const antenna = await Antenna.create({
-            // antennaName: antennaName,
-            antennaName, // si la clé = valeur, on ne répète pas
-            antennaDescription,
-            antennaSlug,
-            antennaImg 
+            antennaName: data.antennaName,
+            antennaDescription: data.antennaDescription,
+            antennaSlug: data.antennaSlug,
+            antennaImg: data.antennaImg,
+            antennaRegion: data.antennaRegion,
+            antennaPhone: data.antennaPhone,
+            antennaStatus: data.antennaStatus,
+            antennaAddress: data.antennaAddress,
+            antennaZipCode: data.antennaZipCode,
+            antennaCity: data.antennaCity
         });
         // console.log(antenna); //? commentaire debug à supprimer ///////////////////////
         // res.status(201).redirect("/antennas");
@@ -90,22 +102,23 @@ export const apiPostAntenna = async (req, res, next) => {
  * 
 **/
 export const apiUpdateAntenna = async (req, res, next) => {
-    //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
-    const id = req.body.id;
-    const antennaName = req.body.antennaName;
-    const antennaDescription = req.body.antennaDescription;
-    const antennaSlug = req.body.antennaSlug;
-    const antennaImg = req.body.antennaImg;
-    try {
+    const data = req.body;
+     try {
         const result = await Antenna.findByIdAndUpdate(
             { 
-                "_id": id 
+                "_id": data.id 
             }, 
             { 
-                antennaName,
-                antennaDescription,
-                antennaSlug,
-                antennaImg 
+                antennaName: data.antennaName, 
+                antennaDescription: data.antennaDescription,
+                antennaSlug: data.antennaSlug,
+                antennaImg: data.antennaImg,
+                antennaRegion: data.antennaRegion,
+                antennaPhone: data.antennaPhone,
+                antennaStatus: data.antennaStatus,
+                antennaAddress: data.antennaAddress,
+                antennaZipCode: data.antennaZipCode,
+                antennaCity: data.antennaCity
             }, 
             { 
                 new: true,
@@ -113,7 +126,6 @@ export const apiUpdateAntenna = async (req, res, next) => {
             }
             //  (err, doc)
         );
-        //console.log(result); //? commentaire debug à supprimer ///////////////////////
         if (null == result) {
             return res.status(404).json("Erreur : centre de formation introuvable.");
         }

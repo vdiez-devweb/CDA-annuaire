@@ -62,24 +62,21 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         default:false //TODO Inactif par défaut ? à la création puis on doit l'activer quand on a saisi des sessions
     },
     antennaAddress: {
-        address: {
-            type:String,
-            required: [true,'Vous devez saisir un n° et nom de voie'], 
-            default:'NC'
-        },   
-        zipCode: {
-            type:Number,
-            min:[5, 'Le code format doit avoir 5 chiffres'],
-            max:[5, 'Le code format doit avoir 5 chiffres'],
-            required: [true,'Vous devez saisir un code postal'], //TODO modifier la contrainte par une longueur ?
-            default:'NC'
-        },  
-        city: {
-            type:String,
-            required: [true,'Vous devez saisir une ville'], //TODO ajouter l'utilisation d'une  API pour lier le CP et la ville ?
-            default:'NC'
-        }        
-    }
+        type:String,
+        required: [true,'Vous devez saisir un n° et nom de voie'], 
+        default:'NC'
+    },   
+    antennaZipCode: {
+        type:String,
+        min:[5, 'Le code format doit avoir 5 chiffres'],
+        max:[5, 'Le code format doit avoir 5 chiffres'],
+        required: [true,'Vous devez saisir un code postal'], //TODO modifier la contrainte par une longueur ?
+    },  
+    antennaCity: {
+        type:String,
+        required: [true,'Vous devez saisir une ville'], //TODO ajouter l'utilisation d'une  API pour lier le CP et la ville ?
+        default:'NC'
+    }        
 }, 
 { 
     timestamps: { createdAt: 'createdAt' } 

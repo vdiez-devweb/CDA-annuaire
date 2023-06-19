@@ -25,21 +25,20 @@ const sessionSchema = new Schema({
         maxLength:[250,'La description du session doit contenir au maximum 250 caractères'], //TODO enum ?
         default:null
     },
-    sessionNbStudents: {    // anciennement sessionPrice
-        type:Number,
-        default:0,
-        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la mise à jour à l'ajout / suppression d'étudiants + refresh de la session
-        // validate: {
-        //     validator: function(number) {
-        //       return (typeof number === 'Number');
-        //     },
-        //     message: props => `doit être un nombre! vous avez saisi ${props.value}`
-        //   }
-    },
     sessionDescription: {
         type:String,
         maxLength:[250,'La description du session doit contenir au maximum 250 caractères'],
         default:null
+    },
+    sessionStartDate: {
+        type:Date,
+        required: [true,'Vous devez définir une date de début pour cette session'],
+        default: Date.now        //TODO validation
+    },
+    sessionEndDate: {
+        type:Date,
+        required: [true,'Vous devez définir une date de fin pour cette session'],
+        default: () => new Date(+new Date() + 90*24*60*60*1000), // défaut 90 jours après le jour de début //TODO validation + voir cohérence avec startDate
     },
     sessionAlternation: {
         type:Boolean,
@@ -51,26 +50,27 @@ const sessionSchema = new Schema({
         required: [true,'Vous devez définir si stage ou pas'],
         default:false //TODO non stage par défaut ? 
     },  
-    sessionAntenna: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Antenna'
-    },
-
+    
     sessionStatus: {
         type:Boolean,
         required: [true,'Vous devez définir le status actif ou non pour cette session'],
         default:false //TODO Inactif par défaut ? à la création puis on doit l'activer après ?
     },
-
-    sessionStartDate: {
-        type:Date,
-        required: [true,'Vous devez définir une date de début pour cette session'],
-        default:false //TODO validation
+    sessionNbStudents: {    // anciennement sessionPrice
+        type:Number,
+        default:0,
+        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la mise à jour à l'ajout / suppression d'étudiants + refresh de la session
+        // validate: {
+        //     validator: function(number) {
+        //       return (typeof number === 'Number');
+        //     },
+        //     message: props => `doit être un nombre! vous avez saisi ${props.value}`
+        //   }
     },
-    sessionEndDate: {
-        type:Date,
-        required: [true,'Vous devez définir une date de fin pour cette session'],
-        default:false //TODO validation + voir cohérence avec startdate
+    
+    sessionAntenna: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Antenna'
     },
 }, {
     timestamps: { 
