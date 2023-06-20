@@ -221,6 +221,7 @@ export const postAntenna = (req, res, next) => {
     res.status(200).render("admin/createAntenna", {
         title: prefixTitle + "Création de centre de formation ",
         antenna: "",
+        action:"create",
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
         msg_success,
@@ -546,6 +547,7 @@ export const updateSession = async(req, res, next) => {
         res.status(200).render("admin/updateSession", {
             title: "Modifier la session " + session.sessionName,
             antennas: antennas,
+            action: "update",
             antennaSelected: antennaSelected,
             session: session,
             message_success: req.flash('message_success'),
@@ -631,6 +633,7 @@ export const updateAntenna = async(req, res, next) => {
         res.status(200).render("admin/updateAntenna", {
             title: "Modifier le centre de formation " + antenna.antennaName,
             antenna: antenna,
+            action:"update",
             nbSessionsInBDD: count,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),

@@ -63,7 +63,7 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
     },
     antennaAddress: {
         type:String,
-        required: [true,'Vous devez saisir un n° et nom de voie'], 
+        // required: [true,'Vous devez saisir un n° et nom de voie'], 
         default:'NC'
     },   
     antennaZipCode: {
@@ -74,7 +74,7 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
     },  
     antennaCity: {
         type:String,
-        required: [true,'Vous devez saisir une ville'], //TODO ajouter l'utilisation d'une  API pour lier le CP et la ville ?
+        // required: [true,'Vous devez saisir une ville'], //TODO ajouter l'utilisation d'une  API pour lier le CP et la ville ?
         default:'NC'
     }        
 }, 
