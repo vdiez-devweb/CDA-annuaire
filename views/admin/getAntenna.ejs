@@ -1,52 +1,58 @@
 <%- include('../_head'); %>
 <%- include('_header'); %>
     <div class="container">
+        <h3>Centre de formation </h3>
         <div class="row">
-            <div class="col-sm-4 col-md-3 col-xl-2 mb-4">
-                <% if (antenna.antennaImg) { %>
+            <div class="col-sm-4 col-md-3 mb-3">
+            <!-- <div class="col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4"> -->
+                    <% if (antenna.antennaImg) { %>
                     <img class="shadow p-2 rounded" src="/images/<%= antenna.antennaSlug %>-150.jpg">
                 <% } else { %>
                     <img class="shadow p-2 rounded" src="/images/default-150.jpg">
                 <% }  %>
             </div>
-            <div class="col-sm-8 col-md-7 col-xl-10 mt-3">
-                <h3>Centre de formation <%= antenna.antennaName %> </h3>
+            <div class="col-sm-8 col-md-9 mt-1 mb-1">
+            <!-- <div class="col-sm-8 col-md-8 col-lg-7 col-xl-10 mt-3"> -->
+                <h4><%= antenna.antennaName %> </h4>
                 <p><%= antenna.antennaDescription %></p>
-                <% if (message) { %>
-                    <p class="alert alert-warning"><%= message %></p>
-                <% } %>  
-                <a href="<%=baseURL%>/admin/create-session/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm mb-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session dans ce centre</a>
-                <br />
-                <a href="<%=baseURL%>/admin/update-antenna/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>modifier le centre</a>
-                <% if (sessions) { %>
-                    <a href="<%=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>rafraîchir le compteur de sessions</a>
-                <% } else { %>
-                <br/>
-                <a href="<%=baseURL%>/admin/delete-antenna/<%= antenna.antennaSlug %>" class="btn btn-secondary btn-sm mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer le centre sans session</a></div>                 
-                <% } %>
-                 </div>                
-                 Coordonnées à dynamiser
-                 <div class="row">
-                    <div class="col-5 col-md-3 text-center">
-                        <i class="fas fa-map-marker-alt mt-4 fa-2x text-dark"></i>
-                        <p>9 rue du centre <br/>75000 PARIS</p>
+                <div>
+                    <i class="fas fa-map-marker-alt fa-2x text-dark"></i>
+                    <%= antenna.antennaAddress %>  <%= antenna.antennaZipCode %>  <%= antenna.antennaCity %> 
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-lg-2">
+                        <i class="fas fa-phone fa-2x text-dark"></i>
+                        <%= antenna.antennaPhone %>
                     </div>
-                    <div class="col-7 col-md-3 text-center">
-                        <i class="fas fa-calendar-days mt-4 fa-2x text-dark"></i>
+                    <!-- <div class="col-sm-6 col-lg-4 text-center">
+                        <i class="fas fa-calendar-days fa-2x text-dark"></i>
                         <p>du mardi au vendredi <br/> de 9h à 18h</p>
-                    </div>
-                    <div class="col-5 col-md-3 text-center">
-                        <i class="fas fa-phone mt-4 fa-2x text-dark"></i>
-                        <p>01 02 03 04 05</p>
-                    </div>
-                    <div class="col-7 col-md-3 text-center">
-                        <i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
-                        <p>contact@conceptinstitut.com</p>
+                    </div> -->
+                    <div class="col-sm-6 col-lg-2">
+                        <i class="fas fa-envelope fa-2x text-dark"></i>
+                        <%= antenna.antennaEmail %>
                     </div>
                 </div>
+                <% if (message) { %>
+                    <div>
+                        <p class="alert alert-warning"><%= message %></p>
+                    </div>
+                <% } %>  
+                <div>
+                    <a href="<%=baseURL%>/admin/update-antenna/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>modifier le centre</a>
+
+                </div>                
+            </div>            
         </div>
+            <br/>
+        <a href="<%=baseURL%>/admin/create-session/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session dans ce centre</a>
+        <% if (sessions) { %>
+            <a href="<%=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>rafraîchir le compteur de sessions</a>
+        <% } else { %>
+            <a href="<%=baseURL%>/admin/delete-antenna/<%= antenna.antennaSlug %>" class="btn btn-secondary btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer le centre sans session</a></div>                 
+        <% } %>
    
-    <% if (sessions) { %>
+    <% if (sessions && sessions != "") { %>
         <p>Ce centre est lié à <%= antenna.antennaNbSessions %> session(s)</p>
         <table class="table table-bordered">
             <thead class="table-light">

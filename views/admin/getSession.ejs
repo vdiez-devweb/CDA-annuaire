@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-8 mb-2">Centre : 
                     <% if (session.sessionAntenna) { %>
-                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
+                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
                             <%= session.sessionAntenna.antennaName %>
                         </a></span>
                     <% } else { %> - <% } %>

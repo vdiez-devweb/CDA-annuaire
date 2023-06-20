@@ -56,6 +56,14 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la vérif avec une regex
         default:0
     },
+    antennaEmail: {
+        type:String,
+        required: [true,'Vous devez saisir un email'], // TODO faire la vérif avec une regex
+        trim: true,
+        lowercase: true,
+        unique: true,
+        default:'NC'
+    },
     antennaStatus: {
         type:Boolean,
         required: [true,'Vous devez définir le status actif ou non pour ce centre'],

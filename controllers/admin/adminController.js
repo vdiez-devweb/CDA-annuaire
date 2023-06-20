@@ -218,7 +218,7 @@ export const postAntenna = (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
-    res.status(200).render("admin/createAntenna", {
+    res.status(200).render("admin/editAddAntenna", {
         title: prefixTitle + "Création de centre de formation ",
         antenna: "",
         action:"create",
@@ -245,12 +245,13 @@ export const ajaxPostAntenna = async (req, res, next) => {
             antennaName: data.antennaName,
             antennaDescription: data.antennaDescription,
             antennaSlug: data.antennaSlug,
-            antennaImg: data.antennaImg,
+            antennaImg: data.antennaImg ? true : false,
             antennaRegion: data.antennaRegion,
             antennaPhone: data.antennaPhone,
-            antennaStatus: data.antennaStatus,
+            antennaStatus: data.antennaStatus ? true : false,
             antennaAddress: data.antennaAddress,
             antennaZipCode: data.antennaZipCode,
+            antennaEmail: data.antennaEmail,
             antennaCity: data.antennaCity
         });
         req.flash('message_success', "Centre de formation " + antenna.antennaName + " créé");
@@ -630,7 +631,7 @@ export const updateAntenna = async(req, res, next) => {
             req.flash('message_success', "Erreur : Centre de formation introuvable.");
             return res.status(404).redirect("/admin/antenna/" + antennaSlug);
         }
-        res.status(200).render("admin/updateAntenna", {
+        res.status(200).render("admin/editAddAntenna", {
             title: "Modifier le centre de formation " + antenna.antennaName,
             antenna: antenna,
             action:"update",
@@ -655,6 +656,7 @@ export const updateAntenna = async(req, res, next) => {
 export const ajaxUpdateAntenna = async (req, res, next) => {
     const data = req.body;
     const initialSlug = data.initialSlug;
+
     try{
         const result = await Antenna.findByIdAndUpdate(
         { "_id": data.id }, 
@@ -662,14 +664,15 @@ export const ajaxUpdateAntenna = async (req, res, next) => {
             antennaName: data.antennaName,
             antennaDescription: data.antennaDescription,
             antennaSlug: data.antennaSlug,
-            antennaImg: data.antennaImg,
+            antennaImg: data.antennaImg ? true : false,
             antennaRegion: data.antennaRegion,
             antennaPhone: data.antennaPhone,
-            antennaStatus: data.antennaStatus,
+            antennaStatus: data.antennaStatus ? true : false,
             antennaAddress: data.antennaAddress,
             antennaZipCode: data.antennaZipCode,
             antennaCity: data.antennaCity,
             antennaNbSessions: data.antennaNbSessions,
+            antennaEmail: data.antennaEmail,
             // antennaNbStudents: data.antennaNbStudents,
         }, 
         { 
@@ -681,6 +684,7 @@ export const ajaxUpdateAntenna = async (req, res, next) => {
         if (null == result) {
             return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
         }
+
         req.flash('message_success', "Centre de formation " + result.antennaName + " modifié");
         res.status(200).redirect("/admin/antenna/" + initialSlug);
     } catch(error) {
