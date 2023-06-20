@@ -1,4 +1,5 @@
 import Antenna from "../../models/Antenna.js";
+import Session from "../../models/Session.js";
 
 /**
  * 
@@ -104,6 +105,8 @@ export const apiPostAntenna = async (req, res, next) => {
 export const apiUpdateAntenna = async (req, res, next) => {
     const data = req.body;
      try {
+        //pour mettre à jour le nombre de sessions dans l'antenne
+        const antennaNbSessions =  await Session.countDocuments({sessionAntenna: data.id});
         const result = await Antenna.findByIdAndUpdate(
             { 
                 "_id": data.id 
@@ -118,7 +121,8 @@ export const apiUpdateAntenna = async (req, res, next) => {
                 antennaStatus: data.antennaStatus,
                 antennaAddress: data.antennaAddress,
                 antennaZipCode: data.antennaZipCode,
-                antennaCity: data.antennaCity
+                antennaCity: data.antennaCity,
+                antennaNbSessions: antennaNbSessions
             }, 
             { 
                 new: true,

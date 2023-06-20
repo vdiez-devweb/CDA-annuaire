@@ -1,4 +1,5 @@
 import Session from "../../models/Session.js";
+import Antenna from "../../models/Antenna.js";
 
 /**
  * 
@@ -23,6 +24,13 @@ export const apiPostSession = async (req, res, next) => {
             sessionAntenna: data.sessionAntenna,
 
         });
+        //on met à jour automatiquement le nombre de session dans son centre de formation
+        const antenna = await Antenna.findByIdAndUpdate(
+            { "_id": data.sessionAntenna }, 
+            { $inc: { antennaNbSessions: 1 } }, 
+            { new: true }
+            //  (err, doc)
+        );
         //renvoyer les infos à la vue
         if (null == session || 0 == session) {
             return res.status(400).json("Erreur sur la création")

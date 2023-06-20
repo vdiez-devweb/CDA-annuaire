@@ -236,20 +236,21 @@ export const postAntenna = (req, res, next) => {
 **/
 export const ajaxPostAntenna = async (req, res, next) => {
     // envoyer le nom du centre de formation via req.body
-    const antennaName = req.body.antennaName;
-    const antennaDescription = req.body.antennaDescription;
-    const antennaSlug = req.body.antennaSlug;
-    const antennaImg = req.body.antennaImg ? req.body.antennaImg : false;
+    const data = req.body;
 
     try{
         // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
         const antenna = await Antenna.create({
-            // antennaName: antennaName,
-            antennaName, // si la clé = valeur, on ne répète pas
-            antennaDescription,
-            antennaSlug,
-            antennaNbSessions: 0,
-            antennaImg
+            antennaName: data.antennaName,
+            antennaDescription: data.antennaDescription,
+            antennaSlug: data.antennaSlug,
+            antennaImg: data.antennaImg,
+            antennaRegion: data.antennaRegion,
+            antennaPhone: data.antennaPhone,
+            antennaStatus: data.antennaStatus,
+            antennaAddress: data.antennaAddress,
+            antennaZipCode: data.antennaZipCode,
+            antennaCity: data.antennaCity
         });
         req.flash('message_success', "Centre de formation " + antenna.antennaName + " créé");
         res.status(201).redirect("/admin/antenna/" + antenna.antennaSlug);
@@ -473,24 +474,26 @@ export const postSession = async(req, res, next) => {
 **/
 export const ajaxPostSession = async (req, res, next) => {
     // envoyer le nom du centre de formation via req.body
-    const sessionName = req.body.sessionName;
-    const antennaSlug = req.body.antennaSlug;
-    const sessionDescription = req.body.sessionDescription;
-    const sessionNbStudents = req.body.sessionNbStudents;
-    const sessionAntennaId = req.body.sessionAntennaId;
+    const data = req.body;
     
     try{
         // on créé une nouvelle session avec mongoose (Session est un objet Schema de mongoose déclaré dans le model)
         const session = await Session.create({
-            sessionName, // si la clé = valeur, on ne répète pas
-            sessionDescription,
-            sessionNbStudents, 
-            sessionAntenna: sessionAntennaId
+            sessionName: data.sessionName, 
+            sessionDescription : data.sessionDescription,
+            sessionNumIdentifier: data.sessionNumIdentifier,
+            sessionType: data.sessionType,
+            sessionAlternation: data.sessionAlternation,
+            sessionInternship: data.sessionInternship,
+            sessionStatus: data.sessionStatus,
+            sessionStartDate: data.sessionStartDate,
+            sessionEndDate: data.sessionEndDate,
+            sessionAntenna: data.sessionAntennaId,
         });
 
-        //const antenna = await Antenna.findOne({ "_id": sessionAntennaId });
+        //on met à jour automatiquement le nombre de session dans son centre de formation
         const antenna = await Antenna.findByIdAndUpdate(
-            { "_id": sessionAntennaId }, 
+            { "_id": data.sessionAntennaId }, 
             { $inc: { antennaNbSessions: 1 } }, 
             { new: true }
             //  (err, doc)
@@ -500,10 +503,10 @@ export const ajaxPostSession = async (req, res, next) => {
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            return res.status(500).redirect("/admin/create-session/" + antennaSlug); 
+            return res.status(500).redirect("/admin/create-session/" + data.antennaSlug); 
         }
         req.flash('message_error', "ERREUR " + error);
-        res.status(500).redirect("/admin/sessions/create-session/" + antennaSlug);
+        res.status(500).redirect("/admin/sessions/create-session/" + data.antennaSlug);
     }
 };
 
@@ -564,21 +567,24 @@ export const updateSession = async(req, res, next) => {
 **/
 export const ajaxUpdateSession = async (req, res, next) => {
      //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
-     let msg_success = req.flash('message_success');
-     let msg_error = req.flash('message_error');
      const id = req.params.sessionId;
-     const sessionName = req.body.sessionName;
-     const sessionDescription = req.body.sessionDescription;
-     const sessionNbStudents = req.body.sessionNbStudents;
-     const sessionAntennaId = req.body.sessionAntennaId;
+     const data = req.body;
+
     try{
         const result = await Session.findByIdAndUpdate(
         { "_id": id }, 
         { 
-            sessionName,
-            sessionNbStudents: sessionNbStudents,
-            sessionDescription : sessionDescription,
-            sessionAntenna: sessionAntennaId,
+            sessionName: data.sessionName, 
+            sessionDescription : data.sessionDescription,
+            sessionNumIdentifier: data.sessionNumIdentifier,
+            sessionType: data.sessionType,
+            sessionAlternation: data.sessionAlternation,
+            sessionInternship: data.sessionInternship,
+            sessionStatus: data.sessionStatus,
+            sessionStartDate: data.sessionStartDate,
+            sessionEndDate: data.sessionEndDate,
+            sessionAntenna: data.sessionAntennaId,
+            sessionNbStudents: data.sessionNbStudents,
         }, 
         { 
             new: true,
@@ -644,23 +650,24 @@ export const updateAntenna = async(req, res, next) => {
  * 
 **/
 export const ajaxUpdateAntenna = async (req, res, next) => {
-     //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
-     const id = req.body.id;
-     const initialSlug = req.body.initialSlug;
-     const antennaSlug = req.body.antennaSlug;
-     const antennaName = req.body.antennaName;
-     const antennaDescription = req.body.antennaDescription;
-     const antennaImg = req.body.antennaImg;
-     const antennaNbSessions = req.body.antennaNbSessions;
+    const data = req.body;
+    const initialSlug = data.initialSlug;
     try{
         const result = await Antenna.findByIdAndUpdate(
-        { "_id": id }, 
+        { "_id": data.id }, 
         { 
-            antennaName,
-            antennaSlug :antennaSlug,
-            antennaDescription : antennaDescription,
-            antennaImg: antennaImg,
-            antennaNbSessions: antennaNbSessions,
+            antennaName: data.antennaName,
+            antennaDescription: data.antennaDescription,
+            antennaSlug: data.antennaSlug,
+            antennaImg: data.antennaImg,
+            antennaRegion: data.antennaRegion,
+            antennaPhone: data.antennaPhone,
+            antennaStatus: data.antennaStatus,
+            antennaAddress: data.antennaAddress,
+            antennaZipCode: data.antennaZipCode,
+            antennaCity: data.antennaCity,
+            antennaNbSessions: data.antennaNbSessions,
+            // antennaNbStudents: data.antennaNbStudents,
         }, 
         { 
             new: true,
@@ -711,3 +718,42 @@ export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
        res.status(500).redirect(req.get('Referrer'));
    }
 };
+
+/**
+ * TODO
+ * Update number of Students  in a Session in admin dashboard 
+ * 
+**/
+// export const ajaxUpdateNbStudentsInSession = async (req, res, next) => {
+//     const id = req.params.sessionId;
+//     const sessionNbStudents =  await Student.countDocuments({studentSessions: id});//TODO adapter avec le tableau de sessions
+    
+//    try{
+//        const result = await Session.findByIdAndUpdate(
+//        { "_id": id }, 
+//        { 
+//             sessionNbStudents: sessionNbStudents, //TODO adapter avec le tableau de sessions
+//        }, 
+//        { new: true }
+//        //  (err, doc)
+//        );
+//        if (null == result) {
+//            return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, session non trouvée" });
+//        }
+//        req.flash('message_success', "le compteur d'étudiants de la session " + result.sessionName + " a été rafraîchi ");
+//        res.status(200).redirect(req.get('Referrer'));
+//    } catch(error) {
+//        req.flash('message_error', "ERREUR " + error);
+//        res.status(500).redirect(req.get('Referrer'));
+//    }
+// };
+
+/**
+ * TODO ? 
+ * Update number of Students  in an Antenna in admin dashboard 
+ * 
+**/
+// export const ajaxUpdateNbStudentsInAntenna = async (req, res, next) => {
+//     const id = req.params.sessionId;
+//     //TODO chercher les sessions de cette antenne et ajouter le nombre d'étudiants qui y ont participé 
+// };
