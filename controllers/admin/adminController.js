@@ -1,7 +1,8 @@
 import Antenna from "../../models/Antenna.js";
 import Session from "../../models/Session.js";
 
-const prefixTitle = "Administration - ";
+// const prefixTitle = "Administration - ";
+const prefixTitle = "";
 
 // function  getAntennaSlugFromId (_id) {
 //     const antenna = Antenna.findOne({ "_id": _id });
@@ -194,7 +195,7 @@ export const getAntenna = async (req, res, next) => {
             message= "Aucune session dans ce centre de formation.";
         }
         res.status(200).render("admin/getAntenna", {
-            title: prefixTitle + "Liste des sessions " + antenna.antennaName,
+            title: prefixTitle + "Centre de formation",
             antenna: antenna,
             sessions: sessions,
             message_success: req.flash('message_success'),

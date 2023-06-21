@@ -1,53 +1,73 @@
 <%- include('../_head'); %>
 <%- include('_header'); %>
     <div class="container">
-        <h3>Centre de formation </h3>
         <div class="row">
-            <div class="col-sm-4 col-md-3 mb-3">
-            <!-- <div class="col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4"> -->
-                    <% if (antenna.antennaImg) { %>
-                    <img class="shadow p-2 rounded" src="/images/<%= antenna.antennaSlug %>-150.jpg">
-                <% } else { %>
-                    <img class="shadow p-2 rounded" src="/images/default-150.jpg">
-                <% }  %>
-            </div>
-            <div class="col-sm-8 col-md-9 mt-1 mb-1">
-            <!-- <div class="col-sm-8 col-md-8 col-lg-7 col-xl-10 mt-3"> -->
-                <h4><%= antenna.antennaName %> </h4>
-                <p><%= antenna.antennaDescription %></p>
-                <div>
-                    <i class="fas fa-map-marker-alt fa-2x text-dark"></i>
-                    <%= antenna.antennaAddress %>  <%= antenna.antennaZipCode %>  <%= antenna.antennaCity %> 
-                </div>
-                <div class="row">
-                    <div class="col-sm-4 col-lg-2">
-                        <i class="fas fa-phone fa-2x text-dark"></i>
-                        <%= antenna.antennaPhone %>
+            <div class="card shadow bg-body rounded m-3 col-sm-10 col-md-8 mb-6">
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-8 mb-2">Région : 
+                            <% if (antenna.antennaRegion) { %>
+                                <span class="badge bg-light text-dark">
+                                    <a href="<%=baseURL%>/admin/antenna/<%= antenna.antennaRegion %>">                    
+                                    <%= antenna.antennaRegion %>
+                                    </a>
+                                </span>
+                            <% } else { %> - <% } %>
+                        </div>
+                        <div class="col-4 text-end">
+                            <span class="badge bg-success"><%= antenna.antennaNbSessions %><i class="fa-solid fa-chalkboard-user px-1"></i></span>
+                            <span class="badge bg-secondary"><%= antenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span>
+                        </div>
                     </div>
-                    <!-- <div class="col-sm-6 col-lg-4 text-center">
-                        <i class="fas fa-calendar-days fa-2x text-dark"></i>
-                        <p>du mardi au vendredi <br/> de 9h à 18h</p>
-                    </div> -->
-                    <div class="col-sm-6 col-lg-2">
-                        <i class="fas fa-envelope fa-2x text-dark"></i>
-                        <%= antenna.antennaEmail %>
-                    </div>
-                </div>
-                <% if (message) { %>
+                    <h2><%= antenna.antennaName %> </h2>
                     <div>
-                        <p class="alert alert-warning"><%= message %></p>
+                        <p><%= antenna.antennaDescription %></p>
                     </div>
-                <% } %>  
-                <div>
-                    <a href="<%=baseURL%>/admin/update-antenna/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>modifier le centre</a>
+                    
 
-                </div>                
-            </div>            
-        </div>
+                    <div class="text-end">
+                        
+                    </div> 
+                    <hr />
+
+                    <div class="row justify-content-around">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-2 text-end">
+                                    <i class="fas fa-map-marker-alt text-success"></i>
+                                </div>
+                                <div class="col-10 text-start">
+                                    <%= antenna.antennaAddress %>  <br />
+                                    <%= antenna.antennaZipCode %>  <%= antenna.antennaCity %> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-envelope text-success"></i> <%= antenna.antennaEmail %><br />
+                            <i class="fas fa-phone text-success"></i> <%= antenna.antennaPhone %>
+
+                        </div>
+                      </div>
+
+                    
+ 
+                </div>
+            </div>
+            <a href="<%=baseURL%>/admin/update-antenna/<%= antenna._id %>">Modifier ce centre<i class="fa-solid fa-pen-to-square px-1"></i></a> <br />
+            <a href="<%=baseURL%>/admin/delete-antenna/<%= antenna._id %>">Supprimer ce centre<i class="fa-solid fa-trash px-1"></i></a>
+            <div class="col-sm-2 col-md-4 mb-6">
+                
+                
+                
+            </div>
+        </div>  
+    </div>
+        
+
             <br/>
         <a href="<%=baseURL%>/admin/create-session/<%= antenna.antennaSlug %>" class="btn btn-outline-success btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session dans ce centre</a>
         <% if (sessions) { %>
-            <a href="<%=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>rafraîchir le compteur de sessions</a>
+            <a href="<%=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-rotate px-1"></i>rafraîchir le compteur de sessions</a>
         <% } else { %>
             <a href="<%=baseURL%>/admin/delete-antenna/<%= antenna.antennaSlug %>" class="btn btn-secondary btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer le centre sans session</a></div>                 
         <% } %>

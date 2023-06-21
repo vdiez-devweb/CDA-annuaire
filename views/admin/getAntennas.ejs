@@ -10,10 +10,12 @@
             <table class="table table-bordered mt-3">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col">-</th>
+                        <!-- <th scope="col">-</th> -->
                         <th scope="col">Centre de formation</th>
                         <th scope="col">Slug</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Région</th>
+                        <!-- <th scope="col">Description</th> -->
+                        <th scope="col">Compteurs</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -21,43 +23,47 @@
                     <% antennas.forEach(function(currentAntenna) { %>
 
                         <tr>
-                            <td>
+                            <!-- <td>
                             <% if (currentAntenna.antennaImg) { %>
-                                <img class="shadow p-2 rounded" src="/images/<%= currentAntenna.antennaSlug %>-75.jpg">
+                                <img class="shadow p-2 rounded" src="/images/<%#= currentAntenna.antennaSlug %>-75.jpg">
                             <% } else { %>
                                 <img class="shadow p-2 rounded" src="/images/default-75.jpg">
                             <% }  %>
-
-
-                            </td>
+                            </td> -->
                             <th scope="row"><%= currentAntenna.antennaName %> </th>
                             <td><%= currentAntenna.antennaSlug %></td>
-                            <td><%= currentAntenna.antennaDescription %></td>
+                            <td><%= currentAntenna.antennaRegion %></td>
+                            <!-- <td><%#= currentAntenna.antennaDescription %></td> -->
                             <td>
-                                <!-- <a href="admin/antenna/<%= currentAntenna.antennaSlug %>" alt="Voir les sessions du centre de formation"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
+                                <!-- <a href="admin/antenna/<%#= currentAntenna.antennaSlug %>" alt="Voir les sessions du centre de formation"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
                                 <div>
                                     <% if (currentAntenna.antennaNbSessions != 0) { %>
-                                        <a href="<%=baseURL%>/admin/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les <%= currentAntenna.antennaNbSessions %> sessions</a>    
+                                        <div><a href="<%=baseURL%>/admin/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-chalkboard-user px-1"></i><%= currentAntenna.antennaNbSessions %><span class="d-none d-md-inline"> sessions</span></a>    </div> 
                                     <% } else {  %>
-                                        <i class="fa-solid fa-0 px-1"></i> aucune session
+                                        <div><i class="fa-solid fa-chalkboard-user px-1"></i><span class="d-md-none">0</span><span class="d-none d-md-inline">aucune session</span></div>
                                     <% }  %>
+                                    <% if (currentAntenna.antennaNbStudents != 0) { %>
+                                        <div><a href="#<%#=baseURL%><!-- /admin/antenna/ --><%#= currentAntenna.antennaSlug %>"><i class="fa-solid fa-user-graduate px-1"></i><%= currentAntenna.antennaNbStudents %><span class="d-none d-md-inline"> étudiants</span></a>   </div>  
+                                        <% } else {  %>
+                                        <div><i class="fa-solid fa-user-graduate px-1"></i><span class="d-md-none">0</span><span class="d-none d-md-inline">aucun étudiant</span></div>
+                                    <% }  %>
+
                                     <!-- <span  tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Rafraîchir le compteur de sessions"> -->
                                         <a href="<%=baseURL%>/admin/update-count-sessions/<%= currentAntenna._id %>" title="Rafraîchir le compteur de sessions"><i class="fa-solid fa-rotate px-1"></i></a>
                                     <!-- </span> -->
-                                </div>     
-                                
-
-                                <div><a href="<%=baseURL%>/admin/update-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                                <div><a href="<%=baseURL%>/admin/delete-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
-                                <div><a href="<%=baseURL%>/admin/create-session/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div><a href="<%=baseURL%>/admin/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i><span class="d-none d-md-inline">Détails</span></a></div>   
+                                <div><a href="<%=baseURL%>/admin/update-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-pen-to-square px-1"></i><span class="d-none d-md-inline">Modifier</span></a></div>      
+                                <div><a href="<%=baseURL%>/admin/delete-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-trash px-1"></i><span class="d-none d-md-inline">Supprimer</span></a></div>                     
+                                <div><a href="<%=baseURL%>/admin/create-session/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-square-plus px-1"></i><span class="d-none d-md-inline">Créer une session</span></a></div>
                             </td>
                         </tr>
-
                     <% }); %>
                 </tbody>
             </table>
         <p>&nbsp;</p>
-
         <% } else { %>
             <p class="alert alert-warning"><%= message %></p>
             <div>
