@@ -7,27 +7,44 @@
     <% } %>
     <div class="row">
       <div class="col-md-6">
-        <h3>Centres de formation par région</h3>
-        <% if (antennas && antennas != "") { %>
-          <%- include('antenna/_listAntennas'); %>
+        <h4><i class="fa-solid fa-school m-1"></i> Centres de formation par région</h4>
+        <% if (regions && regions != "") { %>
+          <% regions.forEach(function(currentRegion) { %>
+            <button type="button" class="btn btn-outline-success position-relative m-1">
+              <!-- TODO ajouter le lien vers l'affichage des centres de cette région -->
+              <%= currentRegion._id %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= currentRegion.count %>
+                <span class="visually-hidden">centres de formation</span>
+              </span>
+            </button>
+          <% }); %>
         <% } else { %>
-            <p class="alert alert-warning"><%= messageAntenna %></p>
+            <p class="alert alert-warning"><%= messageRegions %></p>
         <% } %>        
         <p>
-            <a href="<%=baseURL%>/antennas" class="btn btn-success btn-sm mb-5">parcourir tous les centres</a>
+            <a href="<%=baseURL%>/antennas" class="btn btn-success mb-5 mt-2">parcourir tous les centres</a>
         </p>
       </div>
       <div class="col-md-6">
 
-        <h3>Sessions de formation par domaine</h3>
-        <% if (sessions && sessions != "") { %>
-          <%- include('session/_listSessions'); %>
+        <h4><i class="fa-solid fa-chalkboard-user m-1"></i> Sessions de formation par domaine</h4>
+        <% if (domaines && domaines != "") { %>
+          <% domaines.forEach(function(currentDomain) { %>
+            <button type="button" class="btn btn-outline-success position-relative m-1">
+              <%= currentDomain %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%#= currentDomain.count %>
+                <span class="visually-hidden">sessions de formation</span>
+              </span>
+            </button>
+          <% }); %>
         <% } else { %>
-            <p class="alert alert-warning"><%= messageSession %></p>
+            <p class="alert alert-warning"><%= messageDomaines %></p>
         <% } %>    
         
         <p>
-            <a href="<%=baseURL%>/sessions" class="btn btn-success btn-sm mb-5">parcourir toutes les sessions</a>
+            <a href="<%=baseURL%>/sessions" class="btn btn-success mb-5 mt-2">parcourir toutes les sessions</a>
         </p>
       </div>
     </div>
