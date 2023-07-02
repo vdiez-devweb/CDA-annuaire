@@ -33,16 +33,41 @@ const app = express();
 app.use(session({
   name: process.env.SESSION_NAME,
   secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: 60000, secure: false },
+  cookie: { 
+    maxAge: 180000, //en millisecondes 60000 = 1 minute
+    secure: false 
+  },
   resave: false,
   saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
 }));
 
 app.use(flash());
 
-// middleware pour que 'user' soit disponible pour tous les templates
+// middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
 app.use(function(req, res, next) {
-  res.locals.user = req.session.user;
+  res.locals.user = req.session.user,
+  res.locals.typeSession = [
+    'Titre Professionnel inscrit au RNCP',
+    'Certificats de qualification professionnelle (CQP)',
+    'Validation des Acquis de l\'Expérience (VAE)',
+    'Bootcamp',
+    'Autre'
+  ],
+  res.locals.tabRegions = {
+      11: "Île-de-France",
+      24: "Centre-Val de Loire",
+      27: "Bourgogne-Franche-Comté",
+      28: "Normandie",
+      32: "Hauts-de-France",
+      44: "Grand Est",
+      52: "Pays de la Loire",
+      53: "Bretagne",
+      75: "Nouvelle-Aquitaine",
+      76: "Occitanie",
+      84: "Auvergne-Rhône-Alpes",
+      93: "Provence-Alpes-Côte d'Azur",
+      94: "Corse",
+  }
   next();
 });
 

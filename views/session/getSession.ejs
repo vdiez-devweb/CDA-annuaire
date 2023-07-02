@@ -15,7 +15,7 @@
                     <% } else { %> - <% } %>
                     </div>
                     <div class="col-4 text-end">
-                        <span class="badge rounded-pill bg-success"><%= session.sessionNbStudents %> €</span>
+                        <span class="badge bg-secondary"><%= session.sessionNbStudents  %><i class="fa-solid fa-user-graduate px-1"></i></span>
                     </div>
                 </div>
                 <h2><%= session.sessionName %> </h2>
@@ -25,6 +25,8 @@
             </div>
         </div>
     </div>
+
+    <!-- TODO Afficher la liste des étudiants -->
 
     <a href="../antennas" class="btn btn-success btn-sm mb-5" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour à la liste des centres de formation</a>
     <a href="../sessions" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>

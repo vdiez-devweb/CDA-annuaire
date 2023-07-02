@@ -9,108 +9,138 @@
         <% } else { %>
             <form method="post" action="<%=baseURL%>/admin/ajax-create-antenna">
         <% } %>  
-
-            <div class="row mb-3 form-group required">
-                <label for="antennaName" class="col-sm-2 col-form-label">Nom du centre</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="antennaName" name="antennaName" required="required" <% if (antenna.antennaName) { %>value="<%= antenna.antennaName%>"<% } %>> 
-                    <!-- maxlength="100" minlength="5" -->
-                </div>
+            <div class="mb-3 form-group">
+                <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
+                    <legend>Informations Générales</legend>
+                    <div class="row mb-3 form-group required">
+                        <label for="antennaName" class="col-form-label">Nom du centre</label>
+                        <div>
+                            <input type="text" class="form-control" id="antennaName" name="antennaName" required="required" <% if (antenna.antennaName) { %>value="<%= antenna.antennaName%>"<% } %>> 
+                            <!-- maxlength="100" minlength="5" -->
+                            <small id="antennaName-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group required">
+                        <label for="antennaSlug" class="col-form-label">Slug</label>
+                        <div>
+                            <input type="text" class="form-control" id="antennaSlug" name="antennaSlug" required="required" <% if (antenna.antennaSlug) { %>value="<%= antenna.antennaSlug%>"<% } %>>
+                            <!-- maxlength="16" minlength="3" -->
+                            <small id="antennaSlug-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                        <label for="antennaDescription" class="col-form-label">Description</label>
+                        <div>
+                            <textarea class="form-control" id="antennaDescription" name="antennaDescription" rows="3"> <% if (antenna.antennaDescription) { %><%= antenna.antennaDescription %><% } %></textarea>
+                            <small id="antennaDescription-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                        <div class="col-md-2">Status</div>
+                        <div class="col-md-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="antennaStatus" name="antennaStatus" <% if (antenna.antennaStatus) { %>checked<% } %>>
+                                <label class="form-check-label" for="antennaStatus">
+                                    <small class="form-text text-muted">Actif/Inactif : décocher si vous souhaiter cacher le centre pour le moment</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>           
+                    <div class="row mb-3 form-group">
+                        <div class="col-md-2">Image</div>
+                        <div class="col-md-10">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="true" id="antennaImg" name="antennaImg" <% if (antenna.antennaImg) { %>checked<% } %>>
+                            <label class="form-check-label" for="antennaImg">
+                                <small class="form-text text-muted">Cocher si présence d'une image nommée avec le Slug du centre</small>
+                            </label>
+                        </div>
+                    </div>
+                    <% if (action == "update") { %>
+                        <input id="id" name="id" type="hidden" value="<%= antenna._id %>">   
+                        <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antenna.antennaSlug %>">   
+                        <input id="antennaNbSessions" name="antennaNbSessions" type="hidden" value="<%= nbSessionsInBDD %>">
+                        <% if (nbSessionsInBDD != antenna.antennaNbSessions) { %>
+                            <p class="alert alert-warning">
+                                Le compteur de sessions enregistrées dans ce centre (<%= antenna.antennaNbSessions %>) est différent du nombre réel de sessions vérifiée sur serveur (<%= nbSessionsInBDD %>). <br />
+                                Cette valeur va être mise à jour à <%= nbSessionsInBDD %> quand vous validerez la modification. 
+                            </p>
+                        <% } %>  
+                    <% } %>
+                    <!-- TODO ajouter un champ fichier pour l'image -->                    
+                </fieldset>
             </div>
-            <div class="row mb-3 form-group required">
-                <label for="antennaSlug" class="col-sm-2 col-form-label">Slug</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="antennaSlug" name="antennaSlug" required="required" <% if (antenna.antennaSlug) { %>value="<%= antenna.antennaSlug%>"<% } %>>
-                   <!-- maxlength="16" minlength="3" -->
-                </div>
-            </div>
-            <div class="row mb-3 form-group">
-                <label for="antennaDescription" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" id="antennaDescription" name="antennaDescription" rows="3"> <% if (antenna.antennaDescription) { %><%= antenna.antennaDescription %><% } %></textarea>
-                </div>
-            </div>
-            <div class="row mb-3 form-group">
-                <div class="col-sm-2 col-form-label">Adresse</div>
+            <div class="mb-3 form-group">
+                <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
+                    <legend class="">Coordonnées</legend>
+                    <!-- <div class="col-sm-2 col-form-label">Coordonnées</div> -->
                 <!-- <label for="antennaAddress" class="col-sm-2 col-form-label">Nom de la voie</label> -->
-                <div class="col-sm-10 mb-1">
-                    <input type="text" class="form-control mb-2 " id="antennaAddress" name="antennaAddress" placeholder="Nom de la voie"  <% if (antenna.antennaAddress) { %>value="<%= antenna.antennaAddress%>"<% } %>>
-                    <div class="row form-group">
-                        <div class="col-sm-4 required">
-                            <input type="text" class="form-control" id="antennaZipCode" name="antennaZipCode" placeholder="CP *" required="required"  <% if (antenna.antennaZipCode) { %>value="<%= antenna.antennaZipCode%>"<% } %>>
+                <!-- <div class="col-sm-10 mb-1"> -->
+                <!-- <div class="mb-1"> -->
+                    <div class="form-group ">
+                        <label for="antennaAddress" class="col-form-label">Adresse</label>
+                        <input type="text" class="form-control mb-2 " id="antennaAddress" name="antennaAddress" placeholder="Nom de la voie"  <% if (antenna.antennaAddress) { %>value="<%= antenna.antennaAddress%>"<% } %>>
+                        <small id="antennaAddress-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                    </div>
+                    <div class="row">
+                        <div class="form-group required col-sm-4">
+                            <label for="antennaZipCode" class="col-form-label">Code postal</label>
+                            <div>
+                                <input type="text" class="form-control" id="antennaZipCode" name="antennaZipCode" placeholder="CP" required="required"  <% if (antenna.antennaZipCode) { %>value="<%= antenna.antennaZipCode%>"<% } %>>
+                                <small id="antennaZipCode-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                            </div>
                         </div>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="antennaCity" name="antennaCity" placeholder="Ville"  <% if (antenna.antennaCity) { %>value="<%= antenna.antennaCity%>"<% } %>>
+                        <div class="form-group col-sm-8">
+                            <label for="antennaCity" class="col-form-label">Commune</label>
+                            <div>
+                                <input type="text" class="form-control" id="antennaCity" name="antennaCity" placeholder="Ville"  <% if (antenna.antennaCity) { %>value="<%= antenna.antennaCity%>"<% } %>>
+                                <small id="antennaCity-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mb-3 form-group required">
-                <label for="antennaRegion" class="col-sm-2 col-form-label">Region</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="antennaRegion" name="antennaRegion" required="required" <% if (antenna.antennaRegion) { %>value="<%= antenna.antennaRegion%>"<% } %>>
-                </div>
-            </div>
-            <div class="row mb-3 form-group required">
-                <label for="antennaPhone" class="col-sm-2 col-form-label">N° téléphone</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="antennaPhone" name="antennaPhone" required="required" <% if (antenna.antennaPhone) { %>value="<%= antenna.antennaPhone%>"<% } %>>
-                </div>
-            </div>
-            <div class="row mb-3 form-group">
-                <label for="antennaEmail" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="antennaEmail" name="antennaEmail" placeholder="name@example.com" <% if (antenna.antennaEmail) { %>value="<%= antenna.antennaEmail%>"<% } %>>
-                </div>
-            </div>
-            <div class="row mb-3 form-group">
-                <div class="col-sm-2">Status</div>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="true" id="antennaStatus" name="antennaStatus" <% if (antenna.antennaStatus) { %>checked<% } %>>
-                        <label class="form-check-label" for="antennaStatus">
-                        Actif/Inactif (décocher si vous souhaiter cacher le centre pour le moment)
-                        </label>
+                    <div class="mb-3 form-group required">
+                        <label for="antennaRegion" class="col-form-label">Region</label>
+                        <div>
+                            <!--TODO afficher un champ SELECT avec les valeurs de tabRegions en attendant de faire une selection auto en fonction du CP -->
+                            <!-- <input type="text" class="form-control" id="antennaRegion" name="antennaRegion" <% if (antenna.antennaRegion) { %>value="<%= antenna.antennaRegion%>"<% } %> aria-label="Région définie via le code postal" disabled readonly> -->
+                            <select class="form-select" id="antennaRegion" name="antennaRegion" aria-label="Région du centre">
+                                <option value="0" selected>- Choisir une région -</option>
+                                <option disabled>────────────────────</option>
+                                    <% Object.keys(tabRegions).forEach(function(codeRegion) { %>
+                                    <option value="<%= codeRegion %>"><%= tabRegions[codeRegion] %></option>
+                                <% }) %>                                
+                                </select>
+                        </div>
                     </div>
-                </div>
-            </div>           
-            <div class="row mb-3 form-group">
-                <div class="col-sm-2">Image ?</div>
-                <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="true" id="antennaImg" name="antennaImg" <% if (antenna.antennaImg) { %>checked<% } %>>
-                    <label class="form-check-label" for="antennaImg">
-                      Présence d'une image nommée avec le Slug du centre ?
-                    </label>
+                    <div class="row">
+                        <div class="col-sm-4 mb-3 form-group required">
+                            <label for="antennaPhone" class="col-form-label">N° tél.</label>
+                            <div>
+                                <input type="text" class="form-control" id="antennaPhone" name="antennaPhone" placeholder="0102030405" required="required" <% if (antenna.antennaPhone) { %>value="<%= antenna.antennaPhone%>"<% } %>>
+                                <small id="antennaPhone-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                            </div>
+                        </div>
+                        <div class="col-sm-8 mb-3 form-group">
+                            <label for="antennaEmail" class="col-form-label">Email</label>
+                            <div>
+                                <input type="email" class="form-control" id="antennaEmail" name="antennaEmail" placeholder="name@example.com" <% if (antenna.antennaEmail) { %>value="<%= antenna.antennaEmail%>"<% } %>>
+                                <small id="antennaEmail-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+                </fieldset>
+            </div>                 
+            <div class="mb-5 form-group">
+                <div class="text-end mt-2">
+                    <button class="btn btn-success" type="submit" value="post">
+                    <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> le centre</button>
+                    <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
-            <% if (action == "update") { %>
-                <input id="id" name="id" type="hidden" value="<%= antenna._id %>">   
-                <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antenna.antennaSlug %>">   
-                <input id="antennaNbSessions" name="antennaNbSessions" type="hidden" value="<%= nbSessionsInBDD %>">
-                <% if (nbSessionsInBDD != antenna.antennaNbSessions) { %>
-                    <p class="alert alert-warning">
-                        Le compteur de sessions enregistrées dans ce centre (<%= antenna.antennaNbSessions %>) est différent du nombre réel de sessions vérifiée sur serveur (<%= nbSessionsInBDD %>). <br />
-                        Cette valeur va être mise à jour à <%= nbSessionsInBDD %> quand vous validerez la modification. 
-                    </p>
-                <% } %>  
-                 
-            <% } %>
-<!-- TODO ajouter un champ fichier pour l'image -->
-            <div class="row mb-3 form-group">
-                <div class="col-sm-2"></div>
-                <div class="col-10 mt-5">
-                <button class="btn btn-success" type="submit" value="post">
-                    <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %>  
-
-                    le centre</button>
-                <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
-            </div>
-            
         </form>
-
-        <div class="mt-5">
-                <a class="btn btn-success btn-sm mb-5" role="button" href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
-        </div>
+        <!-- <div class="mt-5">
+                <a class="btn btn-success btn-sm mb-5" role="button" href="<%#=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+        </div> -->
     </div>
 <%- include('../_footer'); %>

@@ -21,16 +21,16 @@ const prefixTitle = "";
 **/
 export const login = async (req, res, next) => {
     let dashboardHomepageURL = process.env.BASE_URL + "/admin";   
-    // si on vient directement sur la page de login (referrer undefined) on renverra sur la homepage du dashboard
+    // si on vient directement sur la page de login (referrer undefined) on initialise le referrer avec la homepage du dashboard
     let referer = (typeof req.get('Referrer') == 'undefined') ? dashboardHomepageURL : req.get('Referrer');
 
-    //si on vient du dashboard admin, on envoie bien le referrer, sinon on renvoie l'url /admin (homepage du dashboard)
+    //si on vient du dashboard admin, on envoie bien le referrer, sinon on renvoie la homepage du dashboard
     let fromURL = referer.includes(dashboardHomepageURL) ? referer : dashboardHomepageURL;   
     
     if (req.session.authenticated && req.session.user) { //si l'utilisateur est déjà authentifié, on le redirige vers le referrer
         // res.json(session);
         res.redirect(dashboardHomepageURL);
-    } else {
+    } else { //sinon on va l'authentifier
         res.status(200).render("login", {
             title: "Page d'authentification",
             message: "",
@@ -49,19 +49,19 @@ export const auth = (req, res, next) => {
     const fromURL = req.body.fromURL;
     //console.log('authentif ' + req.session.authenticated); //? debug à nettoyer
     if (username && password) {
-        if (req.session.authenticated && req.session.user == { username }) { //TODO est-ce nécessaire ?
+        if (req.session.authenticated && req.session.user == { username }) { //si l'utilisateur est déjà authentifié avec le même username, on redirige
             // res.json(session);
-            res.redirect(fromURL);
+            return res.redirect(fromURL);
         } else {
             if (password === process.env.ADMIN_PASSWORD && username === process.env.ADMIN_USERNAME) {
                 req.session.authenticated = true;
                 req.session.user = { username };
                 req.flash('message_success', 'Bienvenue sur le panneau d\'administration de l\'annuaire.');
-                res.redirect(fromURL);
+                return res.redirect(fromURL);
             } else {
-                res.status(403).render("login", {
+                return res.status(403).render("login", {
                     title: "Login",
-                    message: "Erreur mot de passe.",
+                    message: "Erreur login ou mot de passe.",
                     fromURL: fromURL
                 });           
             }
@@ -220,14 +220,14 @@ export const postAntenna = (req, res, next) => {
     let msg_error = req.flash('message_error');
 
     res.status(200).render("admin/editAddAntenna", {
-        title: prefixTitle + "Création de centre de formation ",
+        title: prefixTitle + "Création d'un centre de formation",
         antenna: "",
         action:"create",
         message_success: req.flash('message_success'),
         message_error: req.flash('message_error'),
         msg_success,
         msg_error,
-       message: ""
+        message: ""
     });
 };
 
@@ -354,6 +354,8 @@ export const getSession = async (req, res, next) => {
             req.flash('message_error', "Aucune session trouvée avec l'identifiant." + id);
             return res.status(404).redirect("/admin/sessions");
         }
+        session.sessionEndDate = session.sessionStartDate.toLocaleDateString("fr");
+        session.sessionEndDate = session.sessionEndDate.toLocaleDateString("fr");
         res.status(200).render("admin/getSession", {
             title: "Fiche Session " + session.sessionName,
             session: session,
@@ -420,7 +422,7 @@ export const deleteSession = async (req, res, next) => {
  * 
 **/
 export const postSession = async(req, res, next) => {
-    const antennaSlug = req.params.antennaSlug;
+    const antennaSlug = req.params.antennaSlug != "" ? req.params.antennaSlug : null;
     let antennaSelected = null;
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
@@ -433,9 +435,11 @@ export const postSession = async(req, res, next) => {
 
         if (0 == antennas) {
             req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session.");
-            return res.status(404).render("admin/createSession", {
+            return res.status(404).render("admin/editAddSession", {
                 title: prefixTitle + " Création de session",
                 antennas: "",
+                session:"",
+                action: "create",
                 antennaSelected: antennaSelected,
                 message_success: req.flash('message_success'),
                 message_error: req.flash('message_error'),
@@ -445,9 +449,11 @@ export const postSession = async(req, res, next) => {
                 message: ""
             });
         }
-        res.status(200).render("admin/createSession", {
+        res.status(200).render("admin/editAddSession", {
             title: prefixTitle + " Création de session",
             antennas: antennas,
+            session:"",
+            action: "create",
             antennaSelected: antennaSelected,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
@@ -546,7 +552,7 @@ export const updateSession = async(req, res, next) => {
             req.flash('message_error', "Erreur : Aucun centre de formation répertorié.");
             return res.status(404).redirect(req.get('Referrer'));
         }
-        res.status(200).render("admin/updateSession", {
+        res.status(200).render("admin/editAddSession", {
             title: "Modifier la session " + session.sessionName,
             antennas: antennas,
             action: "update",

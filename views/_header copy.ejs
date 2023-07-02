@@ -52,33 +52,33 @@
         </a>
         <!-- <nav class="navbar navbar-light bg-light">
           <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">L'annuaire des Etudiants Simplon</span>
+            <span class="navbar-brand mb-0 h1">L'annuaire des Étudiants Simplon</span>
           </div>
         </nav> -->
 
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
           <li class="nav-item">
             <a href="<%=baseURL%>/" class="nav-link active">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg> <!-- TODO xlink:href--> 
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/"></use></svg> <!-- TODO xlink:href--> 
               Accueil
             </a>
           </li>
           <li class="nav-item">
             <a href="<%=baseURL%>/antennas" class="nav-link text-white">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg><!-- TODO xlink:href--> 
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/antennas"></use></svg><!-- TODO xlink:href--> 
               Centres de formation
             </a>
           </li>
           <li class="nav-item">
             <a href="<%=baseURL%>/sessions" class="nav-link text-white">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg><!-- TODO xlink:href--> 
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/sessions"></use></svg><!-- TODO xlink:href--> 
               Sessions
             </a>
           </li>
           <li class="nav-item">
             <%  if(user) { %>
               <a  href="<%=baseURL%>/admin/logout">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg><!-- TODO xlink:href--> 
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/admin/logout"></use></svg><!-- TODO xlink:href--> 
                 <button type="button" class="btn btn-light text-dark me-2">Déconnexion <%= user.username %> </button>
               </a>
             <%  } %>

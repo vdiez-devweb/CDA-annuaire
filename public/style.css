@@ -73,7 +73,9 @@ a:hover, nav a:hover {
     color:white;
     font-weight:900;
 }
-
+.m-t-neg {
+    margin-top: -40px;
+}
 footer {
     /* background-color:antiquewhite; */
     /* border-top: 1px solid rgb(206, 205, 205); */

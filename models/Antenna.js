@@ -47,8 +47,8 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         default:0
     },
     antennaRegion: {
-        type:String,
-        required: [true,'Vous devez saisir une région'], //TODO ajouter une contrainte enum ?
+        type:Number,
+        required: [true,'Vous devez saisir le code d\'une région'], //TODO ajouter une contrainte enum ? ou utiliser une correlation code / nom région, via le choix d'un CP
         default:'NC'
     },
     antennaPhone: {

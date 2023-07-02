@@ -27,7 +27,8 @@ const router = express.Router();
 // middleware to test if authenticated
 function isAuthenticated (req, res, next) {
     //console.log(req.session);
-    if (req.session.authenticated && req.session.user) next()
+    // next(); //! pour passer l'étape d'authentification en dev
+    if (req.session.authenticated && req.session.user) next() //TODO vérifications à durcir
     else res.redirect("/admin/login/")
   }
 
@@ -57,6 +58,7 @@ router.post("/admin/ajax-update-session/:sessionId", isAuthenticated, ajaxUpdate
 router.post("/admin/ajax-update-antenna/", isAuthenticated, ajaxUpdateAntenna);
 router.get("/admin/update-count-sessions/:antennaId", isAuthenticated, ajaxUpdateNbSessionsInAntenna);
 
-
+// admin/update-count-students-in-session/<%= session._id %> // compter le nb d'étudiants dans une session
+// /admin/update-count-sessions/<%= antenna._id %> // compter le nb de session et d'étudiants dans une antenne
 
 export default router;
