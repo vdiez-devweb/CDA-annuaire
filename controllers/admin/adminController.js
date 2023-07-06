@@ -354,8 +354,9 @@ export const getSession = async (req, res, next) => {
             req.flash('message_error', "Aucune session trouvée avec l'identifiant." + id);
             return res.status(404).redirect("/admin/sessions");
         }
-        session.sessionEndDate = session.sessionStartDate.toLocaleDateString("fr");
-        session.sessionEndDate = session.sessionEndDate.toLocaleDateString("fr");
+        // session.sessionStartDate = session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale)
+        session.sessionStartDateFormatted = session.sessionStartDate.getDate() + " " + session.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionStartDate.getFullYear();
+        session.sessionEndDateFormatted = session.sessionEndDate.getDate() + " " + session.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionEndDate.getFullYear();
         res.status(200).render("admin/getSession", {
             title: "Fiche Session " + session.sessionName,
             session: session,
@@ -534,6 +535,9 @@ export const updateSession = async(req, res, next) => {
     try{ 
         const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
 
+        session.sessionStartDateToEditForm = session.sessionStartDate.getFullYear() + "-" + (session.sessionStartDate.getMonth() < 9 ? "0" + (session.sessionStartDate.getMonth() + 1) : (session.sessionStartDate.getMonth() + 1) ) + "-" + session.sessionStartDate.getDate();
+        session.sessionEndDateToEditForm = session.sessionEndDate.getFullYear() + "-" + (session.sessionEndDate.getMonth() < 9 ? "0" + (session.sessionEndDate.getMonth() + 1) : (session.sessionEndDate.getMonth() + 1) ) + "-" + session.sessionEndDate.getDate();
+        
         const antennaSlug = session.sessionAntenna.antennaSlug;
         antennaSelected = session.sessionAntenna._id.toString();
 

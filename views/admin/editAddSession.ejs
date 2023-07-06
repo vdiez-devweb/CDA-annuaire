@@ -87,14 +87,14 @@
                         <div class="row mb-3 form-group col-sm-6">
                             <label for="sessionStartDate" class="col-form-label">Date de début</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=session.sessionStartDate %>">
+                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=session.sessionStartDateToEditForm %>">
                                 <small id="sessionStartDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
                         <div class="row mb-3 form-group col-sm-6">
                             <label for="sessionEndDate" class="col-form-label">Date de fin</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=session.sessionEndDate %>">
+                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=session.sessionEndDateToEditForm %>">
                                 <small id="sessionEndDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                 </div>
             </div>           
 
-            <% if (action == "update") { %> <input id="initialSlug" name="initialSlug" type="hidden" value="<%= sessionSelected %>"> <% } %> 
+            <% if (action == "update") { %> <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> <% } %> 
 
             
 

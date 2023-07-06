@@ -6,7 +6,7 @@
     <% } %>    
     <div class="row">
         <div class="card shadow bg-body rounded col-11 col-md-8 m-3">
-            <div class="card-body bg-light">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-8 mb-2">Centre : 
                     <% if (session.sessionAntenna) { %>
@@ -29,27 +29,29 @@
                     <p><%= session.sessionDescription %></p>
                 </div>
                 <hr />
-                <div class="row justify-content-around">
-                    <div class="col-sm-6">
+                <!-- <div class="row justify-content-around"> -->
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-auto pe-0">Type de formation :</div>
-                            <div class="col text-start">
-                                <div><%= session.sessionType %></div>
-                                <% if (session.sessionAlternation) { %><div>Formation en alternance</div><% } %>
-                                <% if (session.sessionInternship) { %><div>Période de stage en entreprise</div><% } %>
+                            <div class="col-auto pe-0">
+                                <ul class="list-group list-group-flush p-1">
+                                    <li class="list-group-item"> <i class="fa-solid fa-scroll pe-1"></i> <%= session.sessionType %></li>
+                                    <% if (session.sessionAlternation) { %><li class="list-group-item"> <i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</li><% } %>
+                                    <% if (session.sessionInternship) { %><li class="list-group-item"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</li><% } %>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-auto pe-0"> Période</div>
+                            <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
                             <div class="col text-start">
-                                <div>du <%= session.sessionStartDate %></div>
-                                <div>au <%= session.sessionEndDate %></div>
+                                <div>du <%= session.sessionStartDateFormatted %></div>
+                                <div>au <%= session.sessionEndDateFormatted %></div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <!-- </div> -->
             </div>
         </div>
 
@@ -80,6 +82,6 @@
 
     <div class="mt-5 mb-5">
         <a href="<%=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>" class="btn btn-success btn-sm mb-2" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour au centre de formation</a>
-        <a href="<%=baseURL%>/admin/sessions" class="btn btn-success btn-sm" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
+        <a href="<%=baseURL%>/admin/sessions" class="btn btn-success btn-sm mb-2" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
     </div>    
 <%- include('../_footer'); %>
