@@ -6,7 +6,7 @@
                         <% if ('undefined' == typeof antenna || antenna =="") { %>
                             <!-- on n'affiche le nom du centre que si on n'est pas dans une fiche centre -->
                             <div class="col-8">
-                                <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
+                                Centre : <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
                                     <%= currentSession.sessionAntenna.antennaName %>
                                 </a></span>
                             </div>
