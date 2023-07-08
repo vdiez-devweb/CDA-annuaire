@@ -85,7 +85,7 @@ export const auth = (req, res, next) => {
 **/
 export const logout = (req, res, next) => {
     req.session.destroy((err)=> {
-        res.redirect("../");
+        res.redirect(process.env.BASE_URL);
     });
 }
 
@@ -147,7 +147,7 @@ export const getAntennas = async (req, res, next) => {
     try {
         const antennas = await Antenna.find({});
         if (0 == antennas || null == antennas) {
-            return res.status(404).render("admin/getAntennas", {
+            return res.status(404).render("admin/antenna/getAntennas", {
                 title: "Liste des centres de formation",
                 antennas: "",
                 message_success: req.flash('message_success'),
@@ -156,10 +156,9 @@ export const getAntennas = async (req, res, next) => {
                 msg_error,
                 message: "Aucun centre trouvé."
             });
-            message= "Aucun centre de formation répertorié.";
-            antennas = "";
         }
-        res.status(200).render("admin/getAntennas", {
+        message= "Aucun centre de formation répertorié.";
+        return res.status(200).render("admin/antenna/getAntennas", {
             title: prefixTitle + "Liste des centres de formation",
             antennas: antennas,
             message_success: req.flash('message_success'),
@@ -170,6 +169,7 @@ export const getAntennas = async (req, res, next) => {
         });
     } catch(error) {
         req.flash('message_error', error);
+        console.log(error);
         res.status(404).redirect("/admin");
     }
 };
@@ -201,7 +201,7 @@ export const getAntenna = async (req, res, next) => {
         if ("" == sessions) {
             message= "Aucune session dans ce centre de formation.";
         }
-        res.status(200).render("admin/getAntenna", {
+        res.status(200).render("admin/antenna/getAntenna", {
             title: prefixTitle + "Centre de formation",
             antenna: antenna,
             sessions: sessions,
@@ -226,7 +226,7 @@ export const postAntenna = (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
-    res.status(200).render("admin/editAddAntenna", {
+    res.status(200).render("admin/antenna/editAddAntenna", {
         title: prefixTitle + "Création d'un centre de formation",
         antenna: "",
         action:"create",
@@ -272,7 +272,7 @@ export const ajaxPostAntenna = async (req, res, next) => {
         req.flash('message_error', "ERREUR " + error);
         //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
         res.status(500).redirect("/admin/create-antenna");
-        // res.status(500).render("admin/getAntenna", {
+        // res.status(500).render("admin/antenna/getAntenna", {
         //     title: prefixTitle + "Création d'un centre de formation",
         //     sessions: "",
         //     antenna: "",
@@ -324,7 +324,7 @@ export const getSessions = async (req, res, next) => {
     try{
         const sessions = await Session.find({}).populate("sessionAntenna");
         if (null == sessions || 0 == sessions.length) {
-            return res.status(404).render("admin/getSessions", {
+            return res.status(404).render("admin/session/getSessions", {
                 title: "Liste des sessions",
                 sessions: "",
                 message: "Aucun session trouvée."
@@ -334,7 +334,7 @@ export const getSessions = async (req, res, next) => {
             currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
             currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
         });
-        res.status(200).render("admin/getSessions", {
+        res.status(200).render("admin/session/getSessions", {
             title: prefixTitle + "Liste des sessions",
             sessions: sessions,
             message_success: req.flash('message_success'),
@@ -368,7 +368,7 @@ export const getSession = async (req, res, next) => {
         // session.sessionStartDate = session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale)
         session.sessionStartDateFormatted = session.sessionStartDate.getDate() + " " + session.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionStartDate.getFullYear();
         session.sessionEndDateFormatted = session.sessionEndDate.getDate() + " " + session.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionEndDate.getFullYear();
-        res.status(200).render("admin/getSession", {
+        res.status(200).render("admin/session/getSession", {
             title: "Fiche Session " + session.sessionName,
             session: session,
             message_success: req.flash('message_success'),
@@ -447,7 +447,7 @@ export const postSession = async(req, res, next) => {
 
         if (0 == antennas) {
             req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session.");
-            return res.status(404).render("admin/editAddSession", {
+            return res.status(404).render("admin/session/editAddSession", {
                 title: prefixTitle + " Création de session",
                 antennas: "",
                 session:"",
@@ -461,7 +461,7 @@ export const postSession = async(req, res, next) => {
                 message: ""
             });
         }
-        res.status(200).render("admin/editAddSession", {
+        res.status(200).render("admin/session/editAddSession", {
             title: prefixTitle + " Création de session",
             antennas: antennas,
             session:"",
@@ -475,7 +475,7 @@ export const postSession = async(req, res, next) => {
             antennaSlug
         });
     } catch {
-        res.status(404).render("admin/getSessions", {
+        res.status(404).render("admin/session/getSessions", {
             title: "Erreur Fiche session",
             session: "",
             message_success: req.flash('message_success'),
@@ -567,7 +567,7 @@ export const updateSession = async(req, res, next) => {
             req.flash('message_error', "Erreur : Aucun centre de formation répertorié.");
             return res.status(404).redirect(req.get('Referrer'));
         }
-        res.status(200).render("admin/editAddSession", {
+        res.status(200).render("admin/session/editAddSession", {
             title: "Modifier la session " + session.sessionName,
             antennas: antennas,
             action: "update",
@@ -653,7 +653,7 @@ export const updateAntenna = async(req, res, next) => {
             req.flash('message_success', "Erreur : Centre de formation introuvable.");
             return res.status(404).redirect("/admin/antenna/" + antennaSlug);
         }
-        res.status(200).render("admin/editAddAntenna", {
+        res.status(200).render("admin/antenna/editAddAntenna", {
             title: "Modifier le centre de formation " + antenna.antennaName,
             antenna: antenna,
             action:"update",
