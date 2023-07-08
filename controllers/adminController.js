@@ -40,7 +40,7 @@ export const auth = (req, res, next) => {
     const username = req.body.user;
     const password = req.body.password;
     const fromURL = req.body.fromURL;
-    //console.log('authentif ' + req.session.authenticated); //? debug à nettoyer
+    //console.log('authentification ' + req.session.authenticated); //? debug à nettoyer
     if (username && password) {
         if (req.session.authenticated && req.session.user == { username }) { //si l'utilisateur est déjà authentifié avec le même username, on redirige
             // res.json(session);

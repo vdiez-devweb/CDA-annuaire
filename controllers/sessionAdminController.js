@@ -24,8 +24,8 @@ export const getSessions = async (req, res, next) => {
             });
         }
         sessions.forEach(function(currentSession) {
-            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
-            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+            currentSession.sessionStartDateFormatted = formateDate(currentSession.sessionStartDate, 'tab');
+            currentSession.sessionEndDateFormatted = formateDate(currentSession.sessionEndDate, 'tab');
         });
         res.status(200).render("admin/session/getSessions", {
             title: prefixTitle + "Liste des sessions",
@@ -58,12 +58,9 @@ export const getSession = async (req, res, next) => {
             req.flash('message_error', "Aucune session trouvée avec l'identifiant." + id);
             return res.status(404).redirect("/admin/sessions");
         }
-        //console.log(formateDate(session.sessionStartDate, 'form'));
-        // session.sessionStartDate = session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale)
-        // session.sessionStartDateToEditForm = formateDate(session.sessionStartDate, 'form');
-        // session.sessionEndDateFormatted = formateDate(session.sessionEndDate, 'form');
-        session.sessionStartDateFormatted = session.sessionStartDate.getDate() + " " + session.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionStartDate.getFullYear();
-        session.sessionEndDateFormatted = session.sessionEndDate.getDate() + " " + session.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " +session.sessionEndDate.getFullYear();
+        session.sessionStartDateFormatted = formateDate(session.sessionStartDate, 'view');
+        session.sessionEndDateFormatted = formateDate(session.sessionEndDate, 'view');
+
         res.status(200).render("admin/session/getSession", {
             title: "Fiche Session " + session.sessionName,
             session: session,
@@ -74,6 +71,7 @@ export const getSession = async (req, res, next) => {
             message: ""
         });
     } catch (error) {
+        console.log(error);
         req.flash('message_error', error);
         res.status(500).redirect("/admin/sessions");
     }
@@ -242,10 +240,8 @@ export const updateSession = async(req, res, next) => {
     try{ 
         const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
 
-        session.sessionStartDateToEditForm = session.sessionStartDate.getFullYear() + "-" + (session.sessionStartDate.getMonth() < 9 ? "0" + (session.sessionStartDate.getMonth() + 1) : (session.sessionStartDate.getMonth() + 1) ) + "-" + session.sessionStartDate.getDate();
-        session.sessionEndDateToEditForm = session.sessionEndDate.getFullYear() + "-" + (session.sessionEndDate.getMonth() < 9 ? "0" + (session.sessionEndDate.getMonth() + 1) : (session.sessionEndDate.getMonth() + 1) ) + "-" + session.sessionEndDate.getDate();
-        // session.sessionStartDateToEditForm = formateDate(session.sessionStartDate, 'form');
-        // session.sessionEndDateToEditForm = formateDate(session.sessionEndDate, 'form');
+        session.sessionStartDateToEditForm = formateDate(session.sessionStartDate, 'form');
+        session.sessionEndDateToEditForm = formateDate(session.sessionEndDate, 'form');  
         
         const antennaSlug = session.sessionAntenna.antennaSlug;
         antennaSelected = session.sessionAntenna._id.toString();
@@ -333,7 +329,7 @@ export const ajaxUpdateSession = async (req, res, next) => {
 
 /**
  * TODO
- * Update number of Students  in a Session in admin dashboard 
+ * Update number of Students in a Session in admin dashboard 
  * 
 **/
 // export const ajaxUpdateNbStudentsInSession = async (req, res, next) => {
