@@ -1,22 +1,42 @@
     <div class="row justify-content-center">
         <% sessions.forEach(function(currentSession) { %>
-            <div class="col-sm-4 col-md-3 mb-3">
+            <div class="col-lg-6 col-xl-4 mb-3">
                 <div class="card shadow bg-body rounded">
                     <div class="card-body bg-light">
-                        <div class="row">
-                            <div class="col-8 mb-2">
-                                <% if (currentSession.sessionAntenna) { %>
-                                    <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
-                                        <%= currentSession.sessionAntenna.antennaName %>
-                                    </a></span>
-                                <% } else { %> - <% } %>
+                        <% if ('undefined' == typeof antenna || antenna =="") { %>
+                            <!-- on n'affiche le nom du centre que si on n'est pas dans une fiche centre -->
+                            <div class="col-8">
+                                <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
+                                    <%= currentSession.sessionAntenna.antennaName %>
+                                </a></span>
                             </div>
+                            <% } %>
+                        <div class="row">
+                            <h4 class="col-8"><%= currentSession.sessionName %> </h4>
                             <div class="col-4 text-end">
-                                <span class="badge bg-success"><%= currentSession.sessionNbStudents %> €</span>
+                                <span class="badge bg-secondary"><%= currentSession.sessionNbStudents  %><i class="fa-solid fa-user-graduate px-1"></i></span>
                                 <!-- <p><%#= currentSession.sessionDescription %></p> -->
                             </div>
+                            <div class="col-sm-12">
+                                <div class="row pb-3">
+                                    <div class="col-auto pe-0">Type de formation :</div>
+                                    <div class="col-auto pe-0">
+                                            <span class="badge bg-secondary"><i class="fa-solid fa-scroll pe-1"></i> <%= currentSession.sessionType %></span>
+                                            <% if (currentSession.sessionAlternation) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</span><% } %>
+                                            <% if (currentSession.sessionInternship) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</span><% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="row pb-2">
+                                    <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
+                                    <div class="col text-start">
+                                        <div>du <%= currentSession.sessionStartDateFormatted %></div>
+                                        <div>au <%= currentSession.sessionEndDateFormatted %></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <h4><%= currentSession.sessionName %> </h4>
                             
                         <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%=baseURL%>/session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche session</a></div>
                     </div>

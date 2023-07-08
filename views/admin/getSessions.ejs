@@ -1,47 +1,10 @@
 <%- include('../_head'); %>
 <%- include('_header'); %>
     <div class="container">
-        <% if (sessions) { %>
-            <div><a href="<%=baseURL%>/admin/create-session" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a></div>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Session</th>
-                        <th scope="col">Centre de formation</th>
-                        <th scope="col">nb Etudiants</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% sessions.forEach(function(currentSession) { %>
-                        <tr>
-                            <th scope="row"><%= currentSession.sessionName %> </th>
-                            <td>
-                                <% if (currentSession.sessionAntenna) { %>
-                                    <a href="<%=baseURL%>/admin/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
-                                    <%= currentSession.sessionAntenna.antennaSlug %>
-                                </a>
-                                <% } else { %> - <% } %>
-                            </td>
-                            <td><%= currentSession.sessionNbStudents %></td>
-                            <td><%= currentSession.sessionDescription %></td>
-                            <td>
-                                <div><a href="<%=baseURL%>/admin/session/<%= currentSession._id %>" alt="Voir la session"><i class="fa-solid fa-magnifying-glass px-1"></i>Détails</a></div>      
-                                <div><a href="<%=baseURL%>/admin/update-session/<%= currentSession._id %>" alt="Modifier la session"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                                <div><a href="<%=baseURL%>/admin/delete-session/<%= currentSession._id %>" alt="Supprimer la session"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
-                            </td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-        <p>&nbsp;</p>
-
-        <% } else { %>
-            <div><p class="alert alert-warning"><%= message %></p></div>
-            <div><a href="<%=baseURL%>/admin/create-session" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a></div>
-        <% } %>              
+        <div>
+            <a href="<%=baseURL%>/admin/create-session" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a>
+        </div>
+        <%- include('_listSessions'); %>
         <div class="mt-5">
             <a href="<%=baseURL%>/admin" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-house-lock pe-2"></i>Retour au panneau d'administration</a>
         </div>

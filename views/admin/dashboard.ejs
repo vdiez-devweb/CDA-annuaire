@@ -1,71 +1,15 @@
 <%- include('../_head'); %>
 <%- include('_header'); %>
     <div class="container">
-        <% if (antennas) { %>
-            <div>
-                <a href="<%=baseURL%>/admin/create-antenna" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
-                <a href="<%=baseURL%>/admin/create-session" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a>
-                <a href="<%=baseURL%>/admin/sessions" class="btn btn-success btn-sm" role="button"><i class="fa-solid fa-eye px-1"></i> Voir toutes les sessions</a>
-            </div>
-            <table class="table table-bordered mt-3">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">-</th>
-                        <th scope="col">Centre de formation</th>
-                        <th scope="col">Slug</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% antennas.forEach(function(currentAntenna) { %>
-
-                        <tr>
-                            <td>
-                            <% if (currentAntenna.antennaImg) { %>
-                                <img class="shadow p-2 rounded" src="/images/<%= currentAntenna.antennaSlug %>-75.jpg">
-                            <% } else { %>
-                                <img class="shadow p-2 rounded" src="/images/default-75.jpg">
-                            <% }  %>
-
-
-                            </td>
-                            <th scope="row"><%= currentAntenna.antennaName %> </th>
-                            <td><%= currentAntenna.antennaSlug %></td>
-                            <td><%= currentAntenna.antennaDescription %></td>
-                            <td>
-                                <!-- <a href="admin/antenna/<%= currentAntenna.antennaSlug %>" alt="Voir les sessions du centre de formation"><i class="fa-solid fa-magnifying-glass px-1"></i></a>                 -->
-                                <div>
-                                    <% if (currentAntenna.antennaNbSessions != 0) { %>
-                                        <a href="<%=baseURL%>/admin/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-magnifying-glass px-1"></i>Voir les <%= currentAntenna.antennaNbSessions %> sessions</a>    
-                                    <% } else {  %>
-                                        <i class="fa-solid fa-0 px-1"></i> aucune session
-                                    <% }  %>
-                                    <!-- <span  tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Rafraîchir le compteur de sessions"> -->
-                                        <a href="<%=baseURL%>/admin/update-count-sessions/<%= currentAntenna._id %>" title="Rafraîchir le compteur de sessions"><i class="fa-solid fa-rotate px-1"></i></a>
-                                    <!-- </span> -->
-                                </div>     
-                                
-
-                                <div><a href="<%=baseURL%>/admin/update-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a></div>      
-                                <div><a href="<%=baseURL%>/admin/delete-antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-trash px-1"></i>Supprimer</a></div>                     
-                                <div><a href="<%=baseURL%>/admin/create-session/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a></div>
-                            </td>
-                        </tr>
-
-                    <% }); %>
-                </tbody>
-            </table>
-        <p>&nbsp;</p>
-
-        <% } else { %>
-            <p class="alert alert-warning"><%= message %></p>
-            <div>
-                <a href="<%=baseURL%>/admin/create-antenna" class="btn btn-outline-success btn-sm" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
-            </div>
-            <% } %>              
-  
-        <div class="mt-5">
-            <a href="<%=baseURL%>/admin" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-house-lock pe-2"></i>Retour au panneau d'administration</a>
+        <div class="alert alert-danger mb-5"><p> <b>revoir l'affichage du Dashboard (avec statistiques et boutons de création ou consultation des listes)</b></p></div>
+        <div>
+            <a href="<%=baseURL%>/admin/create-antenna" class="btn btn-lg btn-outline-success" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
+            <a href="<%=baseURL%>/admin/antennas" class="btn btn-lg btn-success" role="button"><i class="fa-solid fa-eye px-1"></i> Voir tous les centres de formation</a>
         </div>
+        <div class="mt-1">
+            <a href="<%=baseURL%>/admin/create-session" class="btn btn-lg btn-outline-success" role="button"><i class="fa-solid fa-square-plus px-1"></i>Créer une session</a>
+            <a href="<%=baseURL%>/admin/sessions" class="btn btn-lg btn-success" role="button"><i class="fa-solid fa-eye px-1"></i> Voir toutes les sessions</a>
+        </div>
+        <%#- include('_listAntennas'); %>
+
 <%- include('../_footer'); %>

@@ -22,12 +22,12 @@ const sessionSchema = new Schema({
     },    
     sessionType: {
         type:String,
-        maxLength:[250,'La description du session doit contenir au maximum 250 caractères'], //TODO enum ?
+        maxLength:[250,'Le type de la session doit contenir au maximum 250 caractères'], //TODO enum ?
         default:'Autre'
     },
     sessionDescription: {
         type:String,
-        maxLength:[250,'La description du session doit contenir au maximum 250 caractères'],
+        maxLength:[250,'La description de la session doit contenir au maximum 250 caractères'],
         default:null
     },
     sessionStartDate: {

@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-sm-4 text-end">
                             <span class="badge bg-success"><%= antenna.antennaNbSessions %><i class="fa-solid fa-chalkboard-user px-1"></i></span>
-                            <span class="badge bg-secondary"><%= antenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span>
+                            <!-- <span class="badge bg-secondary"><%#= antenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span> -->
                         </div>
                     </div>
                     <h2><%= antenna.antennaName %></h2>
@@ -63,23 +63,7 @@
     <div class="row mt-5">
         <% if (sessions && sessions != "") { %>
             <p>Ce centre est lié à <%= antenna.antennaNbSessions %> session(s)</p>
-            <% sessions.forEach(function(currentSession) { %>
-                <div class="col-md-6 col-xl-4 mb-3">
-                    <div class="card shadow bg-body rounded">
-                        <div class="card-body bg-light">
-                            <div class="row">
-                                <h4 class="col-8 mb-2"><%= currentSession.sessionName %> </h4>
-                                <div class="col-4 text-end">
-                                    <span class="badge bg-secondary"><%= currentSession.sessionNbStudents  %><i class="fa-solid fa-user-graduate px-1"></i></span>
-                                </div>
-                                <p><%= currentSession.sessionDescription %></p>
-
-                            </div>
-                            <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="../session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1"></i>Voir fiche de la session</a></div>
-                        </div>
-                    </div>
-                </div>
-                <% }); %>
+            <%- include('../session/_listSessions'); %>
         <% } else { %>
             <p class="alert alert-warning"><%= message %></p>
         <% } %>

@@ -22,13 +22,17 @@ export const getAntenna = async (req, res, next) => {
         }
         const sessions = await Session.find({"sessionAntenna": antenna._id});
         if ("" == sessions) {
-            return res.status(404).render("antenna/getAntenna", {
+            return res.status(200).render("antenna/getAntenna", {
                 title: "Liste des sessions " + antenna.antennaName,
                 sessions: "",
                 antenna: antenna,
                 message: "Aucune session trouvée."
             });
         }
+        sessions.forEach(function(currentSession) {
+            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
+            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+        });        
         res.status(200).render("antenna/getAntenna", {
             title: "Liste des sessions " + antenna.antennaName,
             message: "",

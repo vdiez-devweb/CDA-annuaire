@@ -11,12 +11,15 @@ export const getSession = async (req, res, next) => {
     try{ //je récupère les infos du centre de formation par .populate
         const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
         if (null == session) {
-            res.status(404).render("session/getSession", {
+            return res.status(404).render("session/getSession", {
                 title: "Erreur Fiche session",
                 session: "",
                 message: "Erreur : session introuvable."
             });
         }
+        session.sessionStartDateFormatted = session.sessionStartDate.getDate() + " " + session.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + session.sessionStartDate.getFullYear();
+        session.sessionEndDateFormatted = session.sessionEndDate.getDate() + " " + session.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + session.sessionEndDate.getFullYear();
+    
         res.status(200).render("session/getSession", {
             title: "Fiche session " + session.sessionName,
             session: session,
@@ -47,7 +50,10 @@ export const getSessions = async (req, res, next) => {
                 message: "Aucun session trouvée."
             });
         }
-
+        sessions.forEach(function(currentSession) {
+            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
+            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+        });
         res.status(200).render("session/getSessions", {
             title: "Liste des sessions",
             message: "",

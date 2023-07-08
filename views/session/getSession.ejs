@@ -22,6 +22,27 @@
                 <div>
                     <p><%= session.sessionDescription %></p>
                 </div>
+                <hr />
+                <!-- <div class="row justify-content-around"> -->
+                <div class="col-sm-12">
+                    <div class="row pb-3">
+                        <div class="col-auto pe-0">Type de formation :</div>
+                        <div class="col-auto pe-0">
+                                <span class="badge bg-secondary"><i class="fa-solid fa-scroll pe-1"></i> <%= session.sessionType %></span>
+                                <% if (session.sessionAlternation) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</span><% } %>
+                                <% if (session.sessionInternship) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</span><% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
+                        <div class="col text-start">
+                            <div>du <%= session.sessionStartDateFormatted %></div>
+                            <div>au <%= session.sessionEndDateFormatted %></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

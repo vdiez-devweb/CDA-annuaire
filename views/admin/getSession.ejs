@@ -30,47 +30,44 @@
                 </div>
                 <hr />
                 <!-- <div class="row justify-content-around"> -->
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-auto pe-0">Type de formation :</div>
-                            <div class="col-auto pe-0">
-                                <ul class="list-group list-group-flush p-1">
-                                    <li class="list-group-item"> <i class="fa-solid fa-scroll pe-1"></i> <%= session.sessionType %></li>
-                                    <% if (session.sessionAlternation) { %><li class="list-group-item"> <i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</li><% } %>
-                                    <% if (session.sessionInternship) { %><li class="list-group-item"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</li><% } %>
-                                </ul>
-                            </div>
+                <div class="col-sm-12">
+                    <div class="row pb-3">
+                        <div class="col-auto pe-0">Type de formation :</div>
+                        <div class="col-auto pe-0">
+                                <span class="badge bg-secondary"><i class="fa-solid fa-scroll pe-1"></i> <%= session.sessionType %></span>
+                                <% if (session.sessionAlternation) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</span><% } %>
+                                <% if (session.sessionInternship) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</span><% } %>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
-                            <div class="col text-start">
-                                <div>du <%= session.sessionStartDateFormatted %></div>
-                                <div>au <%= session.sessionEndDateFormatted %></div>
-                            </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
+                        <div class="col text-start">
+                            <div>du <%= session.sessionStartDateFormatted %></div>
+                            <div>au <%= session.sessionEndDateFormatted %></div>
                         </div>
                     </div>
+                </div>
                 <!-- </div> -->
             </div>
         </div>
 
-        <!-- colonne boutons -->
+        <!-- colonne boutons en 1 colonne en écran medium,  sur une ligne en écran petit -->
         <div class="col pt-md-3">
-            <!-- <div class="row text-end"> -->
-                <div class="">
-                    <a href="<%=baseURL%>/admin/update-session/<%= session._id %>" class="btn btn-outline-success btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a>
+            <div class="row row-cols-md-1 justify-content-md-center"> 
+                <div class="col-auto">
+                    <a href="<%=baseURL%>/admin/update-session/<%= session._id %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a>
                 </div>
                 <% if (typeof students == 'undefined' || students=="") { %>
-                    <div class="">
-                        <a href="<%=baseURL%>/admin/delete-session/<%= session._id %>" class="btn btn-secondary btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer</a>                 
+                    <div class="col-auto">
+                        <a href="<%=baseURL%>/admin/delete-session/<%= session._id %>" class="btn btn-secondary btn-sm m-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer</a>                 
                     </div>
                 <% } %>
-                <!-- </div> -->
-                <div class="">
-                    <a href="<%=baseURL%>/admin/create-student/<%= session.sessionNumIdentifier %>" class="btn btn-outline-success btn-sm mb-1 mt-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Ajouter un étudiant</a>
+                <div class="col-auto">
+                    <a href="<%=baseURL%>/admin/create-student/<%= session.sessionNumIdentifier %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Ajouter un étudiant</a>
                 </div>
-            <!-- </div> -->
+            </div>
         </div>
     </div>  
 

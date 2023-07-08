@@ -26,10 +26,14 @@ export const login = async (req, res, next) => {
 
     //si on vient du dashboard admin, on envoie bien le referrer, sinon on renvoie la homepage du dashboard
     let fromURL = referer.includes(dashboardHomepageURL) ? referer : dashboardHomepageURL;   
-    
+    // console.log('referrer : [' + req.get('Referrer') + ']'); //referrer : [http://localhost:8082/admin/session/6490cadd817026d33f7c1da9]
+    // console.log('originalUrl : [' + req.originalUrl + ']'); //originalUrl : [/admin/login/]
     if (req.session.authenticated && req.session.user) { //si l'utilisateur est déjà authentifié, on le redirige vers le referrer
         // res.json(session);
-        res.redirect(dashboardHomepageURL);
+        // console.log('referrer : [' + req.get('Referrer') + ']'); //referrer : [http://localhost:8082/admin/session/6490cadd817026d33f7c1da9]
+        // console.log('originalUrl : [' + req.originalUrl + ']'); //originalUrl : [/admin/login/]
+        // console.log('déjà identifié');
+        return res.redirect(dashboardHomepageURL);
     } else { //sinon on va l'authentifier
         res.status(200).render("login", {
             title: "Page d'authentification",
@@ -190,7 +194,10 @@ export const getAntenna = async (req, res, next) => {
             return res.status(404).redirect("/admin/antennas");
         }
         const sessions = await Session.find({"sessionAntenna": antenna._id});
-
+        sessions.forEach(function(currentSession) {
+            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
+            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+        });
         if ("" == sessions) {
             message= "Aucune session dans ce centre de formation.";
         }
@@ -323,6 +330,10 @@ export const getSessions = async (req, res, next) => {
                 message: "Aucun session trouvée."
             });
         }
+        sessions.forEach(function(currentSession) {
+            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
+            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+        });
         res.status(200).render("admin/getSessions", {
             title: prefixTitle + "Liste des sessions",
             sessions: sessions,
