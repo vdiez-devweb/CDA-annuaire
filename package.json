@@ -1,8 +1,8 @@
 {
-  "name": "brief1-node",
+  "name": "annuaire-node",
   "version": "1.0.0",
   "type": "module",
-  "description": "Brief DevOps",
+  "description": "Annuaire Simplon",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,6 +11,7 @@
   "author": "vdiez-devweb",
   "license": "ISC",
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.2.3",
     "connect-flash": "^0.1.1",
     "dotenv": "^16.0.3",

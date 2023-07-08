@@ -1,0 +1,8 @@
+<%- include('../_head'); %>
+<%- include('../_header'); %>
+    <% if (antennas && antennas != "") { %>
+        <%- include('_listAntennas'); %>
+    <% } else { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>   
+<%- include('../_footer'); %>

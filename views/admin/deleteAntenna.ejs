@@ -1,0 +1,13 @@
+<%- include('../_head'); %>
+<%- include('_header'); %>
+    <div class="container">
+      <div><h3>Centre de formation <%= antennaName %></h3></div>
+   
+    <% if (message) { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>    
+
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

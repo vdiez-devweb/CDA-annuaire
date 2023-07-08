@@ -2,7 +2,7 @@
 </head>
 <body>
     <%- include('_header'); %>
-    <div><h1 class="bg-secondary text-light px-2 mt-x2 text-center">Accès à l'administration du site de Concept Institut</h1></div>
+    <!-- <div><h1 class="bg-secondary text-light px-2 mt-x2 text-center">Accès à l'administration de l'annuaire</h1></div> -->
     <% if (message) { %>
         <p class="alert alert-warning"><%= message %></p>
     <% } %>     
@@ -21,6 +21,6 @@
             </div>
             <input id="formURL" name="fromURL" type="hidden" value="<%= fromURL %>">
             <button type="submit" class="btn btn-primary m-1">Entrer</button>
-            <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil du site client</a>
+            <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil de l'annuaire</a>
         </form>
 <%- include('_footer'); %>

@@ -1,0 +1,15 @@
+<%- include('../_head'); %>
+<%- include('_header'); %>
+    <div class="container">
+        <% if (message) { %>
+            <p class="alert alert-warning"><%= message %></p>
+        <% } %>    
+        <div><h3>Session <%= session.sessionName %></h3></div>
+        <p><%= session.sessionDescription %></p>
+        <p><%= session.sessionNbStudents %></p>
+
+        <div class="mt-5">
+            <a class="btn btn-outline-secondary btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/sessions"><i class="fa-solid fa-layer-group px-2"></i>Retour à la liste de tous les centres de formation</a>
+            <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+        </div>
+<%- include('../_footer'); %>

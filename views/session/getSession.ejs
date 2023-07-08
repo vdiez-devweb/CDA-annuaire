@@ -1,0 +1,55 @@
+<%- include('../_head'); %>
+<%- include('../_header'); %>
+    <% if (message != "") { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>
+    <div class="col-sm-8 col-md-6 mb-4">
+        <div class="card shadow bg-body rounded">
+            <div class="card-body bg-light">
+                <div class="row">
+                    <div class="col-8 mb-2">Centre : 
+                    <% if (session.sessionAntenna) { %>
+                        <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
+                            <%= session.sessionAntenna.antennaName %>
+                        </a></span>
+                    <% } else { %> - <% } %>
+                    </div>
+                    <div class="col-4 text-end">
+                        <span class="badge bg-secondary"><%= session.sessionNbStudents  %><i class="fa-solid fa-user-graduate px-1"></i></span>
+                    </div>
+                </div>
+                <h2><%= session.sessionName %> </h2>
+                <div>
+                    <p><%= session.sessionDescription %></p>
+                </div>
+                <hr />
+                <!-- <div class="row justify-content-around"> -->
+                <div class="col-sm-12">
+                    <div class="row pb-3">
+                        <div class="col-auto pe-0">Type de formation :</div>
+                        <div class="col-auto pe-0">
+                                <span class="badge bg-secondary"><i class="fa-solid fa-scroll pe-1"></i> <%= session.sessionType %></span>
+                                <% if (session.sessionAlternation) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Formation en alternance</span><% } %>
+                                <% if (session.sessionInternship) { %><span class="badge bg-secondary"><i class="fa-solid fa-circle-check pe-1"></i> Période de stage en entreprise</span><% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-auto pe-0">Période <i class="fa-solid fa-calendar-days pe-1"></i> </div>
+                        <div class="col text-start">
+                            <div>du <%= session.sessionStartDateFormatted %></div>
+                            <div>au <%= session.sessionEndDateFormatted %></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO Afficher la liste des étudiants -->
+
+    <a href="../antennas" class="btn btn-success btn-sm mb-5" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour à la liste des centres de formation</a>
+    <a href="../sessions" class="btn btn-success btn-sm mb-5" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
+
+<%- include('../_footer'); %>

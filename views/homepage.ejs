@@ -1,32 +1,57 @@
 <%- include('_head'); %>
-</head>
-<body>
-    <%- include('_header'); %>
-    <h1>Bienvenue sur le site de Concept Institut</h1>
-    <p>Institut de beauté Bio et spécialisé dans la vente de produits cosmétiques bio et naturels de petits artisans (français).</p>
-    <p>Votre institut vous accueil sur RDV </p>
+<%- include('_header'); %>
+    <p>Parcourez les centres de formation Simplon, ou les sessions par domaine. Découvrez les élèves qui ont participé aux sessions de formation.</p>
 
+    <% if (message) { %>
+      <p class="alert alert-warning"><%= message %></p>
+    <% } %>
     <div class="row">
-        <div class="col-5 col-md-3 text-center">
-            <i class="fas fa-map-marker-alt mt-4 fa-2x text-dark"></i>
-            <p>9 rue du centre <br/>75000 PARIS</p>
-        </div>
-        <div class="col-7 col-md-3 text-center">
-            <i class="fas fa-calendar-days mt-4 fa-2x text-dark"></i>
-            <p>du mardi au vendredi <br/> de 9h à 18h</p>
-        </div>
-        <div class="col-5 col-md-3 text-center">
-            <i class="fas fa-phone mt-4 fa-2x text-dark"></i>
-            <p>01 02 03 04 05</p>
-        </div>
-        <div class="col-7 col-md-3 text-center">
-            <i class="fas fa-envelope mt-4 fa-2x text-dark"></i>
-            <p>contact@conceptinstitut.com</p>
-        </div>
+      <div class="col-md-6">
+        <h4><i class="fa-solid fa-school m-1"></i> Centres de formation par région</h4>
+        <% if (regions && regions != "") { %>
+          <% regions.forEach(function(currentRegion) { %>
+            <button type="button" class="btn btn-outline-success position-relative m-1" <% if (currentRegion.count == 0 ) { %> disabled<% } %>>
+              <!-- TODO ajouter le lien vers l'affichage des centres de cette région -->
+              <%= tabRegions[currentRegion._id] %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%= currentRegion.count %>
+                <span class="visually-hidden">centres de formation</span>
+              </span>
+            </button>
+          <% }); %>
+        <% } else { %>
+            <p class="alert alert-warning"><%= messageRegions %></p>
+        <% } %>        
+        <p>
+            <a href="<%=baseURL%>/antennas" class="btn btn-success mb-5 mt-2"><i class="fa-solid fa-list pe-2"></i> Parcourir tous les centres</a>
+        </p>
+      </div>
+      <div class="col-md-6">
+
+        <h4><i class="fa-solid fa-chalkboard-user m-1"></i> Sessions de formation par domaine</h4>
+        <% if (domaines && domaines != "") { %>
+          <% domaines.forEach(function(currentDomain) { %>
+            <button type="button" class="btn btn-outline-success position-relative m-1">
+              <%= currentDomain %>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <%#= currentDomain.count %>
+                <span class="visually-hidden">sessions de formation</span>
+              </span>
+            </button>
+          <% }); %>
+        <% } else { %>
+            <p class="alert alert-warning"><%= messageDomaines %></p>
+        <% } %>    
+        
+        <p>
+            <a href="<%=baseURL%>/sessions" class="btn btn-success mb-5 mt-2"><i class="fa-solid fa-list pe-2"></i> Parcourir toutes les sessions</a>
+        </p>
+      </div>
     </div>
 
-    <%- include('category/_listCategories'); %>
-    <!-- <p>
-        <a href="<%=baseURL%>/products" class="btn btn-success btn-sm mb-5">parcourir tous les produits</a>
-    </p> -->
+    <h3>Recherche d'étudiants par critères</h3>
+    <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    </form>
+
     <%- include('_footer'); %>

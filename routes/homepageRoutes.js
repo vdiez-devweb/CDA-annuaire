@@ -1,12 +1,12 @@
 import express from "express";
 import { getHomepage } from "../controllers/homepageController.js";
-// import {  getCategories  } from "../controllers/categoryController.js";
+// import {  getAntennas  } from "../controllers/antennaController.js";
 
 // créer la route, l'initialiser
 const router = express.Router();
 
 router.get("/", getHomepage);
-// router.get("/", getCategories);
+// router.get("/", getAntennas);
 
 //exporter la logique
 export default router;

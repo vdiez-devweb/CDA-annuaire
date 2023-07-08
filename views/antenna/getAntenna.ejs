@@ -1,0 +1,74 @@
+<%- include('../_head'); %>
+<%- include('../_header'); %>
+    <div class="container">
+        <div class="row">
+            <div class="card shadow bg-light rounded col-11 col-md-8 m-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-8 mb-2">Région :
+                            <% if (antenna.antennaRegion) { %>
+                                <span class="badge bg-light text-dark">
+                                    <a href="<%=baseURL%>/admin/antenna/<%= antenna.antennaRegion %>">                    
+                                    <%= tabRegions[antenna.antennaRegion] %>
+                                    </a>
+                                </span>
+                            <% } else { %> - <% } %>
+                        </div>
+                        <div class="col-sm-4 text-end">
+                            <span class="badge bg-success"><%= antenna.antennaNbSessions %><i class="fa-solid fa-chalkboard-user px-1"></i></span>
+                            <!-- <span class="badge bg-secondary"><%#= antenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span> -->
+                        </div>
+                    </div>
+                    <h2><%= antenna.antennaName %></h2>
+                    <div>
+                        <p><%= antenna.antennaDescription %></p>
+                    </div>
+
+                    <hr />
+                    <div class="row justify-content-around">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-auto pe-0">
+                                    <i class="fas fa-map-marker-alt text-success"></i>
+                                </div>
+                                <div class="col text-start">
+                                    <%= antenna.antennaAddress %>  <br />
+                                    <%= antenna.antennaZipCode %>  <%= antenna.antennaCity %> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-auto pe-0">
+                                    <i class="fas fa-at text-success"></i> 
+                                </div>
+                                <div class="col text-start">
+                                    <%= antenna.antennaEmail %>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto pe-0">
+                                    <i class="fas fa-phone text-success"></i> 
+                                </div>
+                                <div class="col text-start">
+                                    <%= antenna.antennaPhone %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+    <div class="row mt-5">
+        <% if (sessions && sessions != "") { %>
+            <p>Ce centre est lié à <%= antenna.antennaNbSessions %> session(s)</p>
+            <%- include('../session/_listSessions'); %>
+        <% } else { %>
+            <p class="alert alert-warning"><%= message %></p>
+        <% } %>
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="../antennas"><i class="fa-solid fa-layer-group px-2"></i>Retour à la liste des centres de formation</a>
+    </div>
+<%- include('../_footer'); %>

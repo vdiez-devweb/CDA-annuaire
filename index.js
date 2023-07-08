@@ -9,12 +9,14 @@ import dotenv from "dotenv";
 import flash from "connect-flash";
 //import des routes
 import homepageRouter from "./routes/homepageRoutes.js";
-import categoryRouter from "./routes/categoryRoutes.js";
-import productRouter from "./routes/productRoutes.js";
+import antennaRouter from "./routes/antennaRoutes.js";
+import sessionRouter from "./routes/sessionRoutes.js";
 import legacyRouter from "./routes/legacyRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
-import apiCategoryRouter from "./routes/api/categoryRoutes.js";
-import apiProductRouter from "./routes/api/productRoutes.js";
+import apiAntennaRouter from "./routes/api/antennaRoutes.js";
+import apiSessionRouter from "./routes/api/sessionRoutes.js";
+// import createPopper from '@popperjs/core';
+
 
 // configurer option dotenv pour les variables environnement
 dotenv.config();
@@ -31,16 +33,41 @@ const app = express();
 app.use(session({
   name: process.env.SESSION_NAME,
   secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: 60000, secure: false },
+  cookie: { 
+    maxAge: 180000, //en millisecondes 60000 = 1 minute
+    secure: false 
+  },
   resave: false,
   saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
 }));
 
 app.use(flash());
 
-// middleware pour que 'user' soit disponible pour tous les templates
+// middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
 app.use(function(req, res, next) {
-  res.locals.user = req.session.user;
+  res.locals.user = req.session.user,
+  res.locals.typeSession = [
+    'Titre Professionnel inscrit au RNCP',
+    'Certificats de qualification professionnelle (CQP)',
+    'Validation des Acquis de l\'Expérience (VAE)',
+    'Bootcamp',
+    'Autre'
+  ],
+  res.locals.tabRegions = {
+      11: "Île-de-France",
+      24: "Centre-Val de Loire",
+      27: "Bourgogne-Franche-Comté",
+      28: "Normandie",
+      32: "Hauts-de-France",
+      44: "Grand Est",
+      52: "Pays de la Loire",
+      53: "Bretagne",
+      75: "Nouvelle-Aquitaine",
+      76: "Occitanie",
+      84: "Auvergne-Rhône-Alpes",
+      93: "Provence-Alpes-Côte d'Azur",
+      94: "Corse",
+  }
   next();
 });
 
@@ -63,12 +90,13 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap')); //
 
 //ou utiliser un fichier route
 app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(categoryRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(productRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
+app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
+app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(adminRouter);
-app.use(apiCategoryRouter);
-app.use(apiProductRouter);
+app.use(apiAntennaRouter);
+app.use(apiSessionRouter);
+//app.use(createPopper);
 
 app.listen(process.env.PORT || 8082, () => {
     console.log("Server is listening at port 8082");

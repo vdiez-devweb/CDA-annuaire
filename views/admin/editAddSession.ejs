@@ -1,0 +1,133 @@
+<%- include('../_head'); %>
+<%- include('_header'); %>
+    <div class="container">
+        <% if (message) { %>
+            <p class="alert alert-success"><%= message %></p>
+        <% } %>  
+        <% if (action === "update") { %>
+            <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>">
+        <% } else { %>
+            <form method="post" action="<%=baseURL%>/admin/ajax-create-session">
+        <% } %>  
+        <% if (antennas) { %>
+        <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>">
+            <div>
+                <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
+                    <legend class="">Informations Générales</legend>
+                    <div class="row mb-3 form-group required">
+                        <label for="sessionAntennaId" class="col-form-label">Centre de formation</label>
+                        <div class="col-md-10">
+                            <select class="form-select" id="sessionAntennaId" name="sessionAntennaId" required="required">
+                                <option>Choisir un centre de formation</option>
+                                <option disabled>────────────────────</option>
+                                <% antennas.forEach(currentAntenna => { %>
+                                    <option value="<%=currentAntenna._id %>" 
+                                        <% if (antennaSelected == currentAntenna._id) { %> selected   <% }  %>
+                                        ><%=currentAntenna.antennaName %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <small id="antennaName-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group required">
+                        <label for="sessionName" class="col-form-label">Nom de la session</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="sessionName" name="sessionName" required="required" value="<%=session.sessionName %>">
+                            <small id="sessionName-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group required">
+                        <label for="sessionNumIdentifier" class="col-form-label">N° identifiant (Ypareo)</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="sessionNumIdentifier" name="sessionNumIdentifier" required="required" value="<%=session.sessionNumIdentifier %>">
+                            <small id="sessionNumIdentifier-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                        <label for="sessionDescription" class="col-form-label">Description</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="sessionDescription" name="sessionDescription" rows="3"><%=session.sessionDescription %></textarea>
+                            <small id="sessionDescription-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+                    <div class="row mb-3 form-group">
+                        <label for="sessionType" class="col-form-label">Type</label>
+                        <div class="col-md-10">
+                            <select class="form-select" id="sessionType" name="sessionType" required="required">
+                                <option>Choisir un type de formation</option>
+                                <option disabled>────────────────────</option>
+                                <% typeSession.forEach(currentType => { %>
+                                    <option value="<%=currentType %>" <% if (session.sessionType == currentType) { %> selected   <% }  %>>
+                                        <%=currentType %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                            <small id="sessionType-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 form-group">
+                        <div class="col-md-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="sessionAlternation" name="sessionAlternation" <% if (session.sessionAlternation) { %>checked<% } %>>
+                                <label class="form-check-label" for="sessionAlternation">Alternance ?</label>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="row mb-3 form-group">
+                        <div class="col-md-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="sessionInternship" name="sessionInternship" <% if (session.sessionInternship) { %>checked<% } %>>
+                                <label class="form-check-label" for="sessionInternship">Stage ?</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row mb-3 form-group col-sm-6">
+                            <label for="sessionStartDate" class="col-form-label">Date de début</label>
+                            <div>
+                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=session.sessionStartDateToEditForm %>">
+                                <small id="sessionStartDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                            </div>
+                        </div>
+                        <div class="row mb-3 form-group col-sm-6">
+                            <label for="sessionEndDate" class="col-form-label">Date de fin</label>
+                            <div>
+                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=session.sessionEndDateToEditForm %>">
+                                <small id="sessionEndDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TODO afficher la mise à jours du compteur -->
+
+            <div class="row mb-3 mt-2 form-group">
+                <div class="form-check">
+                    <label class="form-check-label" for="sessionStatus">Status</label>
+                    <input class="form-check-input" type="checkbox" value="true" id="sessionStatus" name="sessionStatus" <% if (session.sessionStatus) { %>checked<% } %>>
+                    <small class="form-text text-muted">Actif/Inactif : décocher si vous souhaiter cacher la session pour le moment</small>
+                </div>
+            </div>           
+
+            <% if (action == "update") { %> <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> <% } %> 
+
+            
+
+            </fieldset>
+            </div>                 
+            <div class="mb-5 form-group">
+                <div class="text-end mt-3">
+                    <button class="btn btn-success" type="submit" value="post">
+                    <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> la session</button>
+                    <a href="<%=baseURL%>/admin/<% if (action == "update") { %>session/<%= session._id%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
+                </div>
+            </div>
+            <% } else { %>  
+                <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/create-antenna"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
+            <% } %>  
+        </form>
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+    </div>
+<%- include('../_footer'); %>

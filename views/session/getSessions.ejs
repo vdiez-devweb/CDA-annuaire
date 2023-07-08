@@ -1,0 +1,11 @@
+<%- include('../_head'); %>
+<%- include('../_header'); %>
+    <% if (sessions && sessions != "") { %>
+        <%- include('_listSessions'); %>
+    <% } else { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>   
+
+    <a class="btn btn-success btn-sm mb-5" role="button" href="<%=baseURL%>/antennas"><i class="fa-solid fa-layer-group pe-2"></i>Voir la liste des centres de formation</a>
+
+    <%- include('../_footer'); %>

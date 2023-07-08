@@ -4,21 +4,21 @@ import {
     auth,
     logout,
     dashboard,
-    getProducts,
-    getCategory,
-    getCategories,
-    postCategory,
-    ajaxPostCategory,
-    deleteCategory,
-    deleteProduct,
-    postProduct,
-    ajaxPostProduct,
-    getProduct,
-    updateProduct, 
-    ajaxUpdateProduct, 
-    updateCategory,
-    ajaxUpdateCategory,
-    ajaxUpdateNbProductsInCategory
+    getSessions,
+    getAntenna,
+    getAntennas,
+    postAntenna,
+    ajaxPostAntenna,
+    deleteAntenna,
+    deleteSession,
+    postSession,
+    ajaxPostSession,
+    getSession,
+    updateSession, 
+    ajaxUpdateSession, 
+    updateAntenna,
+    ajaxUpdateAntenna,
+    ajaxUpdateNbSessionsInAntenna
 } from "../controllers/admin/adminController.js";
 
 
@@ -27,7 +27,8 @@ const router = express.Router();
 // middleware to test if authenticated
 function isAuthenticated (req, res, next) {
     //console.log(req.session);
-    if (req.session.user) next()
+    // next(); //! pour passer l'étape d'authentification en dev
+    if (req.session.authenticated && req.session.user) next() //TODO vérifications à durcir
     else res.redirect("/admin/login/")
   }
 
@@ -35,28 +36,29 @@ function isAuthenticated (req, res, next) {
   router.post("/admin/auth", auth);
   router.get("/admin/logout", logout);
   
-router.get("/admin", isAuthenticated, dashboard); //pour l'instant dashboard affiche la liste des categories
-router.get("/admin/categories", isAuthenticated, getCategories);
-router.get("/admin/product/:productId", isAuthenticated, getProduct);
-router.get("/admin/products", isAuthenticated, getProducts);
-router.get("/admin/category/:categorySlug", isAuthenticated, getCategory);
+router.get("/admin", isAuthenticated, dashboard); //pour l'instant dashboard affiche la liste des centres de formation
+router.get("/admin/antennas", isAuthenticated, getAntennas);
+router.get("/admin/session/:sessionId", isAuthenticated, getSession);
+router.get("/admin/sessions", isAuthenticated, getSessions);
+router.get("/admin/antenna/:antennaSlug", isAuthenticated, getAntenna);
 
-router.get("/admin/create-category", isAuthenticated, postCategory);
-router.get("/admin/delete-category/:categorySlug", isAuthenticated, deleteCategory);
-router.get("/admin/delete-product/:productId", isAuthenticated, deleteProduct); 
-router.get("/admin/delete-product/:categorySlug/:productId", isAuthenticated, deleteProduct); 
-router.get("/admin/create-product", isAuthenticated, postProduct);
-router.get("/admin/create-product/:categorySlug", isAuthenticated, postProduct);
-router.get("/admin/update-product/:productId", isAuthenticated, updateProduct);
-router.get("/admin/update-category/:categorySlug", isAuthenticated, updateCategory);
+router.get("/admin/create-antenna", isAuthenticated, postAntenna);
+router.get("/admin/delete-antenna/:antennaSlug", isAuthenticated, deleteAntenna);
+router.get("/admin/delete-session/:sessionId", isAuthenticated, deleteSession); 
+router.get("/admin/delete-session/:antennaSlug/:sessionId", isAuthenticated, deleteSession); 
+router.get("/admin/create-session", isAuthenticated, postSession);
+router.get("/admin/create-session/:antennaSlug", isAuthenticated, postSession);
+router.get("/admin/update-session/:sessionId", isAuthenticated, updateSession);
+router.get("/admin/update-antenna/:antennaSlug", isAuthenticated, updateAntenna);
 
 //endpoint
-router.post("/admin/ajax-create-category", isAuthenticated, ajaxPostCategory);
-router.post("/admin/ajax-create-product", isAuthenticated, ajaxPostProduct);
-router.post("/admin/ajax-update-product/:productId", isAuthenticated, ajaxUpdateProduct);
-router.post("/admin/ajax-update-category/", isAuthenticated, ajaxUpdateCategory);
-router.get("/admin/update-count-products/:categoryId", isAuthenticated, ajaxUpdateNbProductsInCategory);
+router.post("/admin/ajax-create-antenna", isAuthenticated, ajaxPostAntenna);
+router.post("/admin/ajax-create-session", isAuthenticated, ajaxPostSession);
+router.post("/admin/ajax-update-session/:sessionId", isAuthenticated, ajaxUpdateSession);
+router.post("/admin/ajax-update-antenna/", isAuthenticated, ajaxUpdateAntenna);
+router.get("/admin/update-count-sessions/:antennaId", isAuthenticated, ajaxUpdateNbSessionsInAntenna);
 
-
+// admin/update-count-students-in-session/<%= session._id %> // compter le nb d'étudiants dans une session
+// /admin/update-count-sessions/<%= antenna._id %> // compter le nb de session et d'étudiants dans une antenne
 
 export default router;
