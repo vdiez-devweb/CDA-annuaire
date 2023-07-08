@@ -1,5 +1,5 @@
-import Antenna from "../../models/Antenna.js";
-import Session from "../../models/Session.js";
+import Antenna from "../models/Antenna.js";
+import Session from "../models/Session.js";
 
 const prefixTitle = "";
 

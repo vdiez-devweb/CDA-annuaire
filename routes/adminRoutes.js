@@ -4,7 +4,7 @@ import {
     auth,
     logout,
     dashboard,
-  } from "../controllers/admin/adminController.js";
+  } from "../controllers/adminController.js";
  
   import {
     isAuthenticated
