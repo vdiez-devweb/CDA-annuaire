@@ -1,5 +1,5 @@
-<%- include('../_head'); %>
-<%- include('_header'); %>
+<%- include('../../_head'); %>
+<%- include('../_header'); %>
     <div class="container">
         <div class="row">
             <!-- Carte descriptif antenne -->
@@ -86,7 +86,7 @@
    
     <% if (sessions && sessions != "") { %>
         <p>Ce centre est lié à <%= antenna.antennaNbSessions %> session(s)</p>
-        <%- include('_listSessions'); %>
+        <%- include('../session/_listSessions'); %>
     <% } else { %>
         <p class="alert alert-warning"><%= message %></p>
     <% } %>
@@ -94,4 +94,4 @@
     <div class="mt-5">
         <a class="btn btn-success btn-sm mb-5" role="button"  href="<%=baseURL%>/admin/"><i class="fa-solid fa-layer-group px-2"></i>Retour à l'accueil du panneau d'administration</a>
     </div>
-<%- include('../_footer'); %>
+<%- include('../../_footer'); %>
