@@ -7,12 +7,11 @@
  *   //session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale)
  * @param {Date}      innerDate 
  * @param {string}        typeDisplay 
- * @param {boolean=}    isMarried       Optional parameter.
  * 
  * @returns {string}
  */
 
-export const formateDate = (innerDate, typeDisplay, res) => {
+export const formateDate = (innerDate, typeDisplay) => {
     switch (typeDisplay) {
         case 'form':
             return innerDate.getFullYear() + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate());
