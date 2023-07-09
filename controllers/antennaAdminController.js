@@ -1,5 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
+import { formateDate } from "../middlewares/utils.js";
 
 // const prefixTitle = "Administration - ";
 const prefixTitle = "";
@@ -72,12 +73,13 @@ export const getAntenna = async (req, res, next) => {
             return res.status(404).redirect("/admin/antennas");
         }
         const sessions = await Session.find({"sessionAntenna": antenna._id});
-        sessions.forEach(function(currentSession) {
-            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
-            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
-        });
         if ("" == sessions) {
             message= "Aucune session dans ce centre de formation.";
+        } else {
+            sessions.forEach(function(currentSession) {
+                currentSession.sessionStartDateFormatted = formateDate(currentSession.sessionStartDate, 'view');
+                currentSession.sessionEndDateFormatted = formateDate(currentSession.sessionEndDate, 'view');
+            });
         }
         res.status(200).render("admin/antenna/getAntenna", {
             title: prefixTitle + "Centre de formation",
@@ -103,17 +105,21 @@ export const getAntenna = async (req, res, next) => {
 export const postAntenna = (req, res, next) => {   
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
-
-    res.status(200).render("admin/antenna/editAddAntenna", {
-        title: prefixTitle + "Création d'un centre de formation",
-        antenna: "",
-        action:"create",
-        message_success: req.flash('message_success'),
-        message_error: req.flash('message_error'),
-        msg_success,
-        msg_error,
-        message: ""
-    });
+    try{
+        res.status(200).render("admin/antenna/editAddAntenna", {
+            title: prefixTitle + "Création d'un centre de formation",
+            antenna: "",
+            action:"create",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: ""
+        });
+    } catch(error) {
+        req.flash('message_error', error);
+        return res.status(500).redirect("/admin/antennas");        
+    }
 };
 
 /**

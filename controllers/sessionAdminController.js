@@ -1,8 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import {
-    formateDate
-} from "../middlewares/utils.js";
+import { formateDate } from "../middlewares/utils.js";
 
 const prefixTitle = "";
 
@@ -240,9 +238,13 @@ export const updateSession = async(req, res, next) => {
     try{ 
         const session = await Session.findOne({ "_id": id }).populate("sessionAntenna");
 
-        session.sessionStartDateToEditForm = formateDate(session.sessionStartDate, 'form');
-        session.sessionEndDateToEditForm = formateDate(session.sessionEndDate, 'form');  
-        
+        if (null == session) {
+            req.flash('message_error', "Erreur : session introuvable.");
+            return res.status(404).redirect(req.get('Referrer'));
+        } else {
+            session.sessionStartDateToEditForm = formateDate(session.sessionStartDate, 'form');
+            session.sessionEndDateToEditForm = formateDate(session.sessionEndDate, 'form');  
+        }
         const antennaSlug = session.sessionAntenna.antennaSlug;
         antennaSelected = session.sessionAntenna._id.toString();
 
@@ -253,10 +255,6 @@ export const updateSession = async(req, res, next) => {
 
         const antennas = await Antenna.find({});
 
-        if (null == session) {
-            req.flash('message_error', "Erreur : session introuvable.");
-            return res.status(404).redirect(req.get('Referrer'));
-        }
         if (0 == antennas) {
             req.flash('message_error', "Erreur : Aucun centre de formation répertorié.");
             return res.status(404).redirect(req.get('Referrer'));
