@@ -10,8 +10,8 @@ import Session from "../models/Session.js";
 
 export const getHomepage = async (req, res, next) => {
     try{
-        // const antennas = await Antenna.find({});
-        // const sessions = await Session.find({});
+        // const antennas = await Antenna.find();
+        // const sessions = await Session.find();
         let messageRegions = "";
         let messageDomaines = ""; 
         

@@ -11,17 +11,17 @@ export const getAntenna = async (req, res, next) => {
     const antennaSlug = req.params.antennaSlug;
     try{
         const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
-        
-        if (0 == antenna) {
+        if (null == antenna) {
             return res.status(404).render("antenna/getAntenna", {
-                title: "Liste des sessions par centre de formation",
+                title: "Centre de formation",
                 sessions: "",
                 antenna: "",
-                message: "Centre introuvable."
+                message: "Le centre que vous recherchez est introuvable."
             });
         }
+
         const sessions = await Session.find({"sessionAntenna": antenna._id});
-        if ("" == sessions) {
+        if (0 == sessions) {
             return res.status(200).render("antenna/getAntenna", {
                 title: "Liste des sessions " + antenna.antennaName,
                 sessions: "",
@@ -56,9 +56,9 @@ export const getAntenna = async (req, res, next) => {
 **/
 export const getAntennas = async (req, res, next) => {
     try{
-        const antennas = await Antenna.find({});
+        const antennas = await Antenna.find();
         //console.log(antennas); //? commentaire debug à supprimer ///////////////////////
-        if ("" == antennas) {
+        if (0 == antennas) {
             return res.status(404).render("antenna/getAntennas", {
                 title: "Liste des centres de formation",
                 antennas: "",

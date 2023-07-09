@@ -1,5 +1,4 @@
 import Antenna from "../models/Antenna.js";
-import Session from "../models/Session.js";
 
 const prefixTitle = "";
 
@@ -88,7 +87,7 @@ export const dashboard = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try{
-        const antennas = await Antenna.find({});
+        const antennas = await Antenna.find();
         if (0 == antennas) {
             return res.status(404).render("admin/dashboard", {
                 title: prefixTitle + "Dashboard",
@@ -120,6 +119,4 @@ export const dashboard = async (req, res, next) => {
             message: ""
         });
     }
-
-
 };

@@ -7,9 +7,9 @@ import Session from "../../models/Session.js";
  * 
 **/
 export const apiGetAntennas = async (req, res, next) => {
-    const apiAntennas = await Antenna.find({});
+    const apiAntennas = await Antenna.find();
     try{
-        if (null == apiAntennas) {
+        if (0 == apiAntennas.length) {
             return res.status(404).json({ "message": "Aucun centre de formation n'est trouvé" });
         }
         res.status(200).json({ apiAntennas });
@@ -168,8 +168,8 @@ export const apiGetAntenna = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     const id = req.params.antennaId;
     try{
-        const antenna = await Antenna.findOne({ "_id": id });
-        if (null == antenna || "" == antenna) {
+        const antenna = await Antenna.findById( id );
+        if (null == antenna) {
             return res.status(404).json({ "message": "le centre de formation n'existe pas" });
         }
         res.status(200).json({ antenna });

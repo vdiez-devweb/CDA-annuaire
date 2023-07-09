@@ -106,8 +106,8 @@
                             <select class="form-select" id="antennaRegion" name="antennaRegion" aria-label="Région du centre">
                                 <option value="0" selected>- Choisir une région -</option>
                                 <option disabled>────────────────────</option>
-                                    <% Object.keys(tabRegions).forEach(function(codeRegion) { %>
-                                    <option value="<%= codeRegion %>"><%= tabRegions[codeRegion] %></option>
+                                    <% Object.keys(tabRegions).forEach(function(currentCodeRegion) { %>
+                                    <option value="<%= currentCodeRegion %>" <% if (antenna.antennaRegion == currentCodeRegion) { %> selected   <% }  %>><%= tabRegions[currentCodeRegion] %></option>
                                 <% }) %>                                
                                 </select>
                         </div>

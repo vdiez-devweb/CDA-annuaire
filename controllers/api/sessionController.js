@@ -32,7 +32,7 @@ export const apiPostSession = async (req, res, next) => {
             //  (err, doc)
         );
         //renvoyer les infos à la vue
-        if (null == session || 0 == session) {
+        if (null == session) {
             return res.status(400).json("Erreur sur la création")
         }
         res.status(201).json({ session });
@@ -134,8 +134,8 @@ export const apiGetSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     const id = req.params.sessionId;
     try{
-        const session = await Session.findOne({ "_id": id });
-        if (null == session || 0 == session) {
+        const session = await Session.findById(id);
+        if (null == session) {
             return res.status(404).json({ "message": "la session n'existe pas" });
         }
         res.status(200).json({ session });
@@ -154,7 +154,7 @@ export const apiGetSession = async (req, res, next) => {
 export const apiGetSessions = async (req, res, next) => {
     try {
         const apiSessions = await Session.find();
-        if (0 == apiSessions.length || apiSessions == null) {
+        if (0 == apiSessions.length || apiSessions == 0) {
             return res.status(404).json( "Aucune session n'est trouvée" );
         }
         res.status(200).json({ apiSessions });

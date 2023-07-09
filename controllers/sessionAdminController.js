@@ -13,8 +13,8 @@ export const getSessions = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try{
-        const sessions = await Session.find({}).populate("sessionAntenna");
-        if (null == sessions || 0 == sessions.length) {
+        const sessions = await Session.find().populate("sessionAntenna");
+        if (0 == sessions || 0 == sessions.length) {
             return res.status(404).render("admin/session/getSessions", {
                 title: "Liste des sessions",
                 sessions: "",
@@ -131,11 +131,11 @@ export const postSession = async(req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try {
-        if (antennaSlug != null) {
+        if (null != antennaSlug) {
             antennaSelected = await Antenna.findOne({ "antennaSlug": antennaSlug });
             if (antennaSelected) antennaSelected = antennaSelected._id.toString();
         } 
-        const antennas = await Antenna.find({});
+        const antennas = await Antenna.find();
 
         if (0 == antennas) {
             req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session.");
@@ -253,7 +253,7 @@ export const updateSession = async(req, res, next) => {
         //     if (antennaSelected) antennaSelected = antennaSelected._id.toString()
         // }     
 
-        const antennas = await Antenna.find({});
+        const antennas = await Antenna.find();
 
         if (0 == antennas) {
             req.flash('message_error', "Erreur : Aucun centre de formation répertorié.");
