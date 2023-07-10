@@ -153,6 +153,7 @@ export const ajaxPostAntenna = async (req, res, next) => {
             req.flash('message_error', "ERREUR " + error);
             // return res.status(500).redirect("/admin/create-antenna"); 
             //console.log(req.body);
+            //pour conserver les données saisies en cas d'erreur de validation, et éviter des les ressaisir :
             return res.status(500).render("admin/antenna/editAddAntenna", {
                 title: "Modifier le centre de formation " + req.body.antennaName,
                 antenna: req.body,
@@ -162,7 +163,7 @@ export const ajaxPostAntenna = async (req, res, next) => {
                 message_error: req.flash('message_error'),
                 message: ""
             });
-               }
+        }
         req.flash('message_error', "ERREUR " + error);
         //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
         return res.status(500).redirect("/admin/create-antenna");
