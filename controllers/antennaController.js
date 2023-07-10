@@ -33,14 +33,14 @@ export const getAntenna = async (req, res, next) => {
             currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
             currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
         });        
-        res.status(200).render("antenna/getAntenna", {
+        return res.status(200).render("antenna/getAntenna", {
             title: "Liste des sessions " + antenna.antennaName,
             message: "",
             antenna: antenna,
             sessions: sessions 
         });
     } catch(error) {
-        res.status(500).render("antenna/getAntenna", {
+        return res.status(500).render("antenna/getAntenna", {
             title: "Liste des sessions",
             sessions: "",
             antenna: "",
@@ -65,13 +65,13 @@ export const getAntennas = async (req, res, next) => {
                 message: "Aucun centre enregistré."
             });
         }
-        res.status(200).render("antenna/getAntennas", {
+        return res.status(200).render("antenna/getAntennas", {
             title: "Liste des centres de formation",
             antennas:  antennas,
             message: ""
         });
     } catch(error) {
-        res.status(500).render("antenna/getAntennas", {
+        return res.status(500).render("antenna/getAntennas", {
             title: "Erreur Liste des centres de formation",
             antennas: "",
             message: error

@@ -12,9 +12,9 @@ export const apiGetAntennas = async (req, res, next) => {
         if (0 == apiAntennas.length) {
             return res.status(404).json({ "message": "Aucun centre de formation n'est trouvé" });
         }
-        res.status(200).json({ apiAntennas });
+        return res.status(200).json({ apiAntennas });
     } catch (error) {
-        res.status(404).json(error);
+        return res.status(404).json(error);
     }
 };
 
@@ -34,9 +34,9 @@ export const apiDeleteAntenna = async (req, res, next) => {
             return res.status(404).json("Erreur : centre de formation introuvable.");
         }
 
-        res.status(200).json({ "Message": "centre de formation supprimé." });
+        return res.status(200).json({ "Message": "centre de formation supprimé." });
     } catch (error) {
-        res.status(404).json(error);
+        return res.status(404).json(error);
     }
 };
 
@@ -74,10 +74,10 @@ export const apiPostAntenna = async (req, res, next) => {
             antennaCity: data.antennaCity
         });
         // console.log(antenna); //? commentaire debug à supprimer ///////////////////////
-        // res.status(201).redirect("/antennas");
-        // res.status(201).send("antenna created : ", antenna);
+        // return res.status(201).redirect("/antennas");
+        // return res.status(201).send("antenna created : ", antenna);
         
-        res.status(201).json({ antenna });
+        return res.status(201).json({ antenna });
     } catch (error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
         // if (error.errors) {//si on a des erreurs de validation Mongoose :
@@ -93,7 +93,7 @@ export const apiPostAntenna = async (req, res, next) => {
         //     });
         //     error = customError;
         // }
-        res.status(400).json({ error });
+        return res.status(400).json({ error });
     }
 };
 
@@ -133,7 +133,7 @@ export const apiUpdateAntenna = async (req, res, next) => {
         if (null == result) {
             return res.status(404).json("Erreur : centre de formation introuvable.");
         }
-        res.status(200).json({ 
+        return res.status(200).json({ 
             result
         });
     } catch(error) {
@@ -152,10 +152,10 @@ export const apiUpdateAntenna = async (req, res, next) => {
         //         error.message = 'Le champ ' + currentField + ' doit être unique, <' + error['keyValue'][currentField] + '> existe déjà!';
         //         console.log(error.message);  //? commentaire debug à supprimer ///////////////////////
         //     });
-        //     // res.status(400).json({ customError });
+        //     // return res.status(400).json({ customError });
         // }
-        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
-        res.status(500).json({ error });
+        // return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
+        return res.status(500).json({ error });
     }
 };
 
@@ -172,9 +172,9 @@ export const apiGetAntenna = async (req, res, next) => {
         if (null == antenna) {
             return res.status(404).json({ "message": "le centre de formation n'existe pas" });
         }
-        res.status(200).json({ antenna });
+        return res.status(200).json({ antenna });
     } catch(err) {
-        res.status(500).json({ err });
+        return res.status(500).json({ err });
     }
     // const apiAntennas = await Antenna.find({});
 };

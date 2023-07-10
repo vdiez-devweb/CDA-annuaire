@@ -23,7 +23,7 @@ export const login = async (req, res, next) => {
         // console.log('déjà identifié');
         return res.redirect(dashboardHomepageURL);
     } else { //sinon on va l'authentifier
-        res.status(200).render("login", {
+        return res.status(200).render("login", {
             title: "Page d'authentification",
             message: "",
             fromURL: fromURL 
@@ -59,7 +59,7 @@ export const auth = (req, res, next) => {
             }
         }
     } else {
-        res.status(403).render("login", {
+        return res.status(403).render("login", {
             title: "Login",
             fromURL: fromURL,
             message: "Erreur login ou mot de passe."
@@ -97,7 +97,7 @@ export const dashboard = async (req, res, next) => {
                 message: "Aucun centre de formation répertorié."
             });
         }
-        res.status(200).render("admin/dashboard", {
+        return res.status(200).render("admin/dashboard", {
             title: prefixTitle + "Dashboard",
             antennas: antennas,
             message_success: req.flash('message_success'),
@@ -108,7 +108,7 @@ export const dashboard = async (req, res, next) => {
         });
     } catch(error) {
         req.flash('message_error', error);
-        res.status(500).render("admin/dashboard", {
+        return res.status(500).render("admin/dashboard", {
             title: prefixTitle + "Dashboard",
             sessions: "",
             antenna: "",
