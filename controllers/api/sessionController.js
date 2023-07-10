@@ -32,10 +32,10 @@ export const apiPostSession = async (req, res, next) => {
             //  (err, doc)
         );
         //renvoyer les infos à la vue
-        if (null == session || 0 == session) {
+        if (null == session) {
             return res.status(400).json("Erreur sur la création")
         }
-        res.status(201).json({ session });
+        return res.status(201).json({ session });
     } catch(error) {
         // !pour retravailler le message renvoyé, (ne sera pas visible en production), => utiliser les exceptions
         // if (error.errors) {//si on a des erreurs de validation Mongoose :
@@ -64,7 +64,7 @@ export const apiPostSession = async (req, res, next) => {
         //     });
         //     error = customError;
         // }
-        res.status(500).json({ error });
+        return res.status(500).json({ error });
     }
 };
 
@@ -99,7 +99,7 @@ export const apiUpdateSession = async (req, res, next) => {
         if (null == result) {
             return res.status(404).json({ "Erreur": "mise à jour impossible, session non trouvée" });
         }
-        res.status(200).json({ 
+        return res.status(200).json({ 
             result
         });
     } catch(error) {
@@ -120,8 +120,8 @@ export const apiUpdateSession = async (req, res, next) => {
         //     });
         //     error = customError;
         // }
-        res.status(400).json({ error });
-        // res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre non trouvé" });
+        return res.status(400).json({ error });
+        // return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre non trouvé" });
     }
 };
 
@@ -134,13 +134,13 @@ export const apiGetSession = async (req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     const id = req.params.sessionId;
     try{
-        const session = await Session.findOne({ "_id": id });
-        if (null == session || 0 == session) {
+        const session = await Session.findById(id);
+        if (null == session) {
             return res.status(404).json({ "message": "la session n'existe pas" });
         }
-        res.status(200).json({ session });
+        return res.status(200).json({ session });
     } catch(error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
     }
     // const apiSessions = await Session.find({});
  
@@ -154,12 +154,12 @@ export const apiGetSession = async (req, res, next) => {
 export const apiGetSessions = async (req, res, next) => {
     try {
         const apiSessions = await Session.find();
-        if (0 == apiSessions.length || apiSessions == null) {
+        if (0 == apiSessions.length || apiSessions == 0) {
             return res.status(404).json( "Aucune session n'est trouvée" );
         }
-        res.status(200).json({ apiSessions });
+        return res.status(200).json({ apiSessions });
     } catch (error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
     }
 };
 
@@ -177,9 +177,9 @@ export const apiDeleteSession = async (req, res, next) => {
         if (0 == session.deletedCount){
             return res.status(404).json("Erreur : Session introuvable.");
         }
-        res.status(200).json({ "Message": "Session supprimée." });
+        return res.status(200).json({ "Message": "Session supprimée." });
     } catch (error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
     }
 };
 

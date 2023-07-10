@@ -17,19 +17,19 @@ export const getSession = async (req, res, next) => {
                 message: "Erreur : session introuvable."
             });
         }
-        session.sessionStartDateFormatted = session.sessionStartDate.getDate() + " " + session.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + session.sessionStartDate.getFullYear();
-        session.sessionEndDateFormatted = session.sessionEndDate.getDate() + " " + session.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + session.sessionEndDate.getFullYear();
+        session.sessionStartDateFormatted = formateDate(session.sessionStartDate, 'view');
+        session.sessionEndDateFormatted = formateDate(session.sessionEndDate, 'view');
     
-        res.status(200).render("session/getSession", {
+        return res.status(200).render("session/getSession", {
             title: "Fiche session " + session.sessionName,
             session: session,
             message: ""
         });
-    } catch {
-        res.status(404).render("session/getSession", {
+    } catch(error) {
+        return res.status(404).render("session/getSession", {
             title: "Erreur Fiche session",
             session: "",
-            message: "Erreur serveur."
+            message: "Erreur " + error
         });
     }
 };
@@ -51,16 +51,16 @@ export const getSessions = async (req, res, next) => {
             });
         }
         sessions.forEach(function(currentSession) {
-            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
-            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+            currentSession.sessionStartDateFormatted = formateDate(currentSession.sessionStartDate, 'view');
+            currentSession.sessionEndDateFormatted = formateDate(currentSession.sessionEndDate, 'view');
         });
-        res.status(200).render("session/getSessions", {
+        return res.status(200).render("session/getSessions", {
             title: "Liste des sessions",
             message: "",
             sessions: sessions 
         });
     } catch(error) {
-        res.status(500).render("session/getSessions", {
+        return res.status(500).render("session/getSessions", {
             title: "Liste des sessions",
             sessions: "",
             message: "Erreur serveur."

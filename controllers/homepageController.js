@@ -10,8 +10,8 @@ import Session from "../models/Session.js";
 
 export const getHomepage = async (req, res, next) => {
     try{
-        // const antennas = await Antenna.find({});
-        // const sessions = await Session.find({});
+        // const antennas = await Antenna.find();
+        // const sessions = await Session.find();
         let messageRegions = "";
         let messageDomaines = ""; 
         
@@ -35,7 +35,7 @@ export const getHomepage = async (req, res, next) => {
             messageRegions = "Aucune région recensée.";
         }
        
-        res.status(200).render("homepage", {
+        return res.status(200).render("homepage", {
             title: "Bienvenue sur l'annuaire des étudiants de Simplon",
             regions,
             domaines,
@@ -44,7 +44,7 @@ export const getHomepage = async (req, res, next) => {
             message: ""
         });
     } catch(error) {
-        res.status(500).render("homepage", {
+        return res.status(500).render("homepage", {
             title: "Accueil",
             regions: "",
             domaines: "",

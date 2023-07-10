@@ -2,6 +2,7 @@
 <%- include('../_header'); %>
     <div class="container">
         <div class="row">
+            <% if (antenna && antenna != "") { %>
             <div class="card shadow bg-light rounded col-11 col-md-8 m-3">
                 <div class="card-body">
                     <div class="row">
@@ -68,6 +69,11 @@
             <p class="alert alert-warning"><%= message %></p>
         <% } %>
     </div>
+
+    <% } else { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>
+
     <div class="mt-5">
         <a class="btn btn-success btn-sm mb-5" role="button"  href="../antennas"><i class="fa-solid fa-layer-group px-2"></i>Retour à la liste des centres de formation</a>
     </div>
