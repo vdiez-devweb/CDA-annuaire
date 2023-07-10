@@ -1,5 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
+import { formateDate } from "../middlewares/utils.js";
 
 /**
  * 
@@ -30,8 +31,8 @@ export const getAntenna = async (req, res, next) => {
             });
         }
         sessions.forEach(function(currentSession) {
-            currentSession.sessionStartDateFormatted = currentSession.sessionStartDate.getDate() + " " + currentSession.sessionStartDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionStartDate.getFullYear();
-            currentSession.sessionEndDateFormatted = currentSession.sessionEndDate.getDate() + " " + currentSession.sessionEndDate.toLocaleString('default', { month: 'short' }) + " " + currentSession.sessionEndDate.getFullYear();
+            currentSession.sessionStartDateFormatted = formateDate(currentSession.sessionStartDate, 'view');
+            currentSession.sessionEndDateFormatted = formateDate(currentSession.sessionStartDate, 'view');
         });        
         return res.status(200).render("antenna/getAntenna", {
             title: "Liste des sessions " + antenna.antennaName,

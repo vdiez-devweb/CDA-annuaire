@@ -4,7 +4,7 @@
  *  -> the forms display (YYYY-mm-dd)
  *  -> the tabs short display (dd-mm-yy)
  *  -> the expands display in views (d mmm YYYY)
- *   //session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale)
+ *   
  * @param {Date}      innerDate 
  * @param {string}        typeDisplay 
  * 
