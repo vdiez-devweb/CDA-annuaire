@@ -1,4 +1,5 @@
 import Session from "../models/Session.js";
+import { formateDate } from "../middlewares/utils.js";
 
 /**
  * 
@@ -63,7 +64,7 @@ export const getSessions = async (req, res, next) => {
         return res.status(500).render("session/getSessions", {
             title: "Liste des sessions",
             sessions: "",
-            message: "Erreur serveur."
+            message: error
         });
     }
 };
