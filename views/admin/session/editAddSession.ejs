@@ -5,12 +5,12 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>">
+            <form method="post" action="<%=baseURL%>/admin/ajax-update-session"> 
         <% } else { %>
             <form method="post" action="<%=baseURL%>/admin/ajax-create-session">
         <% } %>  
         <% if (antennas) { %>
-        <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>">
+        <!-- <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>"> -->
             <div>
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
                     <legend class="">Informations Générales</legend>
@@ -109,9 +109,11 @@
                 </div>
             </div>           
 
-            <% if (action == "update") { %> <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> <% } %> 
-
-            
+            <% if (action == "update") { %> 
+                <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> 
+                <input id="id" name="id" type="hidden" value="<%= session._id %>">   
+            <% } %> 
+                
 
             </fieldset>
             </div>                 

@@ -28,12 +28,14 @@ router.get("/admin/sessions", isAuthenticated, getAdminSessions);
 router.get("/admin/create-session", isAuthenticated, postSession);
 router.get("/admin/create-session/:antennaSlug", isAuthenticated, postSession);
 router.get("/admin/update-session/:sessionId", isAuthenticated, updateSession);
+router.get("/admin/update-session/", isAuthenticated, updateSession);
 
 //endpoint
 router.get("/admin/delete-session/:sessionId", isAuthenticated, deleteSession); 
 router.get("/admin/delete-session/:antennaSlug/:sessionId", isAuthenticated, deleteSession); 
 router.post("/admin/ajax-create-session", isAuthenticated, ajaxPostSession);
-router.post("/admin/ajax-update-session/:sessionId", isAuthenticated, ajaxUpdateSession);
+// router.post("/admin/ajax-update-session/:sessionId", isAuthenticated, ajaxUpdateSession);
+router.post("/admin/ajax-update-session", isAuthenticated, ajaxUpdateSession);
 // admin/update-count-students-in-session/<%= session._id %> // compter le nb d'étudiants dans une session
 
 export default router;
