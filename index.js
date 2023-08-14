@@ -8,6 +8,7 @@ import connectDB from "./config/connectDB.js";
 import dotenv from "dotenv";
 import flash from "connect-flash";
 //import des routes
+import userRoutes from "./routes/userRoutes.js";
 import homepageRouter from "./routes/homepageRoutes.js";
 import antennaRouter from "./routes/antennaRoutes.js";
 import sessionRouter from "./routes/sessionRoutes.js";
@@ -89,6 +90,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap')); //redirect bootstrap
 
 //ou utiliser un fichier route
+// app.use('/api/auth', userRoutes);
+app.use(userRoutes);
 app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
