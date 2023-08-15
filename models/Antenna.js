@@ -22,7 +22,7 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         validate: {         // ajouter un pattern (on ne veut pas d'espace ou caractères spéciaux sur le slug)
             validator: function(PatternConstraint) {
                 var regex = /[a-z]{3,16}/;
-                return (!PatternConstraint|| !PatternConstraint.trim().length) || regex.test(PatternConstraint)
+                return (!PatternConstraint || !PatternConstraint.trim().length) || regex.test(PatternConstraint)
             }, message: 'Le slug ne doit contenir que des lettres entre a et z'
         } 
     },
@@ -52,8 +52,8 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         default:'NC'
     },
     antennaPhone: {
-        type:Number,
-        required: [true,'Vous devez saisir un nombre d\'étudiants'], // TODO faire la vérif avec une regex
+        type:Number, //TODO passer le type à string pour limiter contraindre min et max et accepter les +
+        required: [true,'Vous devez saisir un numéro de téléphone'], // TODO faire la vérif avec une regex
         default:0
     },
     antennaEmail: {

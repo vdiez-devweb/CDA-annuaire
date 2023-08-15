@@ -23,7 +23,7 @@ export const login = async (req, res, next) => {
         // console.log('déjà identifié');
         return res.redirect(dashboardHomepageURL);
     } else { //sinon on va l'authentifier
-        return res.status(200).render("login", {
+        return res.status(200).render("admin/login", {
             title: "Page d'authentification",
             message: "",
             fromURL: fromURL 
@@ -51,7 +51,7 @@ export const auth = (req, res, next) => {
                 req.flash('message_success', 'Bienvenue sur le panneau d\'administration de l\'annuaire.');
                 return res.redirect(fromURL);
             } else {
-                return res.status(403).render("login", {
+                return res.status(403).render("admin/login", {
                     title: "Login",
                     message: "Erreur login ou mot de passe.",
                     fromURL: fromURL
@@ -59,7 +59,7 @@ export const auth = (req, res, next) => {
             }
         }
     } else {
-        return res.status(403).render("login", {
+        return res.status(403).render("admin/login", {
             title: "Login",
             fromURL: fromURL,
             message: "Erreur login ou mot de passe."

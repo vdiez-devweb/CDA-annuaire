@@ -1,26 +1,26 @@
-<%- include('_head'); %>
+<%- include('../_head'); %>
 </head>
 <body>
-    <%- include('_header'); %>
+    <%- include('../_header'); %>
     <!-- <div><h1 class="bg-secondary text-light px-2 mt-x2 text-center">Accès à l'administration de l'annuaire</h1></div> -->
     <% if (message) { %>
         <p class="alert alert-warning"><%= message %></p>
     <% } %>     
-        <form method="post" action="<%=baseURL%>/login">
+        <form method="post" action="<%=baseURL%>/admin/auth">
             <div class="row mb-3">
-                <label for="userEmail" class="form-label col-sm-2 ">Email</label>
+                <label for="user" class="form-label col-sm-2 ">Nom d'utilisateur</label>
                 <div class="col-md-6 col-xl-3">
-                  <input type="email" class="form-control" id="userEmail" name="userEmail">
+                  <input type="text" class="form-control" id="user" name="user">
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="userPassword" class="form-label col-sm-2 ">Mot de passe</label>
+                <label for="password" class="form-label col-sm-2 ">Mot de passe</label>
                 <div class="col-md-6 col-xl-3">
-                    <input type="password" class="form-control" id="userPassword" name="userPassword">
+                  <input type="password" class="form-control" id="password" name="password">
                 </div>
             </div>
             <input id="formURL" name="fromURL" type="hidden" value="<%= fromURL %>">
-            <button type="submit" class="btn btn-primary m-1">Entrer dans mon espace</button>
+            <button type="submit" class="btn btn-primary m-1">Entrer</button>
             <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil de l'annuaire</a>
         </form>
-<%- include('_footer'); %>
+<%- include('../_footer'); %>
