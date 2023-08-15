@@ -54,6 +54,7 @@ SESSION_SECRET =
 SESSION_NAME =
 ADMIN_USERNAME =
 ADMIN_PASSWORD = (le mot de passe de l'administrateur non crypté)
+TOKEN_JWT_SECRET = 
 ```
 
 - taper la commande `npm install`

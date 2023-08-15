@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 /**
  * 
@@ -51,7 +52,7 @@ export const signup = async (req, res, next) => {
             if (error.errors){
                 req.flash('message_error', "ERREUR " + error);
                 // return res.status(500).redirect("/signup"); 
-                return res.status(500).render("signup", {
+                return res.status(401).render("signup", {
                     title: title,
                     action: "create",
                     message_success: req.flash('message_success'),
@@ -83,8 +84,45 @@ export const signup = async (req, res, next) => {
  * Go to a form to login a user account
  * 
 **/
-export const login = (req, res, next) => {
-    
+export const login = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+    const data = req.body;
+    const title = "Identification";
+    if (0 === Object.keys(data).length && data.constructor === Object){
+        return res.status(200).render("login", {
+            title: title,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,    
+            message: "",
+        });
+    } else {
+        try  {
+            const user = await User.findOne({userEmail: req.body.email})
+
+            if (null == user){
+                req.flash('message_error', "La paire identifiant / mot de passe est incorrecte");
+                return res.status(401).redirect("/login"); 
+            } else if (!bcrypt.compare(req.body.userPassword, user.userPassword)){
+                req.flash('message_error', "La paire identifiant / mot de passe est incorrecte");
+                return res.status(401).redirect("/login"); 
+            } else {
+                res.set('userId', user._id);
+                res.set('token', jwt.sign(
+                    { userId: user._id },
+                    process.env.TOKEN_JWT_SECRET,
+                    { expiresIn: '24h' }
+                    ));
+                req.flash('message_success', "Vous êtes bien connecté à l'application");
+                return res.status(200).redirect("/");    
+            }
+        } catch (error) {
+            req.flash('message_error', "ERREUR " + error);
+            return res.status(500).redirect("/login"); 
+        }
+    }
 };
 
 /**
