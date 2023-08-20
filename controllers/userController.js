@@ -1,12 +1,10 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { formateDate } from "../middlewares/utils.js";
 
 
 import {
     createAuthToken, 
-    isAuthenticated,
     clearToken
 } from "../middlewares/auth.js";
 
@@ -57,8 +55,8 @@ export const signup = async (req, res, next) => {
                 });
 
                 req.flash('message_success', "Votre compte utilisateur avec l'adresse mail " + user.userEmail + " a bien été créé.");
-                return res.status(201).redirect("/");
-                //TODO voir pour rediriger sur une page my account
+
+                return res.status(201).redirect("/user-account");
             }
         } catch (error) {
             if (error.errors){
@@ -124,61 +122,8 @@ export const login = async (req, res, next) => {
                 req.flash('message_error', "La paire identifiant / mot de passe est incorrecte");
                 return res.status(401).redirect("/login"); 
             } else {
-                // req.flash('message_success', "Vous êtes bien connecté à l'application");
-
-                // return res.status(200).json({
-                //     userId: user._id,
-                //     token: jwt.sign(
-                //         { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole },
-                //         process.env.TOKEN_JWT_SECRET,
-                //         { expiresIn: '24h' }
-                //     )
-                // });
-
-                // res.set('userId', user._id);
-                // res.set('token', jwt.sign(
-                //     { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole },
-                //     process.env.TOKEN_JWT_SECRET,
-                //     { expiresIn: '24h' }
-                // ));
 
                 return createAuthToken(req, res, user._id.toString() , user.userRole); //? test d'une autre manière
-    // const infos = { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole };
-
-    // const secretJwt = process.env.TOKEN_JWT_SECRET;
-    // const cookieName = process.env.COOKIE_AUTH_NAME;
-
-    // const accessToken = jwt.sign(
-    //     infos, 
-    //     secretJwt, 
-    //     { expiresIn: '24h' }
-    // )
-    // req.headers.authorization = accessToken;
-    // res.json({
-    //     accessToken
-    // });
-
-                // const token = jwt.sign({ 'access': 'authenticated', 'userId': user._id, 'role': user.userRole }, process.env.TOKEN_JWT_SECRET, { expiresIn: '24h' });
-                // console.log(token); //!debug
-                // console.log(req.cookies[process.env.COOKIE_AUTH_NAME]); //!debug
-
-                // return res.status(200).redirect("/user-account");    
-                // return res.status(200).redirect("/"); //? pour tester d'une autre manière   
-                // return res.status(200).render("login", {
-                //     title: title,
-                //     message_success: req.flash('message_success'),
-                //     message_error: req.flash('message_error'),
-                //     msg_success,
-                //     msg_error,    
-                //     message: "",
-                //     auth: "authenticated",
-                //     userId: user._id,
-                //     token: jwt.sign(
-                //         { userId: user._id, userRole: user.userRole },
-                //         process.env.TOKEN_JWT_SECRET,
-                //         { expiresIn: '24h' }
-                //     )
-                // });
             }
         } catch (error) {
             req.flash('message_error', "ERREUR " + error);
@@ -207,7 +152,7 @@ export const userAccount = async (req, res, next) => {
     let msg_error = req.flash('message_error');
 
     const id = req.session.userInfos.userId;
-    
+
     try {
         //récupérer les infos du compte en session
         const user = await User.findOne({_id: id });
