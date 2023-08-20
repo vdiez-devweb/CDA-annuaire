@@ -16,7 +16,7 @@ export const login = async (req, res, next) => {
     let fromURL = referer.includes(dashboardHomepageURL) ? referer : dashboardHomepageURL;   
     // console.log('referrer : [' + req.get('Referrer') + ']'); //referrer : [http://localhost:8082/admin/session/6490cadd817026d33f7c1da9]
     // console.log('originalUrl : [' + req.originalUrl + ']'); //originalUrl : [/admin/login/]
-    if (req.session.authenticated && req.session.user) { //si l'utilisateur est déjà authentifié, on le redirige vers le referrer
+    if (req.session.authenticated && req.session.userInfos) { //si l'utilisateur est déjà authentifié, on le redirige vers le referrer
         // res.json(session);
         // console.log('referrer : [' + req.get('Referrer') + ']'); //referrer : [http://localhost:8082/admin/session/6490cadd817026d33f7c1da9]
         // console.log('originalUrl : [' + req.originalUrl + ']'); //originalUrl : [/admin/login/]
@@ -41,13 +41,13 @@ export const auth = (req, res, next) => {
     const fromURL = req.body.fromURL;
     //console.log('authentification ' + req.session.authenticated); //? debug à nettoyer
     if (username && password) {
-        if (req.session.authenticated && req.session.user == { username }) { //si l'utilisateur est déjà authentifié avec le même username, on redirige
+        if (req.session.authenticated && req.session.userInfos == { username }) { //si l'utilisateur est déjà authentifié avec le même username, on redirige
             // res.json(session);
             return res.redirect(fromURL);
         } else {
             if (password === process.env.ADMIN_PASSWORD && username === process.env.ADMIN_USERNAME) {
                 req.session.authenticated = true;
-                req.session.user = { username };
+                req.session.userInfos = { username };
                 req.flash('message_success', 'Bienvenue sur le panneau d\'administration de l\'annuaire.');
                 return res.redirect(fromURL);
             } else {
@@ -72,6 +72,9 @@ export const auth = (req, res, next) => {
  * 
 **/
 export const logout = (req, res, next) => {
+   
+    // res.clearCookie('process.env.SESSION_NAME');
+
     req.session.destroy((err)=> {
         res.redirect(process.env.BASE_URL);
     });

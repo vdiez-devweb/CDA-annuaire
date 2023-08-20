@@ -7,6 +7,7 @@ import path from "path";
 import connectDB from "./config/connectDB.js";
 import dotenv from "dotenv";
 import flash from "connect-flash";
+import cookieParser from "cookie-parser";
 //import des routes
 import userRoutes from "./routes/userRoutes.js";
 import homepageRouter from "./routes/homepageRoutes.js";
@@ -17,7 +18,6 @@ import adminRouter from "./routes/adminRoutes.js";
 import apiAntennaRouter from "./routes/api/antennaRoutes.js";
 import apiSessionRouter from "./routes/api/sessionRoutes.js";
 // import createPopper from '@popperjs/core';
-
 
 // configurer option dotenv pour les variables environnement
 dotenv.config();
@@ -30,6 +30,8 @@ const __dirname = path.resolve();
 // Créer App express
 const app = express();
 
+//utilisation des cookies pour les jetons JWT
+app.use(cookieParser()) ;
 //Utilisation des session pour l'authentification
 app.use(session({
   name: process.env.SESSION_NAME,
@@ -46,7 +48,7 @@ app.use(flash());
 
 // middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
 app.use(function(req, res, next) {
-  res.locals.user = req.session.user,
+  res.locals.userInfos = req.session.userInfos,
   res.locals.typeSession = [
     'Titre Professionnel inscrit au RNCP',
     'Certificats de qualification professionnelle (CQP)',

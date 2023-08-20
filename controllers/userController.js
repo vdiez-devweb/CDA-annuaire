@@ -1,6 +1,14 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { formateDate } from "../middlewares/utils.js";
+
+
+import {
+    createAuthToken, 
+    isAuthenticated,
+    clearToken
+} from "../middlewares/auth.js";
 
 /**
  * 
@@ -12,7 +20,10 @@ export const signup = async (req, res, next) => {
     let msg_error = req.flash('message_error');
     const data = req.body;
     const title = "Création d'un compte utilisateur";
-    if (0 === Object.keys(data).length && data.constructor === Object){
+    // display form
+    if (req.session.userInfos.access == true) {
+        res.status(200).redirect("/user-account"); 
+    } else if (0 === Object.keys(data).length && data.constructor === Object){
         return res.status(200).render("signup", {
             title: title,
             action: "create",
@@ -24,6 +35,7 @@ export const signup = async (req, res, next) => {
             user: "",
         });
     } else {
+        // create User with datas received from the form
         try {
             if (data.userPassword != data.userPasswordCtrl) {
                 throw new Error('Les deux mots de passe doivent être identiques !');
@@ -81,7 +93,7 @@ export const signup = async (req, res, next) => {
 
 /**
  * 
- * Go to a form to login a user account
+ * Go to a form to login a user account and check if 
  * 
 **/
 export const login = async (req, res, next) => {
@@ -89,7 +101,10 @@ export const login = async (req, res, next) => {
     let msg_error = req.flash('message_error');
     const data = req.body;
     const title = "Identification";
-    if (0 === Object.keys(data).length && data.constructor === Object){
+
+    if (req.session.userInfos.access == true) {
+        res.status(200).redirect("/user-account"); 
+    } else if (0 === Object.keys(data).length && data.constructor === Object){
         return res.status(200).render("login", {
             title: title,
             message_success: req.flash('message_success'),
@@ -100,7 +115,7 @@ export const login = async (req, res, next) => {
         });
     } else {
         try  {
-            const user = await User.findOne({userEmail: req.body.email})
+            const user = await User.findOne({userEmail: req.body.userEmail})
 
             if (null == user){
                 req.flash('message_error', "La paire identifiant / mot de passe est incorrecte");
@@ -109,19 +124,105 @@ export const login = async (req, res, next) => {
                 req.flash('message_error', "La paire identifiant / mot de passe est incorrecte");
                 return res.status(401).redirect("/login"); 
             } else {
-                res.set('userId', user._id);
-                res.set('token', jwt.sign(
-                    { userId: user._id },
-                    process.env.TOKEN_JWT_SECRET,
-                    { expiresIn: '24h' }
-                    ));
-                req.flash('message_success', "Vous êtes bien connecté à l'application");
-                return res.status(200).redirect("/");    
+                // req.flash('message_success', "Vous êtes bien connecté à l'application");
+
+                // return res.status(200).json({
+                //     userId: user._id,
+                //     token: jwt.sign(
+                //         { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole },
+                //         process.env.TOKEN_JWT_SECRET,
+                //         { expiresIn: '24h' }
+                //     )
+                // });
+
+                // res.set('userId', user._id);
+                // res.set('token', jwt.sign(
+                //     { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole },
+                //     process.env.TOKEN_JWT_SECRET,
+                //     { expiresIn: '24h' }
+                // ));
+
+                return createAuthToken(req, res, user._id.toString() , user.userRole); //? test d'une autre manière
+    // const infos = { 'access': 'authenticated', 'userId': user._id, 'role': user.userRole };
+
+    // const secretJwt = process.env.TOKEN_JWT_SECRET;
+    // const cookieName = process.env.COOKIE_AUTH_NAME;
+
+    // const accessToken = jwt.sign(
+    //     infos, 
+    //     secretJwt, 
+    //     { expiresIn: '24h' }
+    // )
+    // req.headers.authorization = accessToken;
+    // res.json({
+    //     accessToken
+    // });
+
+                // const token = jwt.sign({ 'access': 'authenticated', 'userId': user._id, 'role': user.userRole }, process.env.TOKEN_JWT_SECRET, { expiresIn: '24h' });
+                // console.log(token); //!debug
+                // console.log(req.cookies[process.env.COOKIE_AUTH_NAME]); //!debug
+
+                // return res.status(200).redirect("/user-account");    
+                // return res.status(200).redirect("/"); //? pour tester d'une autre manière   
+                // return res.status(200).render("login", {
+                //     title: title,
+                //     message_success: req.flash('message_success'),
+                //     message_error: req.flash('message_error'),
+                //     msg_success,
+                //     msg_error,    
+                //     message: "",
+                //     auth: "authenticated",
+                //     userId: user._id,
+                //     token: jwt.sign(
+                //         { userId: user._id, userRole: user.userRole },
+                //         process.env.TOKEN_JWT_SECRET,
+                //         { expiresIn: '24h' }
+                //     )
+                // });
             }
         } catch (error) {
             req.flash('message_error', "ERREUR " + error);
             return res.status(500).redirect("/login"); 
         }
+    }
+};
+
+/**
+ * logout User (delete cookie)
+ * 
+ */
+export const logout = (req, res) => {
+    clearToken(res) ;
+    req.session.destroy((err)=> {
+        res.redirect(process.env.BASE_URL);
+    });
+};
+
+/**
+ * Account page of the User
+ * 
+ */
+export const userAccount = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+
+    try {
+        //récupérer les infos du compte en session
+        const user = await User.findOne({_id: id });
+        user.createdAtFormatted = formateDate(user.createdAt, 'complete');
+        user.updatedAtFormatted = formateDate(user.updatedAt, 'complete');
+        return res.status(200).render("userAccount", {
+            title: "Mon compte",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,
+            message: "",
+            user
+        });
+    } catch(error) {
+        req.flash('message_error', "ERREUR " + error);
+        return res.status(500).redirect("/"); 
     }
 };
 
@@ -221,8 +322,6 @@ export const validateValue = (key, value) => {
             break;
         case 'userPhone':
             label = 'Le numéro de téléphone';
-            console.log('key : ' + key + 'valeur : ');
-            console.log(value);
             // Test si vide
             if (null == value || "" == value){ 
                 value = 'NC';
