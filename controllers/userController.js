@@ -206,6 +206,8 @@ export const userAccount = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
+    const id = req.session.userInfos.userId;
+    
     try {
         //récupérer les infos du compte en session
         const user = await User.findOne({_id: id });
@@ -219,6 +221,7 @@ export const userAccount = async (req, res, next) => {
             msg_error,
             message: "",
             user
+
         });
     } catch(error) {
         req.flash('message_error', "ERREUR " + error);
