@@ -10,7 +10,7 @@ import {
 
 /**
  * 
- * Go to a form for create user account
+ * Go to a form for create user account (student)
  * 
 **/
 export const signup = async (req, res, next) => {
@@ -19,9 +19,9 @@ export const signup = async (req, res, next) => {
     const data = req.body;
     const title = "Création d'un compte utilisateur";
     // display form
-    if (req.session.userInfos.access == true) {
+    if (req.session.userInfos.access == true) { //si on accède à la route en étant déjà connecté
         res.status(200).redirect("/user-account"); 
-    } else if (0 === Object.keys(data).length && data.constructor === Object){
+    } else if (0 === Object.keys(data).length && data.constructor === Object){ //si on a pas encore reçu des données depuis le formulaire
         return res.status(200).render("signup", {
             title: title,
             action: "create",
@@ -33,30 +33,37 @@ export const signup = async (req, res, next) => {
             user: "",
         });
     } else {
-        // create User with datas received from the form
+        // On créé User a partir des données reçues du formulaire 
         try {
             if (data.userPassword != data.userPasswordCtrl) {
                 throw new Error('Les deux mots de passe doivent être identiques !');
-            } else {
+            } else { // on vérifie et reformate les données reçues avant de les passer en BDD
                 Object.keys(data).forEach(key => {
-                    validateValue(key, data[key]);
-
+                    data[key] = validateValue(key, data[key]);
                 });
 
-                const hash = await bcrypt.hash(validateValue('userPassword', data.userPassword), 10);
+                // on crypte le mot de passe reçu du formulaire
+                const hash = await bcrypt.hash(data.userPassword, 10);
 
+                //on créé l'utilisateur avec les données validées
                 const user = await User.create({
-                    userEmail: validateValue('userEmail', data.userEmail), 
+                    // userEmail: validateValue('userEmail', data.userEmail), 
+                    // userPassword: hash,
+                    // userFirstName: validateValue('userFirstName', data.userFirstName), 
+                    // userLastName: validateValue('userLastName', data.userLastName), 
+                    // userZipCode: validateValue('userZipCode', data.userZipCode),
+                    // userPhone: validateValue('userPhone', data.userPhone),
+                    userEmail: data.userEmail, 
                     userPassword: hash,
-                    userFirstName: validateValue('userFirstName', data.userFirstName), 
-                    userLastName: validateValue('userLastName', data.userLastName), 
-                    userZipCode: validateValue('userZipCode', data.userZipCode),
-                    userPhone: validateValue('userPhone', data.userPhone),
+                    userFirstName: data.userFirstName, 
+                    userLastName: data.userLastName, 
+                    userZipCode: data.userZipCode,
+                    userPhone: data.userPhone,
                 });
 
                 req.flash('message_success', "Votre compte utilisateur avec l'adresse mail " + user.userEmail + " a bien été créé.");
 
-                return res.status(201).redirect("/user-account");
+                return res.status(201).redirect("/login");
             }
         } catch (error) {
             if (error.errors){
@@ -90,8 +97,9 @@ export const signup = async (req, res, next) => {
 };
 
 /**
- * 
- * Go to a form to login a user account and check if 
+ * Log a user in the app
+ * 1 -> if no datas received, Go to a form to login a user account 
+ * 2 -> if datas received from form, trait datas to check if they are valide and create the session & token
  * 
 **/
 export const login = async (req, res, next) => {
@@ -123,7 +131,7 @@ export const login = async (req, res, next) => {
                 return res.status(401).redirect("/login"); 
             } else {
 
-                return createAuthToken(req, res, user._id.toString() , user.userRole); //? test d'une autre manière
+                return createAuthToken(req, res, user._id.toString() , user.userRole);
             }
         } catch (error) {
             req.flash('message_error', "ERREUR " + error);
@@ -133,7 +141,7 @@ export const login = async (req, res, next) => {
 };
 
 /**
- * logout User (delete cookie)
+ * logout User (delete cookie / token)
  * 
  */
 export const logout = (req, res) => {
@@ -144,7 +152,7 @@ export const logout = (req, res) => {
 };
 
 /**
- * Account page of the User
+ * Display the account page of the User
  * 
  */
 export const userAccount = async (req, res, next) => {
@@ -176,7 +184,7 @@ export const userAccount = async (req, res, next) => {
 
 /**
  * 
- * Validate received datas from forms
+ * Validate and formate the received datas from forms
  * 
 **/
 export const validateValue = (key, value) => {
@@ -204,7 +212,6 @@ export const validateValue = (key, value) => {
             }
 
             break;
-    
         case 'userPassword':
             label = 'Le mot de passe';
             // Test si vide
@@ -239,7 +246,6 @@ export const validateValue = (key, value) => {
             value = value.toUpperCase(); 
 
             break;
-    
         case 'userFirstName':
             label = 'Le prénom';
             // Test si vide
@@ -275,7 +281,7 @@ export const validateValue = (key, value) => {
                 value = 'NC';
             } else {
                 // test la longueur ou regex
-                if (!zipCodeRegex.test(value)){ 
+                if (!phoneRegex.test(value)){ 
                     throw new Error(label + ' doit contenir 10 chiffres !');
                 }
             }

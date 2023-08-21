@@ -11,7 +11,6 @@ const userSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait 
         unique: [true,'Cet email existe déjà, veuillez saisir un autre email'],
         trim: true,
         lowercase: true,
-        unique: true,
         validate: {
             validator: function(v) {
               return /^\S+@\S+\.\S+$/.test(v);

@@ -16,7 +16,7 @@ import {
 } from "../controllers/antennaAdminController.js";
 
 import {
-    adminIsAuthenticated,
+    authorizeAdmin,
     isAuthenticated
   } from "../middlewares/auth.js";
 
@@ -26,15 +26,15 @@ router.get("/antennas", isAuthenticated, getAntennas);
 // router.get("/antenna/:antennaId", isAuthenticated, getAntenna);
 router.get("/antenna/:antennaSlug", isAuthenticated, getAntenna);
 
-router.get("/admin/antennas", adminIsAuthenticated, getAdminAntennas);
-router.get("/admin/antenna/:antennaSlug", adminIsAuthenticated, getAdminAntenna);
-router.get("/admin/create-antenna", adminIsAuthenticated, postAntenna);
-router.get("/admin/update-antenna/:antennaSlug", adminIsAuthenticated, updateAntenna);
+router.get("/admin/antennas", authorizeAdmin, getAdminAntennas);
+router.get("/admin/antenna/:antennaSlug", authorizeAdmin, getAdminAntenna);
+router.get("/admin/create-antenna", authorizeAdmin, postAntenna);
+router.get("/admin/update-antenna/:antennaSlug", authorizeAdmin, updateAntenna);
 //endpoint
-router.get("/admin/delete-antenna/:antennaSlug", adminIsAuthenticated, deleteAntenna);
-router.post("/admin/ajax-create-antenna", adminIsAuthenticated, ajaxPostAntenna);
-router.post("/admin/ajax-update-antenna/", adminIsAuthenticated, ajaxUpdateAntenna);
-router.get("/admin/update-count-sessions/:antennaId", adminIsAuthenticated, ajaxUpdateNbSessionsInAntenna);
+router.get("/admin/delete-antenna/:antennaSlug", authorizeAdmin, deleteAntenna);
+router.post("/admin/ajax-create-antenna", authorizeAdmin, ajaxPostAntenna);
+router.post("/admin/ajax-update-antenna/", authorizeAdmin, ajaxUpdateAntenna);
+router.get("/admin/update-count-sessions/:antennaId", authorizeAdmin, ajaxUpdateNbSessionsInAntenna);
 // /admin/update-count-sessions/<%= antenna._id %> // compter le nb de session et d'étudiants dans une antenne
 
 export default router;
