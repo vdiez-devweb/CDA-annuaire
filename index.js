@@ -14,7 +14,6 @@ import homepageRouter from "./routes/homepageRoutes.js";
 import antennaRouter from "./routes/antennaRoutes.js";
 import sessionRouter from "./routes/sessionRoutes.js";
 import legacyRouter from "./routes/legacyRoutes.js";
-import adminRouter from "./routes/adminRoutes.js";
 import apiAntennaRouter from "./routes/api/antennaRoutes.js";
 import apiSessionRouter from "./routes/api/sessionRoutes.js";
 // import createPopper from '@popperjs/core';
@@ -98,7 +97,6 @@ app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GE
 app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(adminRouter);
 app.use(apiAntennaRouter);
 app.use(apiSessionRouter);
 //app.use(createPopper);
