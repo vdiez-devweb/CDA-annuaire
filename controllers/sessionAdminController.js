@@ -284,20 +284,20 @@ export const updateSession = async(req, res, next) => {
 **/
 export const ajaxUpdateSession = async (req, res, next) => {
      //on récupère l'identifiant donné dans la route paramétrique et le nouveau nom passé dans le corps de la requête
-     const id = req.params.sessionId;
+    //  const id = req.params.sessionId; // si passé dans la route
      const data = req.body;
 
     try{
         const result = await Session.findByIdAndUpdate(
-        { "_id": id }, 
+        { "_id": data.id }, 
         { 
             sessionName: data.sessionName, 
             sessionDescription : data.sessionDescription,
             sessionNumIdentifier: data.sessionNumIdentifier,
             sessionType: data.sessionType,
-            sessionAlternation: data.sessionAlternation,
-            sessionInternship: data.sessionInternship,
-            sessionStatus: data.sessionStatus,
+            sessionAlternation: data.sessionAlternation ? true : false,
+            sessionInternship: data.sessionInternship ? true : false,
+            sessionStatus: data.sessionStatus ? true : false,
             sessionStartDate: data.sessionStartDate,
             sessionEndDate: data.sessionEndDate,
             sessionAntenna: data.sessionAntennaId,
@@ -314,14 +314,14 @@ export const ajaxUpdateSession = async (req, res, next) => {
             return res.status(404).redirect("/admin/session/" + id); 
         }
         req.flash('message_success', "Session " + result.sessionName + " modifiée");
-        return res.status(200).redirect("/admin/session/" + id);
+        return res.status(200).redirect("/admin/session/" + data.id);
     } catch(error) {
         if (error.errors){
             req.flash('message_error', "ERREUR " + error);
-            return res.status(500).redirect("/admin/update-session/" + id); 
+            return res.status(500).redirect("/admin/update-session/" + data.id); 
         }
         req.flash('message_error', "ERREUR " + error);
-        return res.status(500).redirect("/admin/update-session/" + id);
+        return res.status(500).redirect("/admin/update-session/" + data.id);
     }
 };
 

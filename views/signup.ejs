@@ -1,0 +1,73 @@
+<%- include('_head'); %>
+<%- include('_header'); %>
+    <div class="container">
+        <% if (message) { %>
+            <p class="alert alert-success"><%= message %></p>
+        <% } %>   
+        <form method="post" action="<%=baseURL%>/signup">
+            <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
+                <legend class="">Informations de connexion</legend>
+                
+                <div class="row mb-3 form-group required">
+                    <label for="userEmail" class="col-form-label">Email</label>
+                    <div class="col-md-10 col-xl-8">
+                        <input type="email" class="form-control" id="userEmail" name="userEmail" required="required" <% if (user) { %>value="<%= user.userEmail %>"<% } %>>
+                        <small id="userEmail-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                    </div>
+                </div>
+                <div class="row mb-3 form-group required">
+                    <label for="userPassword" class="col-form-label">Mot de passe</label>
+                    <div class="col-md-6 col-xl-4">
+                    <input type="password" class="form-control" id="userPassword" name="userPassword" required="required" autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="row mb-3 form-group required">
+                    <label for="userPasswordCtrl" class="col-form-label">Vérifier le mot de passe</label>
+                    <div class="col-md-6 col-xl-4">
+                    <input type="password" class="form-control" id="userPasswordCtrl" name="userPasswordCtrl" required="required" autocomplete="new-password">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
+                <legend class="">Informations de l'utilisateur</legend>
+            
+                <div class="row mb-3 form-group required">
+                    <label for="userLastName" class="col-form-label">Nom</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="userLastName" name="userLastName" required="required" <% if (user) { %>value="<%= user.userLastName %>"<% } %>>
+                        <small id="userLastName-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                    </div>
+                </div>
+                <div class="row mb-3 form-group required">
+                    <label for="userFirstName" class="col-form-label">Prénom</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="userFirstName" name="userFirstName" required="required" <% if (user) { %>value="<%= user.userFirstName %>"<% } %>>
+                        <small id="userFirstName-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                    </div>
+                </div>
+                <div class="row mb-3 form-group required">
+                    <label for="userZipCode" class="col-form-label">Code postal</label>
+                    <div>
+                        <input type="text" class="form-control" id="userZipCode" name="userZipCode" placeholder="CP" required="required" <% if (user) { %>value="<%= user.userZipCode %>"<% } %>>
+                        <small id="userZipCode-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
+                    </div>
+                </div>
+                <!-- TODO Ajouter l'adresse -->
+                <div class="row mb-3 form-group">
+                    <label for="userPhone" class="col-form-label">Téléphone</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="userPhone" name="userPhone" <% if (user) { %>value="<%= user.userPhone %>"<% } %>>
+                        
+                        <small id="userPhone-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
+                    </div>
+                </div>
+            </fieldset>
+            <div class="mb-5 form-group">
+                <div class="text-end mt-3">
+                    <button class="btn btn-success" type="submit" value="post"> Créer mon compte</button>
+                    <a href="<%=baseURL%>/" class="btn btn-secondary" role="button">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+<%- include('_footer'); %>

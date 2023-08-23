@@ -12,6 +12,8 @@ export const getHomepage = async (req, res, next) => {
     try{
         // const antennas = await Antenna.find();
         // const sessions = await Session.find();
+        let msg_success = req.flash('message_success');
+        let msg_error = req.flash('message_error');
         let messageRegions = "";
         let messageDomaines = ""; 
         
@@ -41,7 +43,11 @@ export const getHomepage = async (req, res, next) => {
             domaines,
             messageRegions,
             messageDomaines,
-            message: ""
+            message: "",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,    
         });
     } catch(error) {
         return res.status(500).render("homepage", {
@@ -51,6 +57,10 @@ export const getHomepage = async (req, res, next) => {
             message: error,
             messageRegions: "",
             messageDomaines: "",
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error,    
         });
     }
 };

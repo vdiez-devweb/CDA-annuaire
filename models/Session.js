@@ -50,7 +50,6 @@ const sessionSchema = new Schema({
         required: [true,'Vous devez définir si stage ou pas'],
         default:false //TODO non stage par défaut ? 
     },  
-    
     sessionStatus: {
         type:Boolean,
         required: [true,'Vous devez définir le status actif ou non pour cette session'],
@@ -67,7 +66,6 @@ const sessionSchema = new Schema({
         //     message: props => `doit être un nombre! vous avez saisi ${props.value}`
         //   }
     },
-    
     sessionAntenna: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Antenna'
