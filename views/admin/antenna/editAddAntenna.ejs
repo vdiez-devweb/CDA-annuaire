@@ -7,7 +7,7 @@
         <% if (action === "update") { %>
             <form method="post" action="<%=baseURL%>/admin/ajax-update-antenna">
         <% } else { %>
-            <form method="post" action="<%=baseURL%>/admin/ajax-create-antenna">
+            <form method="post" action="<%=baseURL%>/admin/create-antenna">
         <% } %>  
             <div class="mb-3 form-group">
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
@@ -31,7 +31,7 @@
                     <div class="row mb-3 form-group">
                         <label for="antennaDescription" class="col-form-label">Description</label>
                         <div>
-                            <textarea class="form-control" id="antennaDescription" name="antennaDescription" rows="3"> <% if (antenna.antennaDescription) { %><%= antenna.antennaDescription %><% } %></textarea>
+                            <textarea class="form-control" id="antennaDescription" name="antennaDescription" rows="3"><% if (antenna.antennaDescription) { %><%= antenna.antennaDescription %><% } %></textarea>
                             <small id="antennaDescription-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
                         </div>
                     </div>
@@ -120,10 +120,10 @@
                                 <small id="antennaPhone-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
-                        <div class="col-sm-8 mb-3 form-group">
+                        <div class="col-sm-8 mb-3 form-group required">
                             <label for="antennaEmail" class="col-form-label">Email</label>
                             <div>
-                                <input type="email" class="form-control" id="antennaEmail" name="antennaEmail" placeholder="name@example.com" <% if (antenna.antennaEmail) { %>value="<%= antenna.antennaEmail%>"<% } %>>
+                                <input type="email" class="form-control" id="antennaEmail" name="antennaEmail" placeholder="name@example.com" <% if (antenna.antennaEmail) { %>value="<%= antenna.antennaEmail%>"<% }  required="required" %>>
                                 <small id="antennaEmail-TxtControl" class="form-text text-muted"></small><!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
