@@ -8,7 +8,8 @@ const phoneRegex = /^\d{10}$|^NC$/;
 const zipCodeRegex = /^\d{5}$/;
 const slugRegex = /^[a-z0-9]{3,32}$/;
 const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-
+const objectIdRegex = /^[a-f\d]{24}$/;
+const dateRegex = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
 /**
  * Middleware to formate dates for different displays :
@@ -25,29 +26,49 @@ const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$
 
 export const formateDate = (innerDate, typeDisplay) => {
     switch (typeDisplay) {
-        case 'form':
+        case 'form'://'2023-09-10'
             return innerDate.getFullYear() + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate());
             break;
 
-        case 'tab':
+        case 'tab': //
             return  (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate()) + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getFullYear() >= 2000 ? innerDate.getFullYear()-2000 : innerDate.getFullYear()-1900);
 
             break;
-        case 'view':
+        case 'view': //
             return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear();
         
             break;
-        case 'complete':
+        case 'complete': //
             return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear() + " à " + innerDate.getHours() + "h" + innerDate.getMinutes(); //+ "m" + innerDate.getSeconds()
         
             break;
-        default:
+        default: //
             return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear();
 
             break;
     }
 };
 
+
+/**
+ * 
+ * Validate and formate the received datas from parameters in route 
+ * 
+**/
+export const validateValueRouteParameter = (key, value, tabValues = []) => {
+
+    let label = '';
+
+    switch (key) {    
+        case 'sessionAntennaId': //!
+            label = 'L\'id du centre de formation';
+            if (!objectIdRegex.test(value)){ 
+                throw new Error(label + ' n\'est pas au format valide !');
+            }
+
+        break; 
+    }
+}
 
 /**
  * 
@@ -214,12 +235,16 @@ export const validateValue = (key, value, tabValues = []) => {
 
             break;
 
-        case 'sessionAntennaId':
+        case 'sessionAntenna':
             label = 'Le centre de formation';
                 if (value == 0) { 
                     throw new Error(label + ' doit être choisi !');
+                } else {
+                    if (!objectIdRegex.test(value)){ 
+                        throw new Error(label + ' n\'est pas au format valide !');
+                    }
                 }
-    
+                
             break; 
         case 'sessionNumIdentifier':
                 label = 'Le numéro identifiant Ypareo';
@@ -249,19 +274,14 @@ export const validateValue = (key, value, tabValues = []) => {
             break; 
         case 'sessionStartDate':
         case 'sessionEndDate':
-            if (value == 'sessionStartDate') { 
-                label = 'La date de début'; 
-            } else if (value == 'sessionEndDate') { 
-                label = 'La date de fin'; 
+            label = 'Les dates de début / fin';
+            if (value == '') { 
+                throw new Error(label + ' ne peuvent pas être vides !');
             }
-            if (value != '') { //! quel format attendu si saisi ?
-                //throw new Error(label + ' n\'est pas au bon format !');
+            if (!dateRegex.test(value)){ 
+                value = formateDate(value, 'form');
             }
-    
             break; 
-    
-        
-                    
 
         case 'userPassword':
             label = 'Le mot de passe';
@@ -313,7 +333,6 @@ export const validateValue = (key, value, tabValues = []) => {
             }
             // gestion du format //TODO forcer une majuscule au début de chaque mot séparé par un espace ou un tiret : https://flexiple.com/javascript/javascript-capitalize-first-letter/
             break;
-
 
         default:
             break;

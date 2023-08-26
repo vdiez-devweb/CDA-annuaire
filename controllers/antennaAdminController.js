@@ -177,64 +177,6 @@ export const postAntenna = async (req, res, next) => {
 
 /**
  * 
- * Create Antenna (requête post) in admin dashboard 
- * 
-**/
-// export const ajaxPostAntenna = async (req, res, next) => {
-//     const data = [];
-    
-//     try{
-//         // vérifier les données reçues du formulaire dans req.body
-//         Object.keys(req.body).forEach(key => {
-//             data[key] = validateValue(key, data[key]);
-//         });
-//         // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
-//         const antenna = await Antenna.create({
-//             antennaName: data.antennaName,
-//             antennaDescription: data.antennaDescription,
-//             antennaSlug: data.antennaSlug,
-//             antennaImg: data.antennaImg ? true : false,
-//             antennaRegion: data.antennaRegion,
-//             antennaPhone: data.antennaPhone,
-//             antennaStatus: data.antennaStatus ? true : false,
-//             antennaAddress: data.antennaAddress,
-//             antennaZipCode: data.antennaZipCode,
-//             antennaEmail: data.antennaEmail,
-//             antennaCity: data.antennaCity
-//         });
-//         req.flash('message_success', "Centre de formation " + antenna.antennaName + " créé");
-//         return res.status(201).redirect("/admin/antenna/" + antenna.antennaSlug);
-//     } catch(error) {
-//         if (error.errors){
-//             req.flash('message_error', "ERREUR " + error);
-//             // return res.status(500).redirect("/admin/create-antenna"); 
-//             //console.log(req.body);
-//             //pour conserver les données saisies en cas d'erreur de validation, et éviter des les ressaisir :
-//             return res.status(500).render("admin/antenna/editAddAntenna", {
-//                 title: "Modifier le centre de formation " + req.body.antennaName,
-//                 antenna: req.body,
-//                 action:"create",
-//                 nbSessionsInBDD: req.body.count,
-//                 message_success: "",
-//                 message_error: req.flash('message_error'),
-//                 message: ""
-//             });
-//         }
-//         req.flash('message_error', "ERREUR " + error);
-//         //! attention, avec le render, si on actualise ça relance la requête de création : j'utilise le redirect avec connect-flash
-//         return res.status(500).redirect("/admin/create-antenna");
-//         // return res.status(500).render("admin/antenna/getAntenna", {
-//         //     title: prefixTitle + "Création d'un centre de formation",
-//         //     sessions: "",
-//         //     antenna: "",
-//         //     flashMessage:"",
-//         //     message: error
-//         // });
-//     }
-// };
-
-/**
- * 
  * delete a single antenna in admin dashboard 
  * 
 **/

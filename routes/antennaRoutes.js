@@ -8,7 +8,6 @@ import {
     getAntennas as getAdminAntennas,  
     getAntenna as getAdminAntenna,
     postAntenna,
-    // ajaxPostAntenna,
     deleteAntenna,
     updateAntenna,
     ajaxUpdateAntenna,

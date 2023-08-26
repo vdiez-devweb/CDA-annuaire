@@ -127,12 +127,18 @@ export const deleteSession = async (req, res, next) => {
 **/
 export const postSession = async(req, res, next) => {
     const antennaSlug = req.params.antennaSlug != "" ? req.params.antennaSlug : null;
+    const sessionAntenna = req.body.sessionAntenna != "" ? req.body.sessionAntenna : null;
+    console.log('entrée de la fct'); //!debug
+    console.log(req.body); //!debug
     let antennaSelected = null;
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
     try {
         if (null != antennaSlug) {
             antennaSelected = await Antenna.findOne({ "antennaSlug": antennaSlug });
+            if (antennaSelected) antennaSelected = antennaSelected._id.toString();
+        } else if (null != sessionAntenna) {
+            antennaSelected = await Antenna.findOne({ "_id": sessionAntenna });
             if (antennaSelected) antennaSelected = antennaSelected._id.toString();
         } 
         const antennas = await Antenna.find();
@@ -153,78 +159,96 @@ export const postSession = async(req, res, next) => {
                 message: ""
             });
         }
-        return res.status(200).render("admin/session/editAddSession", {
-            title: prefixTitle + " Création de session",
-            antennas: antennas,
-            session:"",
-            action: "create",
-            antennaSelected: antennaSelected,
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,    
-            message: "",
-            antennaSlug
-        });
-    } catch {
-        return res.status(404).render("admin/session/getSessions", {
-            title: "Erreur Fiche session",
-            session: "",
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,
-            antennaSlug,
-            message: "Erreur serveur."
-        });
-    }
-};
+        if (0 === Object.keys(req.body).length && req.body.constructor === Object) { //si on a pas encore reçu des données depuis le formulaire
+            console.log('formulaire vierge'); //!debug
+            console.log(req.body); //!debug
+            try{ 
+                return res.status(200).render("admin/session/editAddSession", {
+                    title: prefixTitle + " Création de session",
+                    antennas: antennas,
+                    session:"",
+                    action: "create",
+                    antennaSelected: antennaSelected,
+                    message_success: req.flash('message_success'),
+                    message_error: req.flash('message_error'),
+                    msg_success,
+                    msg_error,    
+                    message: "",
+                    antennaSlug
+                });
 
-/**
- * 
- * Create Session (requête post) in admin dashboard 
- * 
-**/
-export const ajaxPostSession = async (req, res, next) => {
-    // envoyer le nom du centre de formation via req.body
-    const data = req.body;
-    console.log(data); //!debug
-    
-    try{
-        // vérifier les données reçues du formulaire dans req.body
-        Object.keys(req.body).forEach(key => {
-            data[key] = validateValue(key, req.body[key], res.locals.typeSession);
-        });
-        // on créé une nouvelle session avec mongoose (Session est un objet Schema de mongoose déclaré dans le model)
-        const session = await Session.create({
-            sessionName: data.sessionName, 
-            sessionDescription : data.sessionDescription,
-            sessionNumIdentifier: data.sessionNumIdentifier,
-            sessionType: data.sessionType,
-            sessionAlternation: data.sessionAlternation,
-            sessionInternship: data.sessionInternship,
-            sessionStatus: data.sessionStatus,
-            sessionStartDate: data.sessionStartDate,
-            sessionEndDate: data.sessionEndDate,
-            sessionAntenna: data.sessionAntennaId,
-        });
+            } catch (error) {
+                req.flash('message_error', "ERREUR " + error);
+                return res.status(201).redirect("/admin/sessions/");
+            }
+        } else { // on est passé par le formulaire, on traite les données
+            const data = [];
 
-        //on met à jour automatiquement le nombre de session dans son centre de formation
-        const antenna = await Antenna.findByIdAndUpdate(
-            { "_id": data.sessionAntennaId }, 
-            { $inc: { antennaNbSessions: 1 } }, 
-            { new: true }
-            //  (err, doc)
-        );
-        req.flash('message_success', "Session " + session.sessionName + " créée");
-        return res.status(201).redirect("/admin/session/" + session._id);
-    } catch(error) {
-        if (error.errors){
-            req.flash('message_error', "ERREUR " + error);
-            return res.status(500).redirect("/admin/create-session/" + data.antennaSlug); 
+            try{
+                Object.keys(req.body).forEach(key => {
+                    data[key] = validateValue(key, req.body[key], res.locals.typeSessions);
+                });
+                const session = await Session.create({
+                    sessionName: data.sessionName, 
+                    sessionDescription : data.sessionDescription,
+                    sessionNumIdentifier: data.sessionNumIdentifier,
+                    sessionType: data.sessionType,
+                    sessionAlternation: data.sessionAlternation,
+                    sessionInternship: data.sessionInternship,
+                    sessionStatus: data.sessionStatus,
+                    sessionStartDate: data.sessionStartDate,
+                    sessionEndDate: data.sessionEndDate,
+                    sessionAntenna: data.sessionAntenna,
+                });
+        
+                //on met à jour automatiquement le nombre de session dans son centre de formation
+                const antenna = await Antenna.findByIdAndUpdate(
+                    { "_id": data.sessionAntenna }, 
+                    { $inc: { antennaNbSessions: 1 } }, 
+                    { new: true }
+                    //  (err, doc)
+                );
+                req.flash('message_success', "Session " + session.sessionName + " créée");
+                return res.status(201).redirect("/admin/session/" + session._id);
+            } catch(error) {
+                if (error.errors){
+                    req.flash('message_error', "ERREUR " + error);
+                    // return res.status(500).redirect("/admin/create-session/" + data.antennaSlug); 
+                    return res.status(200).render("admin/session/editAddSession", {
+                        title: prefixTitle + " Création de session",
+                        antennas: antennas,
+                        session:req.body,
+                        action: "create",
+                        antennaSelected: antennaSelected,
+                        message_success: req.flash('message_success'),
+                        message_error: req.flash('message_error'),
+                        msg_success,
+                        msg_error,    
+                        message: "",
+                        antennaSlug
+                    });                    
+                }
+                req.flash('message_error', "ERREUR " + error);
+                // return res.status(500).redirect("/admin/create-session/" + data.antennaSlug);
+                return res.status(200).render("admin/session/editAddSession", {
+                    title: prefixTitle + " Création de session",
+                    antennas: antennas,
+                    session: req.body,
+                    action: "create",
+                    antennaSelected: antennaSelected,
+                    message_success: req.flash('message_success'),
+                    message_error: req.flash('message_error'),
+                    msg_success,
+                    msg_error,    
+                    message: "",
+                    antennaSlug
+                });
+            }
         }
+
+    } catch(error) {
         req.flash('message_error', "ERREUR " + error);
-        return res.status(500).redirect("/admin/create-session/" + data.antennaSlug);
+        return res.status(201).redirect("/admin/sessions/");
     }
 };
 
@@ -305,7 +329,7 @@ export const ajaxUpdateSession = async (req, res, next) => {
             sessionStatus: data.sessionStatus ? true : false,
             sessionStartDate: data.sessionStartDate,
             sessionEndDate: data.sessionEndDate,
-            sessionAntenna: data.sessionAntennaId,
+            sessionAntenna: data.sessionAntenna,
             sessionNbStudents: data.sessionNbStudents,
         }, 
         { 
