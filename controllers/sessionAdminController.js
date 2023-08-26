@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate, validateValue } from "../middlewares/validation.js";
 
 const prefixTitle = "";
 
@@ -188,8 +188,13 @@ export const postSession = async(req, res, next) => {
 export const ajaxPostSession = async (req, res, next) => {
     // envoyer le nom du centre de formation via req.body
     const data = req.body;
+    console.log(data); //!debug
     
     try{
+        // vérifier les données reçues du formulaire dans req.body
+        Object.keys(req.body).forEach(key => {
+            data[key] = validateValue(key, req.body[key], res.locals.typeSession);
+        });
         // on créé une nouvelle session avec mongoose (Session est un objet Schema de mongoose déclaré dans le model)
         const session = await Session.create({
             sessionName: data.sessionName, 
@@ -219,7 +224,7 @@ export const ajaxPostSession = async (req, res, next) => {
             return res.status(500).redirect("/admin/create-session/" + data.antennaSlug); 
         }
         req.flash('message_error', "ERREUR " + error);
-        return res.status(500).redirect("/admin/sessions/create-session/" + data.antennaSlug);
+        return res.status(500).redirect("/admin/create-session/" + data.antennaSlug);
     }
 };
 

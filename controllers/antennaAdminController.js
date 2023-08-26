@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate, validateValue } from "../middlewares/validation.js";
 
 // const prefixTitle = "Administration - ";
 const prefixTitle = "";
@@ -123,7 +123,7 @@ export const postAntenna = async (req, res, next) => {
         }
     } else { // on est passé par le formulaire, on traite les données
         const data = [];
-    console.log(req.body);
+    console.log(req.body); //!debug
         try{
             // vérifier les données reçues du formulaire dans req.body
             Object.keys(req.body).forEach(key => {
@@ -399,170 +399,170 @@ export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
  * Validate and formate the received datas from forms
  * 
 **/
-export const validateValue = (key, value, tabRegions) => {
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    const phoneRegex = /^\d{10}$|^NC$/;
-    const zipCodeRegex = /^\d{5}$/;
-    const slugRegex = /^[a-z0-9]{3,32}$/;
-    let label = '';
+// export const validateValue = (key, value, tabRegions) => {
+//     const emailRegex = /^\S+@\S+\.\S+$/;
+//     const phoneRegex = /^\d{10}$|^NC$/;
+//     const zipCodeRegex = /^\d{5}$/;
+//     const slugRegex = /^[a-z0-9]{3,32}$/;
+//     let label = '';
 
-    switch (key) {
-        case 'antennaName':
-            label = 'Le nom';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            value = value.trim();
-            // test la longueur ou regex
-            if (value.length < 5 || value.length > 100){ 
-                throw new Error(label + ' doit contenir entre 5 et 100 caractères !');
-            }
-            // gestion du format
-            // value = value.toUpperCase(); 
+//     switch (key) {
+//         case 'antennaName':
+//             label = 'Le nom';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             value = value.trim();
+//             // test la longueur ou regex
+//             if (value.length < 5 || value.length > 100){ 
+//                 throw new Error(label + ' doit contenir entre 5 et 100 caractères !');
+//             }
+//             // gestion du format
+//             // value = value.toUpperCase(); 
 
-            break;
-        case 'antennaSlug':
-            label = 'Le slug';
-            // Test si vide
-            if (null == value) { 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value) { 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // gestion du format
-            value = value.trim();
-            value = value.toLowerCase(); 
-            // test la longueur ou regex
-            if (!slugRegex.test(value)) { 
-                throw new Error(label + ' n\'est pas au format valide ! (entre 3 et 32 chiffres ou lettres en minuscules');
-            }
+//             break;
+//         case 'antennaSlug':
+//             label = 'Le slug';
+//             // Test si vide
+//             if (null == value) { 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value) { 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // gestion du format
+//             value = value.trim();
+//             value = value.toLowerCase(); 
+//             // test la longueur ou regex
+//             if (!slugRegex.test(value)) { 
+//                 throw new Error(label + ' n\'est pas au format valide ! (entre 3 et 32 chiffres ou lettres en minuscules');
+//             }
 
-            break;
-        case 'antennaDescription':
-            label = 'La description';
-            // Test si vide
-            if (null != value){ 
-                // test le type
-                if ('string' != typeof value){ 
-                    throw new Error(label + ' doit être une chaîne de caractères !');
-                }
-                value = value.trim();
-                // test la longueur ou regex
-                if ( value.length > 255){ 
-                    throw new Error(label + ' doit contenir moins de 255 caractères !');
-                }
-            }
+//             break;
+//         case 'antennaDescription':
+//             label = 'La description';
+//             // Test si vide
+//             if (null != value){ 
+//                 // test le type
+//                 if ('string' != typeof value){ 
+//                     throw new Error(label + ' doit être une chaîne de caractères !');
+//                 }
+//                 value = value.trim();
+//                 // test la longueur ou regex
+//                 if ( value.length > 255){ 
+//                     throw new Error(label + ' doit contenir moins de 255 caractères !');
+//                 }
+//             }
 
-            break;
-        case 'antennaStatus':
-            value = value ? true : false;
+//             break;
+//         case 'antennaStatus':
+//             value = value ? true : false;
 
-            break;
-        case 'antennaImg':
-            value = value ? true : false;
+//             break;
+//         case 'antennaImg':
+//             value = value ? true : false;
 
-            break;
-        case 'antennaAddress':
-            label = 'L\' adresse';
-            // Test si vide
-            if (null != value){ 
-                // test le type
-                if ('string' != typeof value) { 
-                    throw new Error(label + ' doit être une chaîne de caractères !');
-                }
-                value = value.trim();
-                // test la longueur ou regex
-                if (value.length < 5 || value.length > 128) { 
-                    throw new Error(label + ' doit contenir entre 5 et 128 caractères !');
-                }
-            }
+//             break;
+//         case 'antennaAddress':
+//             label = 'L\' adresse';
+//             // Test si vide
+//             if (null != value){ 
+//                 // test le type
+//                 if ('string' != typeof value) { 
+//                     throw new Error(label + ' doit être une chaîne de caractères !');
+//                 }
+//                 value = value.trim();
+//                 // test la longueur ou regex
+//                 if (value.length < 5 || value.length > 128) { 
+//                     throw new Error(label + ' doit contenir entre 5 et 128 caractères !');
+//                 }
+//             }
 
-            break;
-        case 'antennaZipCode':
-            label = 'Le code postal';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            value = value.trim();
-            // test la longueur ou regex
-            if (!zipCodeRegex.test(value)){ 
-                throw new Error(label + ' doit contenir 5 chiffres !');
-            }
+//             break;
+//         case 'antennaZipCode':
+//             label = 'Le code postal';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             value = value.trim();
+//             // test la longueur ou regex
+//             if (!zipCodeRegex.test(value)){ 
+//                 throw new Error(label + ' doit contenir 5 chiffres !');
+//             }
 
-            break;
-        case 'antennaCity':
-            label = 'La ville';
-            // Test si vide
-            if (null != value){ 
-                // test le type
-                if ('string' != typeof value){ 
-                    throw new Error(label + ' doit être une chaîne de caractères !');
-                }
-                value = value.trim();
-                // test la longueur ou regex
-                if (value.length < 5 || value.length > 100){ 
-                    throw new Error(label + ' doit contenir  entre 5 et 100 caractères !');
-                }
-            }
-            // gestion du format
-            value = value.toUpperCase(); 
+//             break;
+//         case 'antennaCity':
+//             label = 'La ville';
+//             // Test si vide
+//             if (null != value){ 
+//                 // test le type
+//                 if ('string' != typeof value){ 
+//                     throw new Error(label + ' doit être une chaîne de caractères !');
+//                 }
+//                 value = value.trim();
+//                 // test la longueur ou regex
+//                 if (value.length < 5 || value.length > 100){ 
+//                     throw new Error(label + ' doit contenir  entre 5 et 100 caractères !');
+//                 }
+//             }
+//             // gestion du format
+//             value = value.toUpperCase(); 
 
-            break;    
-        case 'antennaRegion':
-            label = 'La région';
-            if (tabRegions[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
-                throw new Error(label + ' doit être choisie !');
-            }
+//             break;    
+//         case 'antennaRegion':
+//             label = 'La région';
+//             if (tabRegions[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
+//                 throw new Error(label + ' doit être choisie !');
+//             }
 
-            break; 
-        case 'antennaPhone':
-            label = 'Le numéro de téléphone';
-            // Test si vide
-            if (null == value || "" == value){ 
-                value = 'NC';
-            } else {
-                value = value.trim();
-                // test la longueur ou regex
-                if (!phoneRegex.test(value)) { 
-                    throw new Error(label + ' doit contenir 10 chiffres !');
-                }
-            }
+//             break; 
+//         case 'antennaPhone':
+//             label = 'Le numéro de téléphone';
+//             // Test si vide
+//             if (null == value || "" == value){ 
+//                 value = 'NC';
+//             } else {
+//                 value = value.trim();
+//                 // test la longueur ou regex
+//                 if (!phoneRegex.test(value)) { 
+//                     throw new Error(label + ' doit contenir 10 chiffres !');
+//                 }
+//             }
             
-            break;
-        case 'antennaEmail':
-            label = 'L\'email';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // gestion du format
-            value = value.trim();
-            value = value.toLowerCase(); 
-            // test la longueur ou regex
-            if (!emailRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
+//             break;
+//         case 'antennaEmail':
+//             label = 'L\'email';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // gestion du format
+//             value = value.trim();
+//             value = value.toLowerCase(); 
+//             // test la longueur ou regex
+//             if (!emailRegex.test(value)){ 
+//                 throw new Error(label + ' n\'est pas au format valide !');
+//             }
 
-            break;
-        default:
-            break;
-    }
+//             break;
+//         default:
+//             break;
+//     }
 
-    return value;
+//     return value;
 
-};
+// };
 
 /**
  * TODO ? 

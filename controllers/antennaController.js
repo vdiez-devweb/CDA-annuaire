@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate } from "../middlewares/validation.js";
 
 /**
  * 

@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate, validateValue } from "../middlewares/validation.js";
 
 
 import {
@@ -186,111 +186,111 @@ export const userAccount = async (req, res, next) => {
  * 
  * Validate and formate the received datas from forms
  * 
-**/
-export const validateValue = (key, value) => {
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    const phoneRegex = /^\d{10}$|^NC$/;
-    const zipCodeRegex = /^\d{5}$/;
-    let label = '';
-    switch (key) {
-        case 'userEmail':
-            label = 'L\'email';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // gestion du format
-            value = value.toLowerCase(); 
-            // test la longueur ou regex
-            if (!emailRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
+// **/
+// export const validateValue = (key, value) => {
+//     const emailRegex = /^\S+@\S+\.\S+$/;
+//     const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+//     const phoneRegex = /^\d{10}$|^NC$/;
+//     const zipCodeRegex = /^\d{5}$/;
+//     let label = '';
+//     switch (key) {
+//         case 'userEmail':
+//             label = 'L\'email';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // gestion du format
+//             value = value.toLowerCase(); 
+//             // test la longueur ou regex
+//             if (!emailRegex.test(value)){ 
+//                 throw new Error(label + ' n\'est pas au format valide !');
+//             }
 
-            break;
-        case 'userPassword':
-            label = 'Le mot de passe';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (!pwdRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
+//             break;
+//         case 'userPassword':
+//             label = 'Le mot de passe';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // test la longueur ou regex
+//             if (!pwdRegex.test(value)){ 
+//                 throw new Error(label + ' n\'est pas au format valide !');
+//             }
 
-            break;
-        case 'userLastName':
-            label = 'Le nom';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (value.length < 2 || value.length > 100){ 
-                throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
-            }
-            // gestion du format
-            value = value.toUpperCase(); 
+//             break;
+//         case 'userLastName':
+//             label = 'Le nom';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // test la longueur ou regex
+//             if (value.length < 2 || value.length > 100){ 
+//                 throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
+//             }
+//             // gestion du format
+//             value = value.toUpperCase(); 
 
-            break;
-        case 'userFirstName':
-            label = 'Le prénom';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (value.length < 2 || value.length > 100){ 
-                throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
-            }
-            // gestion du format //TODO forcer une majuscule au début de chaque mot séparé par un espace ou un tiret : https://flexiple.com/javascript/javascript-capitalize-first-letter/
-            break;
-        case 'userZipCode':
-            label = 'Le code postal';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test la longueur ou regex
-            if (!zipCodeRegex.test(value)){ 
-                throw new Error(label + ' doit contenir 5 chiffres !');
-            }
+//             break;
+//         case 'userFirstName':
+//             label = 'Le prénom';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test le type
+//             if ('string' != typeof value){ 
+//                 throw new Error(label + ' doit être une chaîne de caractères !');
+//             }
+//             // test la longueur ou regex
+//             if (value.length < 2 || value.length > 100){ 
+//                 throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
+//             }
+//             // gestion du format //TODO forcer une majuscule au début de chaque mot séparé par un espace ou un tiret : https://flexiple.com/javascript/javascript-capitalize-first-letter/
+//             break;
+//         case 'userZipCode':
+//             label = 'Le code postal';
+//             // Test si vide
+//             if (null == value){ 
+//                 throw new Error(label + ' ne peut pas être vide !');
+//             }
+//             // test la longueur ou regex
+//             if (!zipCodeRegex.test(value)){ 
+//                 throw new Error(label + ' doit contenir 5 chiffres !');
+//             }
 
-            break;
-        case 'userPhone':
-            label = 'Le numéro de téléphone';
-            // Test si vide
-            if (null == value || "" == value){ 
-                value = 'NC';
-            } else {
-                // test la longueur ou regex
-                if (!phoneRegex.test(value)){ 
-                    throw new Error(label + ' doit contenir 10 chiffres !');
-                }
-            }
+//             break;
+//         case 'userPhone':
+//             label = 'Le numéro de téléphone';
+//             // Test si vide
+//             if (null == value || "" == value){ 
+//                 value = 'NC';
+//             } else {
+//                 // test la longueur ou regex
+//                 if (!phoneRegex.test(value)){ 
+//                     throw new Error(label + ' doit contenir 10 chiffres !');
+//                 }
+//             }
 
-            break;
-        default:
-            break;
-    }
+//             break;
+//         default:
+//             break;
+//     }
     
-    return value;
+//     return value;
 
-};
+// };
