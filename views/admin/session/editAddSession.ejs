@@ -22,7 +22,7 @@
                                 <option disabled>────────────────────</option>
                                 <% antennas.forEach(currentAntenna => { %>
                                     <option value="<%=currentAntenna._id %>" 
-                                        <% if (antennaSelected == currentAntenna._id) { %> selected   <% }  %>
+                                        <% if (antennaSelected == currentAntenna._id) { %> selected <% }  %>
                                         ><%=currentAntenna.antennaName %>
                                     </option>
                                 <% }) %>
@@ -87,14 +87,14 @@
                         <div class="row mb-3 form-group col-sm-6">
                             <label for="sessionStartDate" class="col-form-label">Date de début</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<% if (action == "update") { %><%=session.sessionStartDateToEditForm %><% } else { %><%=session.sessionStartDate %><% } %>">
+                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=sessionStartDate %>">
                                 <small id="sessionStartDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
                         <div class="row mb-3 form-group col-sm-6">
                             <label for="sessionEndDate" class="col-form-label">Date de fin</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<% if (action == "update") { %><%=session.sessionEndDateToEditForm %><% } else { %><%=session.sessionEndDate %><% } %>">
+                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=sessionEndDate %>">
                                 <small id="sessionEndDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
@@ -110,9 +110,9 @@
             </div>           
 
             <% if (action == "update") { %> 
+                <input id="sessionId" name="sessionId" type="hidden" value="<%= sessionId %>">   
                 <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> 
                 <input id="antennaSlug" name="antennaSlug" type="hidden" value="<%= antennaSlug %>"> 
-                <input id="id" name="id" type="hidden" value="<%= session._id %>">   
             <% } %> 
                 
 
@@ -122,7 +122,7 @@
                 <div class="text-end mt-3">
                     <button class="btn btn-success" type="submit" value="post">
                     <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> la session</button>
-                    <a href="<%=baseURL%>/admin/<% if (action == "update") { %>session/<%= session._id%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
+                    <a href="<%=baseURL%>/admin/<% if (action == "update") { %>session/<%= sessionId%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
             <% } else { %>  

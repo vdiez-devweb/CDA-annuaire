@@ -9,7 +9,6 @@ import {
     deleteSession,
     postSession,
     updateSession, 
-    ajaxUpdateSession, 
 } from "../controllers/sessionAdminController.js";
  
 import {
@@ -29,14 +28,11 @@ router.get("/admin/create-session", authorizeAdmin, postSession);
 router.get("/admin/create-session/:antennaSlug", authorizeAdmin, postSession);
 router.post("/admin/create-session", authorizeAdmin, postSession);
 router.get("/admin/update-session/:sessionId", authorizeAdmin, updateSession);
-router.get("/admin/update-session/", authorizeAdmin, updateSession);
+router.post("/admin/update-session/", authorizeAdmin, updateSession);
 
 //endpoint
 router.get("/admin/delete-session/:sessionId", authorizeAdmin, deleteSession); 
 router.get("/admin/delete-session/:antennaSlug/:sessionId", authorizeAdmin, deleteSession); 
-// router.post("/admin/ajax-create-session", authorizeAdmin, ajaxPostSession);
-// router.post("/admin/ajax-update-session/:sessionId", authorizeAdmin, ajaxUpdateSession);
-router.post("/admin/ajax-update-session", authorizeAdmin, ajaxUpdateSession);
 // admin/update-count-students-in-session/<%= session._id %> // compter le nb d'étudiants dans une session
 
 export default router;

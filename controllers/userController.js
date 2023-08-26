@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import { formateDate, validateValue } from "../middlewares/validation.js";
+import { formateDate, validateAndFormateValue } from "../middlewares/validation.js";
 
 
 import {
@@ -39,7 +39,7 @@ export const signup = async (req, res, next) => {
                 throw new Error('Les deux mots de passe doivent être identiques !');
             } else { // on vérifie et reformate les données reçues avant de les passer en BDD
                 Object.keys(data).forEach(key => {
-                    data[key] = validateValue(key, data[key]);
+                    data[key] = validateAndFormateValue(key, data[key]);
                 });
 
                 // on crypte le mot de passe reçu du formulaire
@@ -47,12 +47,6 @@ export const signup = async (req, res, next) => {
 
                 //on créé l'utilisateur avec les données validées
                 const user = await User.create({
-                    // userEmail: validateValue('userEmail', data.userEmail), 
-                    // userPassword: hash,
-                    // userFirstName: validateValue('userFirstName', data.userFirstName), 
-                    // userLastName: validateValue('userLastName', data.userLastName), 
-                    // userZipCode: validateValue('userZipCode', data.userZipCode),
-                    // userPhone: validateValue('userPhone', data.userPhone),
                     userEmail: data.userEmail, 
                     userPassword: hash,
                     userFirstName: data.userFirstName, 
@@ -108,7 +102,7 @@ export const login = async (req, res, next) => {
     const data = req.body;
     const title = "Identification";
 
-    if (req.session.userInfos.access == true) {
+    if (typeof req.session.userInfos.access != 'undefined' && req.session.userInfos.access == true) {
         res.status(200).redirect("/user-account"); 
     } else if (0 === Object.keys(data).length && data.constructor === Object){
         return res.status(200).render("login", {
@@ -187,7 +181,7 @@ export const userAccount = async (req, res, next) => {
  * Validate and formate the received datas from forms
  * 
 // **/
-// export const validateValue = (key, value) => {
+// export const validateAndFormateValue = (key, value) => {
 //     const emailRegex = /^\S+@\S+\.\S+$/;
 //     const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 //     const phoneRegex = /^\d{10}$|^NC$/;

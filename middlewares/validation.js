@@ -97,7 +97,9 @@ export const validateValue = (key, value, tabValues = []) => {
  * 
 **/
 export const validateAndFormateValue = (key, value, tabValues = []) => {
-    console.log(value); //!debug
+    // console.log('validation -----------'); //!debug
+    // console.log(key); //!debug
+    // console.log(value); //!debug
 
     let label = '';
 // try {
@@ -207,8 +209,8 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
                 }
                 value = value.trim();
                 // test la longueur ou regex
-                if (value.length < 5 || value.length > 100) { 
-                    throw new Error(label + ' doit contenir  entre 5 et 100 caractères !');
+                if (value.length < 2 || value.length > 100) { 
+                    throw new Error(label + ' doit contenir  entre 2 et 100 caractères !');
                 }
                 // gestion du format
                 value = value.toUpperCase(); 
@@ -281,7 +283,7 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
         case 'sessionNumIdentifier':
                 label = 'Le numéro identifiant Ypareo';
                 // Test si vide
-                if (null == value){ 
+                if (null == value || '' === value){ 
                     throw new Error(label + ' ne peut pas être vide !');
                 }
                 // test le type
@@ -307,12 +309,14 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
         case 'sessionStartDate':
         case 'sessionEndDate':
             label = 'Les dates de début / fin';
-            if (value == '') { 
+            if (value === '') { 
                 throw new Error(label + ' ne peuvent pas être vides !');
             }
-            if (!dateRegex.test(value)){ 
+            if (!dateRegex.test(value)){ //! Que vérifier ?? peut rentrer au format YYY-MM-DD ou date de la BDD ou tout autre si erreur
                 value = formateDate(value, 'form');
+                //throw new Error(label + ' n\'ont pas le bon format !');
             }
+
             break; 
 
         case 'userPassword':
