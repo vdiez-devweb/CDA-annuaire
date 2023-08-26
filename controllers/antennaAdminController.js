@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate, validateValue } from "../middlewares/validation.js";
+import { formateDate, validateAndFormateValue } from "../middlewares/validation.js";
 
 // const prefixTitle = "Administration - ";
 const prefixTitle = "";
@@ -123,11 +123,10 @@ export const postAntenna = async (req, res, next) => {
         }
     } else { // on est passé par le formulaire, on traite les données
         const data = [];
-    console.log(req.body); //!debug
         try{
             // vérifier les données reçues du formulaire dans req.body
             Object.keys(req.body).forEach(key => {
-                data[key] = validateValue(key, req.body[key], res.locals.tabRegions);
+                data[key] = validateAndFormateValue(key, req.body[key], res.locals.tabRegions);
             });
             // on créé un nouveau centre de formation avec mongoose (Antenna est un objet Schema de mongoose déclaré dans le model)
             const antenna = await Antenna.create({
@@ -218,93 +217,116 @@ export const updateAntenna = async(req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
-    const antennaSlug = req.params.antennaSlug;
-    try{ 
+
+    const antennaSlug = (req.params.antennaSlug != "" && typeof req.params.antennaSlug !== 'undefined') ? req.params.antennaSlug : req.body.initialSlug != "" ? req.body.initialSlug : null;
+
+    if (0 === Object.keys(req.body).length && req.body.constructor === Object) { //si on a pas encore reçu des données depuis le formulaire
+        try{ 
+            const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
+            // pour éventuellement mettre à jour le compteur de sessions du centre de formation avec le nombre réel de sessions enregistrées dans la base
+            const count =  await Session.countDocuments({sessionAntenna: antenna._id});
+            if (null == antenna) {
+                req.flash('message_error', "Erreur : Centre de formation introuvable.");
+                return res.status(404).redirect("/admin/antenna/" + antennaSlug);
+            }
+            return res.status(200).render("admin/antenna/editAddAntenna", {
+                title: "Modifier le centre de formation " + antenna.antennaName,
+                antenna: antenna,
+                antennaId: antenna._id,
+                action:"update",
+                nbSessionsInBDD: count,
+                antennaSlug: antennaSlug,
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,  
+                message: ""
+            });
+        } catch (error) {    
+            if (antennaSlug) {
+                req.flash('message_error', error);
+                return res.status(500).redirect("/admin/antenna/" + antennaSlug);
+            } else { 
+                req.flash('message_error', error);
+                return res.status(500).redirect("/admin/antennas/");
+            }
+        }
+    } else { // on est passé par le formulaire, on traite les données
+        let data = [];
+        const initialSlug = req.body.initialSlug;
+
+        try{
+            
+            Object.keys(req.body).forEach(key => {
+                data[key] = validateAndFormateValue(key, req.body[key], res.locals.tabRegions);
+            });
+
+            const result = await Antenna.findByIdAndUpdate(
+            { "_id": data.antennaId }, 
+            { 
+                antennaName: data.antennaName,
+                antennaDescription: data.antennaDescription,
+                antennaSlug: data.antennaSlug,
+                antennaImg: data.antennaImg ,
+                antennaRegion: data.antennaRegion,
+                antennaPhone: data.antennaPhone,
+                antennaStatus: data.antennaStatus,
+                antennaAddress: data.antennaAddress,
+                antennaZipCode: data.antennaZipCode,
+                antennaCity: data.antennaCity,
+                antennaNbSessions: data.antennaNbSessions,
+                antennaEmail: data.antennaEmail,
+                // antennaNbStudents: data.antennaNbStudents,
+            }, 
+            { 
+                new: true,
+                runValidators:true,
+            }
+            //  (err, doc)
+            );
+
+            if (null == result) { //!TODO renvoyer vers unne autre page
+                return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
+            }
     
-        const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
-        // pour éventuellement mettre à jour le compteur de sessions du centre de formation avec le nombre réel de sessions enregistrées dans la base
-        const count =  await Session.countDocuments({sessionAntenna: antenna._id});
-        if (null == antenna) {
-            req.flash('message_success', "Erreur : Centre de formation introuvable.");
-            return res.status(404).redirect("/admin/antenna/" + antennaSlug);
-        }
-        return res.status(200).render("admin/antenna/editAddAntenna", {
-            title: "Modifier le centre de formation " + antenna.antennaName,
-            antenna: antenna,
-            action:"update",
-            nbSessionsInBDD: count,
-            message_success: req.flash('message_success'),
-            message_error: req.flash('message_error'),
-            msg_success,
-            msg_error,  
-            message: ""
-        });
-    } catch (error) {
-        req.flash('message_success', error);
-        return res.status(500).redirect("/admin/antenna/" + antennaSlug);
-    }
-};
+            req.flash('message_success', "Centre de formation " + result.antennaName + " modifié");
+            return res.status(200).redirect("/admin/antenna/" + data.antennaSlug);
+        } catch(error) {
 
-/**
- * 
- * Update Session (requête patch) in admin dashboard 
- * 
-**/
-export const ajaxUpdateAntenna = async (req, res, next) => {
-    const data = req.body;
-    const initialSlug = data.initialSlug;
-
-    try{
-        const result = await Antenna.findByIdAndUpdate(
-        { "_id": data.id }, 
-        { 
-            antennaName: data.antennaName,
-            antennaDescription: data.antennaDescription,
-            antennaSlug: data.antennaSlug,
-            antennaImg: data.antennaImg ? true : false,
-            antennaRegion: data.antennaRegion,
-            antennaPhone: data.antennaPhone,
-            antennaStatus: data.antennaStatus ? true : false,
-            antennaAddress: data.antennaAddress,
-            antennaZipCode: data.antennaZipCode,
-            antennaCity: data.antennaCity,
-            antennaNbSessions: data.antennaNbSessions,
-            antennaEmail: data.antennaEmail,
-            // antennaNbStudents: data.antennaNbStudents,
-        }, 
-        { 
-            new: true,
-            runValidators:true,
-        }
-        //  (err, doc)
-        );
-        if (null == result) {
-            return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, centre de formation non trouvé" });
-        }
-
-        req.flash('message_success', "Centre de formation " + result.antennaName + " modifié");
-        return res.status(200).redirect("/admin/antenna/" + initialSlug);
-    } catch(error) {
-        if (error.errors){
+            if (error.errors){
+                req.flash('message_error', "ERREUR " + error);
+                //return res.status(500).redirect("/admin/update-antenna/" + initialSlug); 
+                return res.status(500).render("admin/antenna/editAddAntenna", {
+                    title: "Modifier le centre de formation " + req.body.antennaName,
+                    antenna: req.body,
+                    antennaId: req.body.antennaId,
+                    antennaSlug: initialSlug,
+                    action:"update",
+                    nbSessionsInBDD: req.body.antennaNbSessions,
+                    // nbSessionsInBDD: req.body.count,
+                    message_success: "",
+                    message_error: req.flash('message_error'),
+                    message: ""
+                });
+            }        
             req.flash('message_error', "ERREUR " + error);
-            return res.status(500).redirect("/admin/update-antenna/" + initialSlug); 
-            // return res.status(500).render("admin/antenna/editAddAntenna", {
-            //     title: "Modifier le centre de formation " + req.body.antennaName,
-            //     antenna: req.body,
-            //     id: req.body.id,
-            //     antennaSlug: initialSlug,
-            //     action:"update",
-            //     nbSessionsInBDD: req.body.antennaNbSessions,
-            //     message_success: "",
-            //     message_error: req.flash('message_error'),
-            //     message: ""
-            // });
-        }        
-        req.flash('message_error', "ERREUR " + error);
-        return res.status(500).redirect("/admin/update-antenna/" + initialSlug);
+            //return res.status(500).redirect("/admin/update-antenna/" + initialSlug);
+            return res.status(500).render("admin/antenna/editAddAntenna", {
+                title: "Modifier le centre de formation " + req.body.antennaName,
+                antenna: req.body,
+                antennaId: req.body.antennaId,
+                antennaSlug: initialSlug,
+                action:"update",
+                nbSessionsInBDD: req.body.antennaNbSessions,
+                // nbSessionsInBDD: req.body.count,
+                message_success: "",
+                message_error: req.flash('message_error'),
+                message: ""
+            });
+        }
     }
-};
 
+};
 
 /**
  * 
@@ -334,177 +356,6 @@ export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
        return res.status(500).redirect(req.get('Referrer'));
    }
 };
-
-
-/**
- * 
- * Validate and formate the received datas from forms
- * 
-**/
-// export const validateValue = (key, value, tabRegions) => {
-//     const emailRegex = /^\S+@\S+\.\S+$/;
-//     const phoneRegex = /^\d{10}$|^NC$/;
-//     const zipCodeRegex = /^\d{5}$/;
-//     const slugRegex = /^[a-z0-9]{3,32}$/;
-//     let label = '';
-
-//     switch (key) {
-//         case 'antennaName':
-//             label = 'Le nom';
-//             // Test si vide
-//             if (null == value){ 
-//                 throw new Error(label + ' ne peut pas être vide !');
-//             }
-//             // test le type
-//             if ('string' != typeof value){ 
-//                 throw new Error(label + ' doit être une chaîne de caractères !');
-//             }
-//             value = value.trim();
-//             // test la longueur ou regex
-//             if (value.length < 5 || value.length > 100){ 
-//                 throw new Error(label + ' doit contenir entre 5 et 100 caractères !');
-//             }
-//             // gestion du format
-//             // value = value.toUpperCase(); 
-
-//             break;
-//         case 'antennaSlug':
-//             label = 'Le slug';
-//             // Test si vide
-//             if (null == value) { 
-//                 throw new Error(label + ' ne peut pas être vide !');
-//             }
-//             // test le type
-//             if ('string' != typeof value) { 
-//                 throw new Error(label + ' doit être une chaîne de caractères !');
-//             }
-//             // gestion du format
-//             value = value.trim();
-//             value = value.toLowerCase(); 
-//             // test la longueur ou regex
-//             if (!slugRegex.test(value)) { 
-//                 throw new Error(label + ' n\'est pas au format valide ! (entre 3 et 32 chiffres ou lettres en minuscules');
-//             }
-
-//             break;
-//         case 'antennaDescription':
-//             label = 'La description';
-//             // Test si vide
-//             if (null != value){ 
-//                 // test le type
-//                 if ('string' != typeof value){ 
-//                     throw new Error(label + ' doit être une chaîne de caractères !');
-//                 }
-//                 value = value.trim();
-//                 // test la longueur ou regex
-//                 if ( value.length > 255){ 
-//                     throw new Error(label + ' doit contenir moins de 255 caractères !');
-//                 }
-//             }
-
-//             break;
-//         case 'antennaStatus':
-//             value = value ? true : false;
-
-//             break;
-//         case 'antennaImg':
-//             value = value ? true : false;
-
-//             break;
-//         case 'antennaAddress':
-//             label = 'L\' adresse';
-//             // Test si vide
-//             if (null != value){ 
-//                 // test le type
-//                 if ('string' != typeof value) { 
-//                     throw new Error(label + ' doit être une chaîne de caractères !');
-//                 }
-//                 value = value.trim();
-//                 // test la longueur ou regex
-//                 if (value.length < 5 || value.length > 128) { 
-//                     throw new Error(label + ' doit contenir entre 5 et 128 caractères !');
-//                 }
-//             }
-
-//             break;
-//         case 'antennaZipCode':
-//             label = 'Le code postal';
-//             // Test si vide
-//             if (null == value){ 
-//                 throw new Error(label + ' ne peut pas être vide !');
-//             }
-//             value = value.trim();
-//             // test la longueur ou regex
-//             if (!zipCodeRegex.test(value)){ 
-//                 throw new Error(label + ' doit contenir 5 chiffres !');
-//             }
-
-//             break;
-//         case 'antennaCity':
-//             label = 'La ville';
-//             // Test si vide
-//             if (null != value){ 
-//                 // test le type
-//                 if ('string' != typeof value){ 
-//                     throw new Error(label + ' doit être une chaîne de caractères !');
-//                 }
-//                 value = value.trim();
-//                 // test la longueur ou regex
-//                 if (value.length < 5 || value.length > 100){ 
-//                     throw new Error(label + ' doit contenir  entre 5 et 100 caractères !');
-//                 }
-//             }
-//             // gestion du format
-//             value = value.toUpperCase(); 
-
-//             break;    
-//         case 'antennaRegion':
-//             label = 'La région';
-//             if (tabRegions[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
-//                 throw new Error(label + ' doit être choisie !');
-//             }
-
-//             break; 
-//         case 'antennaPhone':
-//             label = 'Le numéro de téléphone';
-//             // Test si vide
-//             if (null == value || "" == value){ 
-//                 value = 'NC';
-//             } else {
-//                 value = value.trim();
-//                 // test la longueur ou regex
-//                 if (!phoneRegex.test(value)) { 
-//                     throw new Error(label + ' doit contenir 10 chiffres !');
-//                 }
-//             }
-            
-//             break;
-//         case 'antennaEmail':
-//             label = 'L\'email';
-//             // Test si vide
-//             if (null == value){ 
-//                 throw new Error(label + ' ne peut pas être vide !');
-//             }
-//             // test le type
-//             if ('string' != typeof value){ 
-//                 throw new Error(label + ' doit être une chaîne de caractères !');
-//             }
-//             // gestion du format
-//             value = value.trim();
-//             value = value.toLowerCase(); 
-//             // test la longueur ou regex
-//             if (!emailRegex.test(value)){ 
-//                 throw new Error(label + ' n\'est pas au format valide !');
-//             }
-
-//             break;
-//         default:
-//             break;
-//     }
-
-//     return value;
-
-// };
 
 /**
  * TODO ? 

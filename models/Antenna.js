@@ -52,9 +52,16 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         default:'NC'
     },
     antennaPhone: {
-        type:Number, //TODO passer le type à string pour limiter contraindre min et max et accepter les +
+        type:String, //TODO passer le type à string pour limiter contraindre min et max et accepter les +
         required: [true,'Vous devez saisir un numéro de téléphone'], // TODO faire la vérif avec une regex
-        default:0
+        validate: {
+            validator: function(v) {
+              return /^\d{10}$|^NC$/.test(v);
+            },
+            // message: props => `${props.value} n'est pas un numéro de téléphone valide !`
+            message: `Le numéro de téléphone n'est pas un numéro de téléphone valide !`
+          },
+        default:'NC'
     },
     antennaEmail: {
         type:String,
@@ -62,7 +69,12 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
         trim: true,
         lowercase: true,
         unique: true,
-        default:'NC'
+        validate: {
+            validator: function(v) {
+                return /^\S+@\S+\.\S+$/.test(v);
+            },
+            message: `L'email n'a pas un format valide, 1 minuscule, un chiffre et un caractère spécial.`
+        },
     },
     antennaStatus: {
         type:Boolean,

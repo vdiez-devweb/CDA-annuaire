@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate, validateValue } from "../middlewares/validation.js";
+import { formateDate, validateAndFormateValue } from "../middlewares/validation.js";
 
 const prefixTitle = "";
 
@@ -186,7 +186,7 @@ export const postSession = async(req, res, next) => {
 
             try{
                 Object.keys(req.body).forEach(key => {
-                    data[key] = validateValue(key, req.body[key], res.locals.typeSessions);
+                    data[key] = validateAndFormateValue(key, req.body[key], res.locals.typeSessions);
                 });
                 const session = await Session.create({
                     sessionName: data.sessionName, 

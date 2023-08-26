@@ -5,7 +5,7 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%=baseURL%>/admin/ajax-update-antenna">
+            <form method="post" action="<%=baseURL%>/admin/update-antenna">
         <% } else { %>
             <form method="post" action="<%=baseURL%>/admin/create-antenna">
         <% } %>  
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <% if (action == "update") { %>
-                        <input id="id" name="id" type="hidden" value="<%= antenna._id %>">   
+                        <input id="antennaId" name="antennaId" type="hidden" value="<%= antennaId %>">   
                         <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antenna.antennaSlug %>">   
                         <input id="antennaNbSessions" name="antennaNbSessions" type="hidden" value="<%= nbSessionsInBDD %>">
                         <% if (nbSessionsInBDD != antenna.antennaNbSessions) { %>
@@ -104,7 +104,7 @@
                             <!--TODO afficher un champ SELECT avec les valeurs de tabRegions en attendant de faire une selection auto en fonction du CP -->
                             <!-- <input type="text" class="form-control" id="antennaRegion" name="antennaRegion" <% if (antenna.antennaRegion) { %>value="<%= antenna.antennaRegion%>"<% } %> aria-label="Région définie via le code postal" disabled readonly> -->
                             <select class="form-select" id="antennaRegion" name="antennaRegion" aria-label="Région du centre">
-                                <option value="0" selected>- Choisir une région -</option>
+                                <option value="0">- Choisir une région -</option>
                                 <option disabled>────────────────────</option>
                                     <% Object.keys(tabRegions).forEach(function(currentCodeRegion) { %>
                                     <option value="<%= currentCodeRegion %>" <% if (antenna.antennaRegion == currentCodeRegion) { %> selected   <% }  %>><%= tabRegions[currentCodeRegion] %></option>

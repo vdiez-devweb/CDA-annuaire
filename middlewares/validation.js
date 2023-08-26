@@ -55,19 +55,40 @@ export const formateDate = (innerDate, typeDisplay) => {
  * Validate and formate the received datas from parameters in route 
  * 
 **/
-export const validateValueRouteParameter = (key, value, tabValues = []) => {
+export const validateValue = (key, value, tabValues = []) => {
 
     let label = '';
 
     switch (key) {    
         case 'sessionAntennaId': //!
-            label = 'L\'id du centre de formation';
-            if (!objectIdRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
+            evaluate = objectIdRegex.test(value);
 
         break; 
+    case 'antennaSlug':
+        label = 'Le slug';
+        // Test si vide
+        if (null == value) { 
+            throw new Error(label + ' ne peut pas être vide !');
+        }
+        // test le type
+        if ('string' != typeof value) { 
+            throw new Error(label + ' doit être une chaîne de caractères !');
+        }
+        // gestion du format
+        value = value.trim();
+        value = value.toLowerCase(); 
+        // test la longueur ou regex
+        if (!slugRegex.test(value)) { 
+            throw new Error(label + ' n\'est pas au format valide ! (entre 3 et 32 chiffres ou lettres en minuscules');
+        }
+
+        break;
+        
+    default:
+        break;
     }
+
+    return evaluation;
 }
 
 /**
@@ -75,10 +96,11 @@ export const validateValueRouteParameter = (key, value, tabValues = []) => {
  * Validate and formate the received datas from antenna forms 
  * 
 **/
-export const validateValue = (key, value, tabValues = []) => {
+export const validateAndFormateValue = (key, value, tabValues = []) => {
+    console.log(value); //!debug
 
     let label = '';
-
+// try {
     switch (key) {
         case 'sessionName':
         case 'antennaName':
@@ -100,6 +122,7 @@ export const validateValue = (key, value, tabValues = []) => {
             // value = value.toUpperCase(); 
 
             break;
+        case 'initialSlug':
         case 'antennaSlug':
             label = 'Le slug';
             // Test si vide
@@ -147,7 +170,7 @@ export const validateValue = (key, value, tabValues = []) => {
         case 'antennaAddress':
             label = 'L\' adresse';
             // Test si vide
-            if (null != value){ 
+            if (null != value && "" != value){ 
                 // test le type
                 if ('string' != typeof value) { 
                     throw new Error(label + ' doit être une chaîne de caractères !');
@@ -177,31 +200,34 @@ export const validateValue = (key, value, tabValues = []) => {
         case 'antennaCity':
             label = 'La ville';
             // Test si vide
-            if (null != value){ 
+            if (null != value && "" != value) { 
                 // test le type
-                if ('string' != typeof value){ 
+                if ('string' != typeof value) { 
                     throw new Error(label + ' doit être une chaîne de caractères !');
                 }
                 value = value.trim();
                 // test la longueur ou regex
-                if (value.length < 5 || value.length > 100){ 
+                if (value.length < 5 || value.length > 100) { 
                     throw new Error(label + ' doit contenir  entre 5 et 100 caractères !');
                 }
+                // gestion du format
+                value = value.toUpperCase(); 
             }
-            // gestion du format
-            value = value.toUpperCase(); 
+            console.log('juste avant break region'); //!debug
 
             break;    
         case 'antennaRegion':
             label = 'La région';
-            if (tabRegions[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
+            
+            if (value == 0 || tabValues[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
                 throw new Error(label + ' doit être choisie !');
             }
+            console.log('region OK'); //!debug
 
             break; 
         case 'antennaPhone':
         case 'userPhone':
-                    label = 'Le numéro de téléphone';
+            label = 'Le numéro de téléphone';
             // Test si vide
             if (null == value || "" == value){ 
                 value = 'NC';
@@ -246,6 +272,12 @@ export const validateValue = (key, value, tabValues = []) => {
                 }
                 
             break; 
+        case 'sessionAntennaId': //!
+            label = 'L\'id du centre';                
+                if (!objectIdRegex.test(value)){ 
+                    throw new Error(label + ' n\'est pas au format valide !');
+                }    
+            break; 
         case 'sessionNumIdentifier':
                 label = 'Le numéro identifiant Ypareo';
                 // Test si vide
@@ -286,7 +318,7 @@ export const validateValue = (key, value, tabValues = []) => {
         case 'userPassword':
             label = 'Le mot de passe';
             // Test si vide
-            if (null == value){ 
+            if (null == value || '' === value){ 
                 throw new Error(label + ' ne peut pas être vide !');
             }
             // test le type
@@ -339,5 +371,7 @@ export const validateValue = (key, value, tabValues = []) => {
     }
     
     return value;
-
+// } catch(error) {
+//     console.log(error);
+// }
 };
