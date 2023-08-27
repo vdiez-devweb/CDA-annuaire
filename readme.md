@@ -24,8 +24,8 @@ l'application web utilise les technologies suivantes :
 - ORM : Mongoose v7.0.3 pour l'ORM
 - moteur de template pour les vues : EJS v3.1.9
 - CSS : Bootstrap v5.2.3
-- Dans un premier temps, l'authentification dans l'application est simplement gérée par les sessions, avec 1 seul utilisateur administrateur dont les identifiants sont stockés dans les variables globales d'environnement dans le fichier `.env`
 - versioning : git en lien avec gitHub, [repo publique](https://github.com/vdiez-devweb/CDA-annuaire.git)
+- l'authentification avec token JWT et cookie
 
 ## Installation du projet
 

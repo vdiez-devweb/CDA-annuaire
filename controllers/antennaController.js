@@ -87,15 +87,6 @@ export const getAntennas = async (req, res, next) => {
     } catch(error) {
         req.flash('message_error', error);
         return res.status(404).redirect("/");
-        // return res.status(500).render("antenna/getAntennas", {
-        //     title: "Erreur Liste des centres de formation",
-        //     antennas: "",
-        //     message_success: req.flash('message_success'),
-        //     message_error: req.flash('message_error'),
-        //     msg_success,
-        //     msg_error, 
-        //     message: error
-        // });
     }
 };
 

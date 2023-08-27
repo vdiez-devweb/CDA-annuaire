@@ -51,7 +51,7 @@
                             <small id="sessionDescription-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                         </div>
                     </div>
-                    <div class="row mb-3 form-group">
+                    <div class="row mb-3 form-group required">
                         <label for="sessionType" class="col-form-label">Type</label>
                         <div class="col-md-10">
                             <select class="form-select" id="sessionType" name="sessionType" required="required">
@@ -84,14 +84,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="row mb-3 form-group col-sm-6">
+                        <div class="row mb-3 form-group col-sm-6 required">
                             <label for="sessionStartDate" class="col-form-label">Date de début</label>
                             <div>
                                 <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=sessionStartDate %>">
                                 <small id="sessionStartDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
-                        <div class="row mb-3 form-group col-sm-6">
+                        <div class="row mb-3 form-group col-sm-6 required">
                             <label for="sessionEndDate" class="col-form-label">Date de fin</label>
                             <div>
                                 <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=sessionEndDate %>">

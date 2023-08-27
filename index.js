@@ -14,8 +14,10 @@ import homepageRouter from "./routes/homepageRoutes.js";
 import antennaRouter from "./routes/antennaRoutes.js";
 import sessionRouter from "./routes/sessionRoutes.js";
 import legacyRouter from "./routes/legacyRoutes.js";
-import apiAntennaRouter from "./routes/api/antennaRoutes.js";
-import apiSessionRouter from "./routes/api/sessionRoutes.js";
+//TODO sécuriser les routes API avant de les rendre accessibles
+// import apiAntennaRouter from "./routes/api/antennaRoutes.js";
+// import apiSessionRouter from "./routes/api/sessionRoutes.js";
+
 // import createPopper from '@popperjs/core';
 
 // configurer option dotenv pour les variables environnement
@@ -97,8 +99,9 @@ app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GE
 app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(apiAntennaRouter);
-app.use(apiSessionRouter);
+//TODO sécuriser les routes API avant de les rendre accessibles
+// app.use(apiAntennaRouter);
+// app.use(apiSessionRouter);
 //app.use(createPopper);
 
 app.listen(process.env.PORT || 8082, () => {
