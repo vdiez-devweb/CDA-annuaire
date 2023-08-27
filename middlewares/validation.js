@@ -12,14 +12,15 @@ const objectIdRegex = /^[a-f\d]{24}$/;
 const dateRegex = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
 /**
- * Middleware to formate dates for different displays :
- * (session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale))
+ * Middleware to formate dates from DB for different displays :
+ * innerDate : session.sessionStartDate.toLocaleDateString("fr"); // renvoie la date sous forme Tue Jun 20 2023 10:38:37 GMT+0200 (heure d’été d’Europe centrale))
  *  -> the forms display (YYYY-mm-dd)
  *  -> the tabs short display (dd-mm-yy)
  *  -> the expands display in views (d mmm YYYY)
+ *  -> the complete display in userAccount for createdAt updatedAt (d mmm YYYY à HHhMM)
  *   
  * @param {Date}      innerDate 
- * @param {string}        typeDisplay 
+ * @param {string}    typeDisplay 
  * 
  * @returns {string}
  */
@@ -28,8 +29,8 @@ export const formateDate = (innerDate, typeDisplay) => {
     switch (typeDisplay) {
         case 'form'://'2023-09-10'
             return innerDate.getFullYear() + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate());
+            
             break;
-
         case 'tab': //
             return  (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate()) + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getFullYear() >= 2000 ? innerDate.getFullYear()-2000 : innerDate.getFullYear()-1900);
 
@@ -60,26 +61,16 @@ export const validateValue = (key, value, tabValues = []) => {
     let label = '';
 
     switch (key) {    
-        case 'sessionAntennaId': //!
+        case 'sessionAntennaId': //! vérifier si null ou undefined ou le type ??? //TODO
             evaluate = objectIdRegex.test(value);
 
         break; 
     case 'antennaSlug':
-        label = 'Le slug';
-        // Test si vide
-        if (null == value) { 
-            throw new Error(label + ' ne peut pas être vide !');
-        }
-        // test le type
-        if ('string' != typeof value) { 
-            throw new Error(label + ' doit être une chaîne de caractères !');
-        }
-        // gestion du format
-        value = value.trim();
-        value = value.toLowerCase(); 
-        // test la longueur ou regex
-        if (!slugRegex.test(value)) { 
-            throw new Error(label + ' n\'est pas au format valide ! (entre 3 et 32 chiffres ou lettres en minuscules');
+        //  Test si vide + test le type
+        if (null != value && 'string' == typeof value) { 
+            evaluate = false;
+        } else {
+            evaluate = slugRegex.test(value);
         }
 
         break;
@@ -89,6 +80,16 @@ export const validateValue = (key, value, tabValues = []) => {
     }
 
     return evaluation;
+}
+
+/**
+ * 
+ * Validate the ObjectId format in parameter Routes 
+ * 
+**/
+export const validateValueObjectId = (value) => {
+
+    return objectIdRegex.test(value);
 }
 
 /**
@@ -215,16 +216,14 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
                 // gestion du format
                 value = value.toUpperCase(); 
             }
-            console.log('juste avant break region'); //!debug
 
             break;    
         case 'antennaRegion':
             label = 'La région';
             
-            if (value == 0 || tabValues[value] === undefined) { //! tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
+            if (value == 0 || tabValues[value] === undefined) { // tester si cette expression est valide //tester si dans les clés de res.locals.tabRegions
                 throw new Error(label + ' doit être choisie !');
             }
-            console.log('region OK'); //!debug
 
             break; 
         case 'antennaPhone':
@@ -318,7 +317,17 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
             }
 
             break; 
+        case 'antennaId':
+        case 'sessionId':
+            label = 'L\'identifiant de centre';
+            if (value === '') { 
+                throw new Error(label + ' ne peut pas être vides !');
+            }
+            if (!objectIdRegex.test(value)){ 
+                throw new Error(label + ' n\'a pas le bon format !');
+            }
 
+            break; 
         case 'userPassword':
             label = 'Le mot de passe';
             // Test si vide

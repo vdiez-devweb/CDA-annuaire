@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate, validateAndFormateValue } from "../middlewares/validation.js";
+import { formateDate, validateAndFormateValue, validateValueObjectId } from "../middlewares/validation.js";
 
 const prefixTitle = "";
 
@@ -49,11 +49,16 @@ export const getSession = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
-    const sessionId = req.params.sessionId;
     try{ //je récupère les infos du centre de formation par .populate
+        // const sessionId = validateValueObjectId(req.params.sessionId);
+        const sessionId = (req.params.sessionId != "" && typeof req.params.sessionId !== 'undefined') ? req.params.sessionId : null;
+        if (!validateValueObjectId(req.params.sessionId)) {
+            req.flash('message_error', "Session introuvable");
+            return res.status(404).redirect("/admin/sessions");
+        }
         const session = await Session.findOne({ "_id": sessionId }).populate("sessionAntenna");
         if (null == session) {
-            req.flash('message_error', "Aucune session trouvée avec l'identifiant." + sessionId);
+            req.flash('message_error', "Session introuvable");
             return res.status(404).redirect("/admin/sessions");
         }
         session.sessionStartDateFormatted = formateDate(session.sessionStartDate, 'view');
@@ -82,14 +87,22 @@ export const getSession = async (req, res, next) => {
 **/
 // TODO supprimer plusieurs sessions en 1 seule fois avec des checkbox
 export const deleteSession = async (req, res, next) => {
-    const sessionId = req.params.sessionId;
     const antennaSlug = req.params.antennaSlug;
+    const sessionId = req.params.sessionId;
+    if (!validateValueObjectId(req.params.sessionId)) {
+        req.flash('message_error', "Session introuvable.");
+        if (antennaSlug) {
+            return res.status(404).redirect("/admin/antenna/" + antennaSlug);
+        } else {
+            return res.status(404).redirect("/admin/sessions/");
+        }
+    }
 
     try{
         const session = await Session.findByIdAndDelete({ "_id": sessionId });
         //console.log(session); //? debug
         if (null == session) {
-            req.flash('message_error', "ERREUR session introuvable.");
+            req.flash('message_error', "Session introuvable.");
             if (antennaSlug) {
                 return res.status(404).redirect("/admin/antenna/" + antennaSlug);
             } else {
@@ -103,7 +116,7 @@ export const deleteSession = async (req, res, next) => {
                 //  (err, doc)
             );
 
-            req.flash('message_success', "La session " + session.sessionName + " supprimée.");
+            req.flash('message_success', "Session " + session.sessionName + " supprimée.");
             if (antennaSlug) {
                 return res.status(200).redirect("/admin/antenna/" + antennaSlug);
             } else {
@@ -111,7 +124,7 @@ export const deleteSession = async (req, res, next) => {
             }
         }  
     } catch(error) {
-        req.flash('message_error', "ERREUR " + error);
+        req.flash('message_error', error);
         if (antennaSlug) {
             return res.status(500).redirect("/admin/antenna/" + antennaSlug);
         } else {
@@ -145,7 +158,7 @@ export const postSession = async(req, res, next) => {
         const antennas = await Antenna.find();
 
         if (0 == antennas) {
-            req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir ajouter une session.");
+            req.flash('message_error', "Aucun centre de formation répertorié, vous devez créer un centre de formation avant de pouvoir y ajouter une session.");
             return res.status(404).redirect("admin/create-antenna/");
         }
         if (0 === Object.keys(req.body).length && req.body.constructor === Object) { //si on a pas encore reçu des données depuis le formulaire
@@ -167,8 +180,8 @@ export const postSession = async(req, res, next) => {
                 });
 
             } catch (error) {
-                req.flash('message_error', "ERREUR " + error);
-                return res.status(201).redirect("/admin/sessions/");
+                req.flash('message_error', error);
+                return res.status(500).redirect("/admin/sessions/");
             }
         } else { // on est passé par le formulaire, on traite les données
             const data = [];
@@ -202,7 +215,7 @@ export const postSession = async(req, res, next) => {
                 return res.status(201).redirect("/admin/session/" + session._id);
             } catch(error) {
                 if (error.errors){
-                    req.flash('message_error', "ERREUR " + error);
+                    req.flash('message_error', "Erreur de saisie : " + error);
                     return res.status(200).render("admin/session/editAddSession", {
                         title: prefixTitle + " Création de session",
                         antennas: antennas,
@@ -218,7 +231,7 @@ export const postSession = async(req, res, next) => {
                         message: "",
                     });                    
                 }
-                req.flash('message_error', "ERREUR " + error);
+                req.flash('message_error', error);
                 return res.status(200).render("admin/session/editAddSession", {
                     title: prefixTitle + " Création de session",
                     antennas: antennas,
@@ -237,7 +250,7 @@ export const postSession = async(req, res, next) => {
         }
 
     } catch(error) {
-        req.flash('message_error', "ERREUR " + error);
+        req.flash('message_error', error);
         return res.status(201).redirect("/admin/sessions/");
     }
 };
@@ -250,21 +263,26 @@ export const postSession = async(req, res, next) => {
 export const updateSession = async(req, res, next) => {
     //on récupère l'identifiant donné dans la route paramétrique
     let antennaSelected = req.body.antennaSelected != "" ? req.body.antennaSelected : null;
-    let sessionAntenna = req.body.sessionAntenna != "" ? req.body.sessionAntenna : null; //?
+    let sessionAntenna = req.body.sessionAntenna != "" ? req.body.sessionAntenna : null; //?   
     const sessionId = (req.params.sessionId != "" && typeof req.params.sessionId !== 'undefined') ? req.params.sessionId : req.body.sessionId != "" ? req.body.sessionId : null;
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
 
+    if (!validateValueObjectId(sessionId)) {
+        req.flash('message_error', "Aucune session trouvée avec l'identifiant : " + sessionId);
+        return res.status(404).redirect("/admin/sessions");
+    }
+
     try{ 
         const antennas = await Antenna.find();
         if (0 == antennas) {
-            req.flash('message_error', "Erreur : Aucun centre de formation répertorié.");
+            req.flash('message_error', "Aucun centre de formation répertorié.");
             return res.status(404).redirect(req.get('Referrer'));
         }
         const session = await Session.findOne({ "_id": sessionId }).populate("sessionAntenna");
 
         if (null == session) {
-            req.flash('message_error', "Erreur : session introuvable.");
+            req.flash('message_error', "Session introuvable.");
             return res.status(404).redirect(req.get('Referrer'));
         } 
         
@@ -302,7 +320,11 @@ export const updateSession = async(req, res, next) => {
             let data = [];
 
             try{
-                // const antennaId = req.params.antennaId; //? ?????????
+                // const antennaId = req.params.antennaId;//? ?????????
+                // if (!validateValueObjectId(antennaId)) {
+                //     req.flash('message_error', "Centre introuvable.");
+                //     return res.status(404).redirect("/admin/sessions");
+                // }
                 // const antennaNbSessions =  await Session.countDocuments({sessionAntenna: antennaId});
                 
                 Object.keys(req.body).forEach(key => {
@@ -331,14 +353,14 @@ export const updateSession = async(req, res, next) => {
                     //  (err, doc)
                     );
                 if (null == result) {
-                    req.flash('message_error', "Erreur : mise à jour impossible, session non trouvée");
+                    req.flash('message_error', "Mise à jour impossible");
                     return res.status(404).redirect("/admin/session/" + sessionId); 
                 }
                 req.flash('message_success', "Session " + result.sessionName + " modifiée");
                 return res.status(200).redirect("/admin/session/" + data.sessionId);
             } catch(error) {
                 if (error.errors){
-                    req.flash('message_error', "ERREUR " + error);
+                    req.flash('message_error', "Erreur de saisie : " + error);
                     return res.status(200).render("admin/session/editAddSession", {
                         title: prefixTitle + " Modification de session",
                         antennas: antennas,
@@ -356,7 +378,7 @@ export const updateSession = async(req, res, next) => {
                         antennaSlug //?  
                     });    
                 }
-                req.flash('message_error', "ERREUR " + error);
+                req.flash('message_error', error);
                 return res.status(200).render("admin/session/editAddSession", {
                     title: prefixTitle + " Modification de session",
                     antennas: antennas,
@@ -387,7 +409,11 @@ export const updateSession = async(req, res, next) => {
  * 
 **/
 // export const ajaxUpdateNbStudentsInSession = async (req, res, next) => {
-//     const id = req.params.sessionId;
+//     const sessionId = req.params.sessionId;
+        // if (!validateValueObjectId(sessionId)) {
+        //     req.flash('message_error', "Aucune session trouvée avec l'identifiant." + sessionId);
+        //     return res.status(404).redirect("/admin/sessions");
+        // }
 //     const sessionNbStudents =  await Student.countDocuments({studentSessions: id});//TODO adapter avec le tableau de sessions
     
 //    try{
