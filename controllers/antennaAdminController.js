@@ -285,7 +285,7 @@ export const updateAntenna = async(req, res, next) => {
             //  (err, doc)
             );
 
-            if (null == result) { //!TODO renvoyer vers une autre page
+            if (null == result) {
                 req.flash('message_error', "La mise à jour a échoué");
                 return res.status(404).redirect("/admin/antennas/");
             }

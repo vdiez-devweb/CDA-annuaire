@@ -2,7 +2,6 @@ import express from "express";
 import { getHomepage } from "../controllers/homepageController.js";
 // import {  getAntennas  } from "../controllers/antennaController.js";
 import {
-    adminIsAuthenticated,
     isAuthenticated
   } from "../middlewares/auth.js";
 

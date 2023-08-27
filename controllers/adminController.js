@@ -48,6 +48,14 @@ export const dashboard = async (req, res, next) => {
 
 //* ANCIENNE VERSION DE L'AUTHENTIFICATION ADMIN
 
+// export const adminIsAuthenticated = (req, res, next) => {
+//     //console.log(req.session);
+//     // next(); //! pour passer l'étape d'authentification en dev
+//     if (req.session.authenticated && req.session.userInfos) next() //TODO vérifications à durcir
+//     else res.redirect("/admin/login/")
+// };
+
+
 // /**
 //  * 
 //  * login administrator
@@ -112,6 +120,7 @@ export const dashboard = async (req, res, next) => {
 //         });
 //     }
 // }
+
 // /**
 //  * 
 //  * logout for administrator, go to the homepage of the admin dashboard

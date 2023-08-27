@@ -2,39 +2,9 @@ import jwt from "jsonwebtoken";
 
 /**
  * 
- * middleware to test if user admin is authenticated (used in routes)
- * 
+ * middleware to test if user is authenticated (used in routes)
+ * * Version avec Cookie
 **/
-export const adminIsAuthenticated = (req, res, next) => {
-    //console.log(req.session);
-    // next(); //! pour passer l'étape d'authentification en dev
-    if (req.session.authenticated && req.session.userInfos) next() //TODO vérifications à durcir
-    else res.redirect("/admin/login/")
-};
-
-
-/**
-* pour la version autorisation Admin avec le header authorized + jwt
-*/
-// export const isAuthenticated = (req, res, next) => { 
-//    try {
-//         const token = req.headers.authorization.split(' ')[1]; // pour ignorer le mot bearer
-//         console.log(token); //!debug
-//         const decodedToken = jwt.verify(token, process.env.TOKEN_JWT_SECRET);
-//         const userId = decodedToken.userId;
-//         req.auth = {
-//             userId: userId
-//         };
-//    } catch (error) {
-//         req.flash('message_error', "ERREUR " + error);
-//         return res.status(401).redirect("/login");     
-//    }
-// };
-
-
-/*
-* Version avec Cookie
-*/
 
 /**
 * créer un token au moment du login User
@@ -222,3 +192,22 @@ export function clearToken(res) {
     // Suppression du cookie contenant le token
     res.clearCookie(cookieName) ;
 }
+
+/**
+* pour la version autorisation Admin avec le header authorized + jwt
+*/
+// export const isAuthenticated = (req, res, next) => { 
+//    try {
+//         const token = req.headers.authorization.split(' ')[1]; // pour ignorer le mot bearer
+//         console.log(token); //!debug
+//         const decodedToken = jwt.verify(token, process.env.TOKEN_JWT_SECRET);
+//         const userId = decodedToken.userId;
+//         req.auth = {
+//             userId: userId
+//         };
+//    } catch (error) {
+//         req.flash('message_error', "ERREUR " + error);
+//         return res.status(401).redirect("/login");     
+//    }
+// };
+
