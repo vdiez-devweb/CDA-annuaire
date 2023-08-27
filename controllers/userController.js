@@ -61,7 +61,7 @@ export const signup = async (req, res, next) => {
             }
         } catch (error) {
             if (error.errors){
-                req.flash('message_error', "ERREUR " + error);
+                req.flash('message_error', error + " Vous devrez ressaisir le mot de passe");
                 // return res.status(500).redirect("/signup"); 
                 return res.status(401).render("signup", {
                     title: title,
@@ -74,7 +74,7 @@ export const signup = async (req, res, next) => {
                     user: data,
                 });
             }
-            req.flash('message_error', "ERREUR " + error);
+            req.flash('message_error', error + " Vous devrez ressaisir le mot de passe");
             // return res.status(500).redirect("/signup"); 
             return res.status(500).render("signup", { 
                 title: title,

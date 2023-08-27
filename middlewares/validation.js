@@ -105,6 +105,22 @@ export const validateAndFormateValue = (key, value, tabValues = []) => {
     let label = '';
 // try {
     switch (key) {
+        case 'userPassword':
+            label = 'Le mot de passe';
+            // Test si vide
+            if (null == value || '' === value){ 
+                throw new Error(label + ' ne peut pas être vide !');
+            }
+            // test le type
+            if ('string' != typeof value){ 
+                throw new Error(label + ' doit être une chaîne de caractères !');
+            }
+            // test la longueur ou regex
+            if (!pwdRegex.test(value)){ 
+                throw new Error(label + ' n\'est pas au format valide !');
+            }
+
+            break;
         case 'sessionName':
         case 'antennaName':
             label = 'Le nom';

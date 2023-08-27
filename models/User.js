@@ -25,10 +25,18 @@ const userSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait 
         // minLength:[6,'Le mot de passe doit contenir au moins 6 caractères'],
         // maxLength:[32,'Le mot de passe doit contenir au maximum 32 caractères'],
         validate: {
+          //format of bcrypt password : $2b$12$GhvMmNVjRW29ulnudl.LbuAnUtN/LRfe1JsBm1Xu6LE3059z5Tr8m
+          // 60 car and start with $2b$
+          //? https://passlib.readthedocs.io/en/stable/lib/passlib.hash.bcrypt.html#format-algorithm
             validator: function(v) {
-              return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(v);
+              //validation dun mot de passe crypté
+              return /^\$2[ayb]\$.{56}$/.test(v);
             },
-            message: `Le mot de passe doit contenir au moins 8 caractères dont au moins 1 majuscule, 1 minuscule, un chiffre et un caractère spécial.`
+            message: `Erreur sur le mot de passe`
+              //? valider le format de mot de passe non crypté
+            //   return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(v);
+            // },
+            // message: `Le mot de passe doit contenir au moins 8 caractères dont au moins 1 majuscule, 1 minuscule, un chiffre et un caractère spécial.`
           },
         },
     userRole: {
