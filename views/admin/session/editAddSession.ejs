@@ -5,24 +5,24 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%=baseURL%>/admin/ajax-update-session"> 
+            <form method="post" action="<%=baseURL%>/admin/update-session"> 
         <% } else { %>
-            <form method="post" action="<%=baseURL%>/admin/ajax-create-session">
+            <form method="post" action="<%=baseURL%>/admin/create-session">
         <% } %>  
         <% if (antennas) { %>
-        <!-- <form method="post" action="<%=baseURL%>/admin/ajax-update-session/<%=session._id %>"> -->
+        <!-- <form method="post" action="<%=baseURL%>/admin/update-session/<%=session._id %>"> -->
             <div>
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
                     <legend class="">Informations Générales</legend>
                     <div class="row mb-3 form-group required">
-                        <label for="sessionAntennaId" class="col-form-label">Centre de formation</label>
+                        <label for="sessionAntenna" class="col-form-label">Centre de formation</label>
                         <div class="col-md-10">
-                            <select class="form-select" id="sessionAntennaId" name="sessionAntennaId" required="required">
-                                <option>Choisir un centre de formation</option>
+                            <select class="form-select" id="sessionAntenna" name="sessionAntenna" required="required">
+                                <option value="0">Choisir un centre de formation</option>
                                 <option disabled>────────────────────</option>
                                 <% antennas.forEach(currentAntenna => { %>
                                     <option value="<%=currentAntenna._id %>" 
-                                        <% if (antennaSelected == currentAntenna._id) { %> selected   <% }  %>
+                                        <% if (antennaSelected == currentAntenna._id) { %> selected <% }  %>
                                         ><%=currentAntenna.antennaName %>
                                     </option>
                                 <% }) %>
@@ -51,11 +51,11 @@
                             <small id="sessionDescription-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                         </div>
                     </div>
-                    <div class="row mb-3 form-group">
+                    <div class="row mb-3 form-group required">
                         <label for="sessionType" class="col-form-label">Type</label>
                         <div class="col-md-10">
                             <select class="form-select" id="sessionType" name="sessionType" required="required">
-                                <option>Choisir un type de formation</option>
+                                <option value="0">Choisir un type de formation</option>
                                 <option disabled>────────────────────</option>
                                 <% typeSession.forEach(currentType => { %>
                                     <option value="<%=currentType %>" <% if (session.sessionType == currentType) { %> selected   <% }  %>>
@@ -84,17 +84,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="row mb-3 form-group col-sm-6">
+                        <div class="row mb-3 form-group col-sm-6 required">
                             <label for="sessionStartDate" class="col-form-label">Date de début</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=session.sessionStartDateToEditForm %>">
+                                <input type="date" class="form-control" id="sessionStartDate" name="sessionStartDate" value="<%=sessionStartDate %>">
                                 <small id="sessionStartDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
-                        <div class="row mb-3 form-group col-sm-6">
+                        <div class="row mb-3 form-group col-sm-6 required">
                             <label for="sessionEndDate" class="col-form-label">Date de fin</label>
                             <div>
-                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=session.sessionEndDateToEditForm %>">
+                                <input type="date" class="form-control" id="sessionEndDate" name="sessionEndDate" value="<%=sessionEndDate %>">
                                 <small id="sessionEndDate-TxtControl" class="form-text text-muted"></small> <!-- TODO pour afficher les messages de validation -->
                             </div>
                         </div>
@@ -110,8 +110,9 @@
             </div>           
 
             <% if (action == "update") { %> 
+                <input id="sessionId" name="sessionId" type="hidden" value="<%= sessionId %>">   
                 <input id="initialSlug" name="initialSlug" type="hidden" value="<%= antennaSelected %>"> 
-                <input id="id" name="id" type="hidden" value="<%= session._id %>">   
+                <input id="antennaSlug" name="antennaSlug" type="hidden" value="<%= antennaSlug %>"> 
             <% } %> 
                 
 
@@ -121,7 +122,7 @@
                 <div class="text-end mt-3">
                     <button class="btn btn-success" type="submit" value="post">
                     <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> la session</button>
-                    <a href="<%=baseURL%>/admin/<% if (action == "update") { %>session/<%= session._id%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
+                    <a href="<%=baseURL%>/admin/<% if (action == "update") { %>session/<%= sessionId%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
             <% } else { %>  

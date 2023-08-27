@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate, validateAndFormateValue } from "../middlewares/validation.js";
 
 
 import {
@@ -21,7 +21,7 @@ export const signup = async (req, res, next) => {
     // display form
     if (req.session.userInfos.access == true) { //si on accède à la route en étant déjà connecté
         res.status(200).redirect("/user-account"); 
-    } else if (0 === Object.keys(data).length && data.constructor === Object){ //si on a pas encore reçu des données depuis le formulaire
+    } else if (0 === Object.keys(data).length && data.constructor === Object) { //si on a pas encore reçu des données depuis le formulaire
         return res.status(200).render("signup", {
             title: title,
             action: "create",
@@ -39,7 +39,7 @@ export const signup = async (req, res, next) => {
                 throw new Error('Les deux mots de passe doivent être identiques !');
             } else { // on vérifie et reformate les données reçues avant de les passer en BDD
                 Object.keys(data).forEach(key => {
-                    data[key] = validateValue(key, data[key]);
+                    data[key] = validateAndFormateValue(key, data[key]);
                 });
 
                 // on crypte le mot de passe reçu du formulaire
@@ -47,12 +47,6 @@ export const signup = async (req, res, next) => {
 
                 //on créé l'utilisateur avec les données validées
                 const user = await User.create({
-                    // userEmail: validateValue('userEmail', data.userEmail), 
-                    // userPassword: hash,
-                    // userFirstName: validateValue('userFirstName', data.userFirstName), 
-                    // userLastName: validateValue('userLastName', data.userLastName), 
-                    // userZipCode: validateValue('userZipCode', data.userZipCode),
-                    // userPhone: validateValue('userPhone', data.userPhone),
                     userEmail: data.userEmail, 
                     userPassword: hash,
                     userFirstName: data.userFirstName, 
@@ -67,7 +61,7 @@ export const signup = async (req, res, next) => {
             }
         } catch (error) {
             if (error.errors){
-                req.flash('message_error', "ERREUR " + error);
+                req.flash('message_error', error + " Vous devrez ressaisir le mot de passe");
                 // return res.status(500).redirect("/signup"); 
                 return res.status(401).render("signup", {
                     title: title,
@@ -80,7 +74,7 @@ export const signup = async (req, res, next) => {
                     user: data,
                 });
             }
-            req.flash('message_error', "ERREUR " + error);
+            req.flash('message_error', error + " Vous devrez ressaisir le mot de passe");
             // return res.status(500).redirect("/signup"); 
             return res.status(500).render("signup", { 
                 title: title,
@@ -108,7 +102,7 @@ export const login = async (req, res, next) => {
     const data = req.body;
     const title = "Identification";
 
-    if (req.session.userInfos.access == true) {
+    if (typeof req.session.userInfos.access != 'undefined' && req.session.userInfos.access == true) {
         res.status(200).redirect("/user-account"); 
     } else if (0 === Object.keys(data).length && data.constructor === Object){
         return res.status(200).render("login", {
@@ -180,117 +174,4 @@ export const userAccount = async (req, res, next) => {
         req.flash('message_error', "ERREUR " + error);
         return res.status(500).redirect("/"); 
     }
-};
-
-/**
- * 
- * Validate and formate the received datas from forms
- * 
-**/
-export const validateValue = (key, value) => {
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    const pwdRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    const phoneRegex = /^\d{10}$|^NC$/;
-    const zipCodeRegex = /^\d{5}$/;
-    let label = '';
-    switch (key) {
-        case 'userEmail':
-            label = 'L\'email';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // gestion du format
-            value = value.toLowerCase(); 
-            // test la longueur ou regex
-            if (!emailRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
-
-            break;
-        case 'userPassword':
-            label = 'Le mot de passe';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (!pwdRegex.test(value)){ 
-                throw new Error(label + ' n\'est pas au format valide !');
-            }
-
-            break;
-        case 'userLastName':
-            label = 'Le nom';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (value.length < 2 || value.length > 100){ 
-                throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
-            }
-            // gestion du format
-            value = value.toUpperCase(); 
-
-            break;
-        case 'userFirstName':
-            label = 'Le prénom';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test le type
-            if ('string' != typeof value){ 
-                throw new Error(label + ' doit être une chaîne de caractères !');
-            }
-            // test la longueur ou regex
-            if (value.length < 2 || value.length > 100){ 
-                throw new Error(label + ' doit contenir entre 2 et 100 caractères !');
-            }
-            // gestion du format //TODO forcer une majuscule au début de chaque mot séparé par un espace ou un tiret : https://flexiple.com/javascript/javascript-capitalize-first-letter/
-            break;
-        case 'userZipCode':
-            label = 'Le code postal';
-            // Test si vide
-            if (null == value){ 
-                throw new Error(label + ' ne peut pas être vide !');
-            }
-            // test la longueur ou regex
-            if (!zipCodeRegex.test(value)){ 
-                throw new Error(label + ' doit contenir 5 chiffres !');
-            }
-
-            break;
-        case 'userPhone':
-            label = 'Le numéro de téléphone';
-            // Test si vide
-            if (null == value || "" == value){ 
-                value = 'NC';
-            } else {
-                // test la longueur ou regex
-                if (!phoneRegex.test(value)){ 
-                    throw new Error(label + ' doit contenir 10 chiffres !');
-                }
-            }
-
-            break;
-        default:
-            break;
-    }
-    
-    return value;
-
 };

@@ -23,6 +23,7 @@ const sessionSchema = new Schema({
     sessionType: {
         type:String,
         maxLength:[250,'Le type de la session doit contenir au maximum 250 caractères'], //TODO enum ?
+        required: [true,'Vous devez choisir un type de formation'],
         default:'Autre'
     },
     sessionDescription: {

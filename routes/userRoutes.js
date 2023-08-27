@@ -19,10 +19,10 @@ import {
 const router = express.Router();
 
 router.get("/login", isAuthenticated, login);
-router.post("/login", login);
+router.post("/login", isAuthenticated, login);
 router.get("/signup", isAuthenticated, signup);
-router.post("/signup", signup);
-router.get('/logout', logout);
+router.post("/signup", isAuthenticated, signup);
+router.get('/logout', isAuthenticated, logout);
 router.get('/user-account', authorize, userAccount);
 router.get("/admin", authorizeAdmin, dashboard); //pour l'instant dashboard affiche la liste des centres de formation
 

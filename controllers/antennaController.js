@@ -1,6 +1,6 @@
 import Antenna from "../models/Antenna.js";
 import Session from "../models/Session.js";
-import { formateDate } from "../middlewares/utils.js";
+import { formateDate } from "../middlewares/validation.js";
 
 /**
  * 
@@ -8,26 +8,28 @@ import { formateDate } from "../middlewares/utils.js";
  * 
 **/
 export const getAntenna = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
     //on récupère l'identifiant donné dans la route paramétrique
     const antennaSlug = req.params.antennaSlug;
     try{
         const antenna = await Antenna.findOne({ "antennaSlug": antennaSlug });
         if (null == antenna) {
-            return res.status(404).render("antenna/getAntenna", {
-                title: "Centre de formation",
-                sessions: "",
-                antenna: "",
-                message: "Le centre que vous recherchez est introuvable."
-            });
+            req.flash('message_error', "Centre de formation introuvable.");
+            return res.status(404).redirect("/antennas/");
         }
 
         const sessions = await Session.find({"sessionAntenna": antenna._id});
         if (0 == sessions) {
             return res.status(200).render("antenna/getAntenna", {
                 title: "Liste des sessions " + antenna.antennaName,
-                sessions: "",
                 antenna: antenna,
-                message: "Aucune session trouvée."
+                sessions: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error, 
+                message: "Ce centre n'a aucune session enregistrée."
             });
         }
         sessions.forEach(function(currentSession) {
@@ -36,17 +38,17 @@ export const getAntenna = async (req, res, next) => {
         });        
         return res.status(200).render("antenna/getAntenna", {
             title: "Liste des sessions " + antenna.antennaName,
-            message: "",
             antenna: antenna,
-            sessions: sessions 
+            sessions: sessions, 
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error, 
+            message: "",
         });
     } catch(error) {
-        return res.status(500).render("antenna/getAntenna", {
-            title: "Liste des sessions",
-            sessions: "",
-            antenna: "",
-            message: error
-        });
+        req.flash('message_error', error);
+        return res.status(404).redirect("/antennas/");
     }
 };
 
@@ -56,27 +58,35 @@ export const getAntenna = async (req, res, next) => {
  * 
 **/
 export const getAntennas = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+    
     try{
         const antennas = await Antenna.find();
-        //console.log(antennas); //? commentaire debug à supprimer ///////////////////////
+
         if (0 == antennas) {
             return res.status(404).render("antenna/getAntennas", {
                 title: "Liste des centres de formation",
                 antennas: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error, 
                 message: "Aucun centre enregistré."
             });
         }
         return res.status(200).render("antenna/getAntennas", {
             title: "Liste des centres de formation",
             antennas:  antennas,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error, 
             message: ""
         });
     } catch(error) {
-        return res.status(500).render("antenna/getAntennas", {
-            title: "Erreur Liste des centres de formation",
-            antennas: "",
-            message: error
-        });
+        req.flash('message_error', error);
+        return res.status(404).redirect("/");
     }
 };
 
