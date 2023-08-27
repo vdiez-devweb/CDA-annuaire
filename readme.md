@@ -87,7 +87,7 @@ COOKIE_AUTH_NAME =
 - configurer le serveur dev `npm i nodemon --save-dev`
 - lancer le serveur dev `npm run dev`
 - accéder via un navigateur à l'url `localhost:8082`
-- Créer le premier utilisateur standard via le bouton sinup
+- Créer le premier utilisateur standard via le bouton signup
   - modifier directement en BDD le role vers 'admin' pour avoir votre premier utilisateur Admin de l'appli
 
 <!-- //TODO vérifier que la procédure est complète -->
