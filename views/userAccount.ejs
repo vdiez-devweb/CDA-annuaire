@@ -1,0 +1,92 @@
+<%- include('_head'); %>
+</head>
+<body>
+    <%- include('_header'); %>
+    <!-- <div><h1 class="bg-secondary text-light px-2 mt-x2 text-center">Accès à l'administration de l'annuaire</h1></div> -->
+    <% if (message) { %>
+        <p class="alert alert-warning"><%= message %></p>
+    <% } %>     
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <h4 class="card-title text-success mb-4"><%= user.userEmail %></h4>
+
+                <div class="col-lg-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-success mb-4">Informations de mon compte</h4>
+                            <dl class="row mb-0 object-view">
+                                <dt class="col-sm-4">Rôle</dt>
+                                <dd class="col-sm-8"><span class="badge <%= user.userRole == 'student' ? ' bg-success text-light' : ' bg-danger' %>"><%= user.userRole == 'student' ? 'Etudiant' : 'Admin' %></span></dd>
+
+                                <dt class="col-sm-4">Nom</dt>
+                                <dd class="col-sm-8"><%= user.userLastName %></dd>
+                                
+                                <dt class="col-sm-4">Prénom</dt>
+                                <dd class="col-sm-8"><%= user.userFirstName %></dd>
+                                
+                                <dt class="col-sm-4">n° Téléphone</dt>
+                                <dd class="col-sm-8"><%= user.userPhone %></dd>
+
+                                <dt class="col-sm-4">Code postal</dt>
+                                <dd class="col-sm-8"><%= user.userZipCode %></dd>
+
+                                <dt class="col-sm-4">Statut du compte</dt>
+                                <dd class="col-sm-8"><span class="badge <%= user.userStatus == true ? ' bg-warning text-dark' : ' bg-secondary text-light' %>"><%= user.userStatus == true ? 'Actif' : 'inactif' %></span></dd>
+
+                                <dt class="col-sm-4">Utilisateur créé le</dt>
+                                <dd class="col-sm-8"><%= user.createdAtFormatted %></dd>
+
+                                <dt class="col-sm-4">Utilisateur modifié le</dt>
+                                <dd class="col-sm-8"><%= user.updatedAtFormatted != null ? user.updatedAtFormatted : '-' %></dd>
+                            </dl>
+                        </div>
+                    </diV>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-success mb-4">Modifier mon mot de passe</h4>
+                            <!-- <%#= form_start(form) %>
+                                <div class="row border-bottom mb-1">
+                                    <%#= form_label(form.currentPassword) %>
+                                    <div class="col-8">
+                                        <%#= form_widget(form.currentPassword) %>
+                                        <div class="invalid-feedback" id="my-account_currentPassword_error">Text</div>
+                                    </div>
+                                </div>
+                                <div class="row border-bottom mb-1">
+                                    <%#= form_label(form.newPassword) %>
+                                    <div class="col-8 info-bulle-container">
+                                        <%#= form_widget(form.newPassword) %>
+                                        <div class="invalid-feedback" id="my-account_newPassword_error">Text</div>
+                                        <span class="badge badge-outline-info rounded-pill cursor-help info-bulle-form" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-custom-class="info-popover" data-bs-content="Le mot de passe doit contenir entre 12 et 32 caractères dont une majuscule, une minuscule, un chiffre et un caractère spécial parmi : ~\&ldquo;#'{([`^)]}¤£€µ!§:/;.,?²°+_|%&*=@$-" title="Info !">?</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <%#= form_label(form.confirmPassword) %>
+                                    <div class="col-8 info-bulle-container">
+                                        <%#= form_widget(form.confirmPassword) %>
+                                        <div class="invalid-feedback" id="my-account_confirmPassword_error">Text</div>
+                                        <span class="badge badge-outline-info rounded-pill cursor-help info-bulle-form" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-placement="bottom" data-bs-custom-class="info-popover" data-bs-content="Le mot de passe doit contenir entre 12 et 32 caractères dont une majuscule, une minuscule, un chiffre et un caractère spécial parmi : ~\&ldquo;#'{([`^)]}¤£€µ!§:/;.,?²°+_|%&*=@$-" title="Info !">?</span>
+                                    </div>
+                                </div>
+                            <%#= form_end(form) %> 
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="page-title-box">
+                                        <div class="page-title-right">
+                                            <button class="btn btn-primary btn-sm" type="submit" form="form-my-account" title="Enregistrer"><i class="mdi mdi-content-save-check"></i> <span class="d-none d-lg-inline-block">Enregistrer</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                    </diV>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil de l'annuaire</a>
+    <a class="btn btn-secondary m-1" href="<%=baseURL%>/logout"><i class="fa-solid fa-power-off"></i> Déconnexion</a>
+    <%- include('_footer'); %>

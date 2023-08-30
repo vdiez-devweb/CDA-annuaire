@@ -1,0 +1,44 @@
+<% if (sessions && sessions != "") { %>
+    <table class="table table-bordered mt-3">
+        <thead class="table-light">
+            <tr>
+                <th scope="col"><small class="text-muted">Num Ypareo</small></th>
+                <th scope="col">Session</th>
+                <th scope="col">Dates</th>
+                <th scope="col">caractéristiques</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% sessions.forEach(function(currentSession) { %>
+                <tr>
+                    <!-- <td>
+                    <img class="shadow p-2 rounded" src="/images/<%#= currentSession.antennaSlug %>-75.jpg" alt="<%#= currentSession.antennaSlug %> illustration">
+                    </td> -->
+                    <td><small class="text-muted"><%= currentSession.sessionNumIdentifier %></small></td>
+                    <th scope="row">
+                        <%= currentSession.sessionName %><br />
+                        <span class="badge text-bg-<%= currentSession.sessionStatus ? 'success' : 'secondary' %> rounded-pill "><%= currentSession.sessionStatus ? 'actif' : 'inactif' %></span> 
+
+                    </th>
+                    <td>du <%= currentSession.sessionStartDateFormatted %><br /> au <%= currentSession.sessionEndDateFormatted %></td>
+                    <td>
+                        <div><span class="badge bg-secondary"><%= currentSession.sessionType %></span></div>
+                        <% if (currentSession.sessionAlternation) { %><div><span class="badge bg-secondary">Alternance</span></div><% } %>
+                        <% if (currentSession.sessionInternship) { %><div><span class="badge bg-secondary">Avec stage</span></div><% } %>
+                        <div><span class="badge bg-secondary"><%= currentSession.sessionNbStudents %> <i class="fa-solid fa-user-graduate px-1"></i></span></div>
+                    </td>
+                    <td> 
+                        <div><small><a href="<%=baseURL%>/admin/session/<%= currentSession._id %>"><i class="fa-solid fa-magnifying-glass px-1"></i><span class="d-none d-md-inline">Voir</span></a></small></div>      
+                        <div><small><a href="<%=baseURL%>/admin/update-session/<%= currentSession._id %>"><i class="fa-solid fa-pen-to-square px-1"></i><span class="d-none d-md-inline">Modifier</span></a></small></div>      
+                        <div><small><a href="<%=baseURL%>/admin/delete-session/<%= currentSession.sessionAntenna.antennaSlug %>/<%= currentSession._id %>"><i class="fa-solid fa-trash px-1"></i><span class="d-none d-md-inline">Supprimer</span></a></small></div>
+                        <div><small><a href="#"><i class="fa-solid fa-square-plus px-1"></i><span class="d-none d-md-inline">Ajouter un étudiant</span></a></small></div>
+                        <!-- <div><small><a href="<%#=baseURL%>/admin/create-student/<%#= currentSession.sessionNumIdentifier %>"><i class="fa-solid fa-square-plus px-1"></i><span class="d-none d-md-inline">Créer une session</span></a></small></div> -->
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<p>&nbsp;</p>
+
+<% } %>

@@ -1,39 +1,60 @@
-# Projet chef d'oeuvre pour passage du titre Concepteur Développeur d'application
+# Projet chef d'oeuvre pour passage du titre Professionnel Concepteur Développeur d'Application
 
 - Sujet : Créer un annuaire des élèves de Simplon
 - date : de février à septembre 2023
-- Référentiels  Concepteur⋅rice développeur⋅se d'applications
+- Référentiels : Concepteur⋅rice développeur⋅se d'applications
 
 ## table des matières
 
-- [Projet chef d'oeuvre pour passage du titre Concepteur Développeur d'application](#projet-chef-doeuvre-pour-passage-du-titre-concepteur-développeur-dapplication)
+- [Projet chef d'oeuvre pour passage du titre Professionnel Concepteur Développeur d'Application](#projet-chef-doeuvre-pour-passage-du-titre-professionnel-concepteur-développeur-dapplication)
   - [table des matières](#table-des-matières)
-  - [Sujet du projet](#sujet-du-projet)
+  - [Sujet du projet : *Créer un annuaire des élèves de Simplon*](#sujet-du-projet--créer-un-annuaire-des-élèves-de-simplon)
   - [Choix techniques](#choix-techniques)
-  - [Tâches restant à accomplir](#tâches-restant-à-accomplir)
+  - [Étapes d'implémentation](#étapes-dimplémentation)
+    - [réalisé `v1.0.0`](#réalisé-v100)
+    - [à venir `unrelease`](#à-venir-unrelease)
   - [Installation du projet](#installation-du-projet)
 
-## Sujet du projet
+## Sujet du projet : *Créer un annuaire des élèves de Simplon*
+
+- Créer une application web permettant de recenser les centres de formation Simplon, les promotions ayant lieu dans chacun d'eux et permettre d'enregistrer les étudiants dans chaque session.
+- En tant qu'utilisateur on pourra consulter les centres de formation et les promos, puis visualiser les étudiants ayant suivi les sessions.
+- On pourra également faire des recherches sur les trois éléments.
 
 ## Choix techniques
 
-l'application web utilise les technologies suivantes :
+l'application utilise les technologies suivantes :
 
-- langage de programmation : NodeJs v18.12.1
-- Frameworks : Express v4.18.2
-- Base de données NoSql : MongoDB
-- ORM : Mongoose v7.0.3 pour l'ORM
-- moteur de template pour les vues : EJS v3.1.9
-- CSS : Bootstrap v5.2.3
-- Dans un premier temps, l'authentification dans l'application est simplement gérée par les sessions, avec 1 seul utilisateur administrateur dont les identifiants sont stockés dans les variables globales d'environnement dans le fichier `.env`
-- versioning : git en lien avec gitHub, [repo publique](https://github.com/vdiez-devweb/CDA-annuaire.git)
+- Langage de programmation : *NodeJs* v18.12.1
+- Frameworks : *Express* v4.18.2
+- Base de données NoSql : *MongoDB Atlas*, *MongoDB Compass*
+- ORM : *Mongoose* v7.0.3 
+- Moteur de template pour les vues : *EJS* v3.1.9
+- CSS : *Bootstrap* v5.2.3
+- Versioning : *git* en lien avec gitHub, [repo publique](https://github.com/vdiez-devweb/CDA-annuaire.git)
+- Authentification avec *token JWT* et cookie
 
-## Tâches restant à accomplir
+## Étapes d'implémentation
 
-- [ ] Vérification des champs dans le front (validation) et le back (unicité, doublons, champs requis etc. ) Dashboard + API
-- [ ] gestionnaire d’erreurs pour traiter les 404 et 500 par exemple
-- [ ] Dans l'API mettre en place le système d'authentification Basic Auth
-- [ ] Dans l'API Revoir messages renvoyés
+### réalisé `v1.0.0`
+
+1. Créer les éléments dans le modèle de l'application (dans un premier temps les centres et les promos)
+2. Créer les routes pour les accès aux différents modules de l'application (afficher, ajouter, modifier et supprimer)
+   1. Créer une partie API pour gérer les éléments sans interface
+      1. Mettre en place la structure de l'application, tester les modules et les routes, puis inactiver les routes vers l'API qui ne sera pas utilisée
+   2. Créer les controllers et les vues pour l'accès en consultation des éléments via une interface web.
+   3. Créer le modèle d'utilisateur pour gérer l’authentification à l'application web (token JWT et cookie de session)
+   4. Créer la partie gestion administrateur sur l'interface web, pour pouvoir en plus créer, modifier et supprimer les éléments.
+   5. Gérer la validation des données issues des formulaires et routes paramétriques par la partie backend, via les controllers
+   6. Gérer la validation des données issues des formulaires directement dans le front avant envoi du formulaire, avec des scripts JavaScript
+
+### à venir `unrelease`
+
+3. Ajouter l'authentification sur les routes de l'API et ré activer les routes
+4. Créer le Dashboard administration pour afficher les statistiques des éléments de l'application
+5. Ajouter dans l'application les étudiants liés aux promotions
+6. Ajouter une fonctionnalité de recherche sur les différents éléments de l'application
+7. Ajouter dans l'application des domaines de formations pour fournir un élément supplémentaire qualification des formation, et enrichir la recherche
 
 ## Installation du projet
 
@@ -45,20 +66,28 @@ l'application web utilise les technologies suivantes :
   - créer un utilisateur ayant accès à cette BDD
   - récupérer le lien de connection commençant par `mongodb+srv://USERNAME:PASS@...`
   - créer un compte sur MongoDB Compass, créer une nouvelle connexion au cluster MongoDB créé auparavant
-- créer un fichier .env à la racine de votre projet, contenant les valeurs vous concernant dans les variables d'environnement suivantes :
+- créer un fichier .env à la racine de votre projet, compléter les variables d'environnement suivantes avec les valeurs vous concernant :
   
 ```text
 BASE_URL = http://localhost:8082
+
+### DataBase ####
 MONGODB_URI = 
+
+### COOKIES session ###
 SESSION_SECRET = 
 SESSION_NAME =
-ADMIN_USERNAME =
-ADMIN_PASSWORD = (le mot de passe de l'administrateur non crypté)
+
+### COOKIE Auth ###
+TOKEN_JWT_SECRET = 
+COOKIE_AUTH_NAME =
 ```
 
 - taper la commande `npm install`
 - configurer le serveur dev `npm i nodemon --save-dev`
 - lancer le serveur dev `npm run dev`
 - accéder via un navigateur à l'url `localhost:8082`
+- Créer le premier utilisateur standard via le bouton signup
+  - modifier directement en BDD le role vers 'admin' pour avoir votre premier utilisateur Admin de l'appli
 
-<!-- TODO vérifier que la procédure est complète -->
+<!-- //TODO vérifier que la procédure est complète -->
