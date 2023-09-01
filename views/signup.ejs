@@ -4,7 +4,7 @@
         <% if (message) { %>
             <p class="alert alert-success"><%= message %></p>
         <% } %>   
-        <form method="post" action="<%=baseURL%>/signup">
+        <form method="post" action="<%#=baseURL%>/signup">
             <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
                 <legend class="">Informations de connexion</legend>
                 
@@ -65,7 +65,7 @@
             <div class="mb-5 form-group">
                 <div class="text-end mt-3">
                     <button class="btn btn-success" type="submit" value="post"> Créer mon compte</button>
-                    <a href="<%=baseURL%>/" class="btn btn-secondary" role="button">Annuler</a>
+                    <a href="<%#=baseURL%>/" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
         </form>

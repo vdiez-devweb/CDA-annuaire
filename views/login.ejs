@@ -6,7 +6,7 @@
     <% if (message) { %>
         <p class="alert alert-warning"><%= message %></p>
     <% } %>     
-        <form method="post" action="<%=baseURL%>/login">
+        <form method="post" action="<%#=baseURL%>/login">
             <div class="row mb-3">
                 <label for="userEmail" class="form-label col-sm-2 ">Email</label>
                 <div class="col-md-6 col-xl-3">
@@ -22,5 +22,5 @@
             <!-- <input id="formURL" name="fromURL" type="hidden" value="<%#= fromURL %>"> -->
             <button type="submit" class="btn btn-primary m-1">Entrer dans mon espace</button>
         </form>
-        <a class="btn btn-secondary m-1" href="<%=baseURL%>">Retour à l'accueil de l'annuaire</a>
+        <a class="btn btn-secondary m-1" href="/">Retour à l'accueil de l'annuaire</a>
     <%- include('_footer'); %>

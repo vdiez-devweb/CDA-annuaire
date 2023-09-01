@@ -1,13 +1,14 @@
 import express from "express";
-import session from "express-session";
-// pour travailler avec Json (on pourrait utiliser express.json())
-import bodyParser from  "body-parser"; 
-// module interne de node.Js, pas besoin de la télécharger
 import path from "path";
-import connectDB from "./config/connectDB.js";
 import dotenv from "dotenv";
+import session from "express-session";
+import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait utiliser express.json())
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
+import mongoStore from "connect-mongo";
+// const MongoStore = require('connect-mongo')(session);
+
+import connectDB from "./config/connectDB.js";
 //import des routes
 import userRoutes from "./routes/userRoutes.js";
 import homepageRouter from "./routes/homepageRoutes.js";
@@ -33,16 +34,34 @@ const app = express();
 
 //utilisation des cookies pour les jetons JWT
 app.use(cookieParser()) ;
-//Utilisation des session pour l'authentification
+
+//utilisation de session avec cookie pour stocker le passage des flash messages
+// app.use(session({
+//   name: process.env.SESSION_NAME,
+//   secret: process.env.SESSION_SECRET,
+//   cookie: { 
+//     maxAge: 180000, //en millisecondes 60000 = 1 minute
+//     secure: false 
+//   },
+//   resave: false,
+//   saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
+// }));
+
+//utilisation de session avec connection MongoDB pour stocker le passage des flash messages
 app.use(session({
   name: process.env.SESSION_NAME,
   secret: process.env.SESSION_SECRET,
-  cookie: { 
-    maxAge: 180000, //en millisecondes 60000 = 1 minute
-    secure: false 
-  },
-  resave: false,
-  saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
+  saveUninitialized: false,
+  resave: false, //don't save session if unmodified
+  store: mongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    autoRemove: 'native', // Default,
+    ttl: 24 * 60 * 60, //Time to live in seconds //TODO modifier la durée ? ici 1 jour 
+    // crypto: {
+    //   secret: process.env.SESSION_SECRET
+    // },
+    collectionName: 'annuaire_appsessions',
+  })
 }));
 
 app.use(flash());
@@ -50,6 +69,7 @@ app.use(flash());
 // middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
 app.use(function(req, res, next) {
   res.locals.userInfos = req.session.userInfos,
+  //res.locals.flashes = req.flash();
   res.locals.typeSession = [
     'Titre Professionnel inscrit au RNCP',
     'Certificats de qualification professionnelle (CQP)',
@@ -75,7 +95,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.locals.baseURL = process.env.BASE_URL;
+// app.locals.baseURL = process.env.BASE_URL;
 
 //on veut envoyer les requêtes en json (on peut aussi utiliser app.use(express.json()); )
 // pour toutes les requêtes qui ont 'application/json' comme Content-Type, le body est mis à disposition directement sur l'objet req (req.body)

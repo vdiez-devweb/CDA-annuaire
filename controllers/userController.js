@@ -20,7 +20,7 @@ export const signup = async (req, res, next) => {
     const title = "Création d'un compte utilisateur";
     // display form
     if (req.session.userInfos.access == true) { //si on accède à la route en étant déjà connecté
-        res.status(200).redirect("/user-account"); 
+        return res.status(200).redirect("/user-account"); 
     } else if (0 === Object.keys(data).length && data.constructor === Object) { //si on a pas encore reçu des données depuis le formulaire
         return res.status(200).render("signup", {
             title: title,
@@ -141,7 +141,7 @@ export const login = async (req, res, next) => {
 export const logout = (req, res) => {
     clearToken(res) ;
     req.session.destroy((err)=> {
-        res.redirect(process.env.BASE_URL);
+        res.redirect("/");
     });
 };
 

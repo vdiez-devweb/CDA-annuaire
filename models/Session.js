@@ -80,6 +80,6 @@ const sessionSchema = new Schema({
 sessionSchema.plugin(uniqueValidator);
 
 //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
-const session = mongoose.model("session", sessionSchema);
+const session = mongoose.model("session", sessionSchema, 'annuaire_sessions');
 
 export default session;

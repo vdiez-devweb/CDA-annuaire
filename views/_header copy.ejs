@@ -3,20 +3,20 @@
   <div class="px-3 py-2 text-white bg-success">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="<%=baseURL%>/">L'annuaire des Étudiants</a>
+        <a class="navbar-brand" href="<%#=baseURL%>/">L'annuaire des Étudiants</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 justify-content-end  m-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="<%=baseURL%>/">Accueil</a>
+              <a class="nav-link active" aria-current="page" href="<%#=baseURL%>/">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%=baseURL%>/antennas">Les Centres</a>
+              <a class="nav-link" href="<%#=baseURL%>/antennas">Les Centres</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%=baseURL%>/sessions">Les Sessions</a>
+              <a class="nav-link" href="<%#=baseURL%>/sessions">Les Sessions</a>
             </li>
             <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,27 +58,27 @@
 
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
           <li class="nav-item">
-            <a href="<%=baseURL%>/" class="nav-link active">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/"></use></svg> <!-- TODO xlink:href--> 
+            <a href="<%#=baseURL%>/" class="nav-link active">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%#=baseURL%>/"></use></svg> <!-- TODO xlink:href--> 
               Accueil
             </a>
           </li>
           <li class="nav-item">
-            <a href="<%=baseURL%>/antennas" class="nav-link text-white">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/antennas"></use></svg><!-- TODO xlink:href--> 
+            <a href="<%#=baseURL%>/antennas" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%#=baseURL%>/antennas"></use></svg><!-- TODO xlink:href--> 
               Centres de formation
             </a>
           </li>
           <li class="nav-item">
-            <a href="<%=baseURL%>/sessions" class="nav-link text-white">
-              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/sessions"></use></svg><!-- TODO xlink:href--> 
+            <a href="<%#=baseURL%>/sessions" class="nav-link text-white">
+              <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%#=baseURL%>/sessions"></use></svg><!-- TODO xlink:href--> 
               Sessions
             </a>
           </li>
           <li class="nav-item">
             <%  if(user) { %>
-              <a  href="<%=baseURL%>/admin/logout">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%=baseURL%>/admin/logout"></use></svg><!-- TODO xlink:href--> 
+              <a  href="<%#=baseURL%>/admin/logout">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="<%#=baseURL%>/admin/logout"></use></svg><!-- TODO xlink:href--> 
                 <button type="button" class="btn btn-light text-dark me-2">Déconnexion <%= user.username %> </button>
               </a>
             <%  } %>

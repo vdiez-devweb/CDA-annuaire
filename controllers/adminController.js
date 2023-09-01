@@ -1,4 +1,5 @@
 import Antenna from "../models/Antenna.js";
+import Session from "../models/Session.js";
 
 const prefixTitle = "";
 
@@ -11,25 +12,28 @@ const prefixTitle = "";
 export const dashboard = async (req, res, next) => {
     let msg_success = req.flash('message_success');
     let msg_error = req.flash('message_error');
+    let messageAntenna = "";
+    let messageSession = "";
 
     try{
         const antennas = await Antenna.find();
+        const sessions = await Session.find();
         if (0 == antennas) {
-            return res.status(404).render("admin/dashboard", {
-                title: prefixTitle + "Dashboard",
-                antennas: "",
-                msg_success,
-                msg_error,
-                message: "Aucun centre de formation répertorié."
-            });
+            messageAntenna = "Aucun centre de formation répertorié";
+        }
+        if (0 == sessions) {
+            messageSession = "Aucune session répertoriée";
         }
         return res.status(200).render("admin/dashboard", {
             title: prefixTitle + "Dashboard",
-            antennas: antennas,
+            antennas: antennas == 0 ? "" : antennas,
+            sessions: sessions == 0 ? "" : sessions,
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
             msg_error,
+            messageAntenna,
+            messageSession, 
             message: ""
         });
     } catch(error) {
@@ -37,12 +41,14 @@ export const dashboard = async (req, res, next) => {
         return res.status(500).render("admin/dashboard", {
             title: prefixTitle + "Dashboard",
             sessions: "",
-            antenna: "",
+            antennas: "",
             message_success: req.flash('message_success'),
             message_error: req.flash('message_error'),
             msg_success,
             msg_error,
-            message: ""
+            messageAntenna,
+            messageSession, 
+            message: error
         });
     }
 
