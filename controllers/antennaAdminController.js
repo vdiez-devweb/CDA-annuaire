@@ -190,10 +190,9 @@ export const deleteAntenna = async (req, res, next) => {
             req.flash('message_error', "Centre de formation introuvable.");
             return res.status(404).redirect("/admin/antennas");
         }
+        const antennaName = antenna.antennaName;
         
         const antennaNbSessions =  await Session.countDocuments({sessionAntenna: antenna._id});
-        // const antennaName = antenna.antennaName;
-        // if (0 != antenna.antennaNbSessions) {
         if (0 != antennaNbSessions) {
             req.flash('message_error', "Impossible de supprimer ce centre de formation car il contient des sessions.");
             return res.status(400).redirect("/admin/antenna/" + antenna.antennaSlug);

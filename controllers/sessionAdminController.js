@@ -18,6 +18,10 @@ export const getSessions = async (req, res, next) => {
             return res.status(404).render("admin/session/getSessions", {
                 title: "Liste des sessions",
                 sessions: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,
                 message: "Aucun session trouvée."
             });
         }

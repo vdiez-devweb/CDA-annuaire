@@ -43,8 +43,9 @@
      
      </ul>
     -->
+    <div><%  if (typeof flashes != 'undefined') { %>Messages : <%= flashes %><% } else {%> PAS D'INFO<% } %></div>
     <div><h1 class="pt-5"><%= title %></h1></div>
-    
+
     <% if (typeof message_success != 'undefined' && message_success != '') { %>
       <div class="alert alert-success" role="alert"><%= message_success %></div>
     <% } %> 

@@ -48,12 +48,21 @@ export const getSession = async (req, res, next) => {
 **/
 export const getSessions = async (req, res, next) => {
     let msg_success = req.flash('message_success');
-    let msg_error = req.flash('message_error');    try{
+    let msg_error = req.flash('message_error');
+    try{
         const sessions = await Session.find({}).populate("sessionAntenna");
 
-        if (0 == sessions.length) {
-            req.flash('message_error', "Aucun session trouvée.");
-            return res.status(500).redirect("/sessions/");
+        if (0 == sessions) {
+            return res.status(404).render("session/getSessions", {
+                title: "Liste des centres de formation",
+                sessions: "",
+                message: "Aucun session trouvée.",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error,  
+            });
+
         }
         sessions.forEach(function(currentSession) {
             currentSession.sessionStartDateFormatted = formateDate(currentSession.sessionStartDate, 'view');

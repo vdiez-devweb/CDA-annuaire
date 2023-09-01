@@ -90,4 +90,57 @@ export const getAntennas = async (req, res, next) => {
     }
 };
 
+/**
+ * 
+ * get all antennas of a region in webApp
+ * 
+**/
+export const getAntennasByRegion = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+    const tabRegions = res.locals.tabRegions;
+
+    try{
+        const regionId = req.params.regionId;
+        
+        if (!Object.keys(tabRegions).includes(regionId)) {
+            return res.status(404).render("antenna/getAntennas", {
+                title: "Liste des centres de formation par région",
+                antennas: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error, 
+                message: "Région inconnue."
+            });
+        }
+
+        const antennas = await Antenna.find({ "antennaRegion": regionId });
+
+        if (0 == antennas) {
+            return res.status(404).render("antenna/getAntennas", {
+                title: "Liste des centres de formation " + res.locals.tabRegions[regionId],
+                antennas: "",
+                message_success: req.flash('message_success'),
+                message_error: req.flash('message_error'),
+                msg_success,
+                msg_error, 
+                message: "Aucun centre enregistré dans cette région."
+            });
+        }
+        return res.status(200).render("antenna/getAntennas", {
+            title: "Liste des centres de formation " + res.locals.tabRegions[regionId],
+            antennas:  antennas,
+            message_success: req.flash('message_success'),
+            message_error: req.flash('message_error'),
+            msg_success,
+            msg_error, 
+            message: ""
+        });
+    } catch(error) {
+        req.flash('message_error', error);
+        return res.status(404).redirect("/");
+    }
+};
+
 

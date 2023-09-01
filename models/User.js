@@ -103,6 +103,6 @@ const userSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fait 
 
 userSchema.plugin(uniqueValidator);
 
-const User = mongoose.model("User", userSchema); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
+const User = mongoose.model("User", userSchema, 'annuaire_users'); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
 
 export default User;

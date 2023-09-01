@@ -10,13 +10,13 @@
                 <div class="row">
                     <div class="col-8 mb-2">Centre : 
                     <% if (session.sessionAntenna) { %>
-                        <span class="badge bg-light text-dark"><a href="<%=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
+                        <span class="badge bg-light text-dark"><a href="<%#=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>">                    
                             <%= session.sessionAntenna.antennaName %>
                         </a></span>
                     <% } else { %> - <% } %>
                     </div>
                     <div class="col-4 text-end">
-                        <a href="<%=baseURL%>/admin/update-count-students-in-session/<%= session._id %>" class="badge bg-light text-dark" role="button" alt="rafraîchir le compteur de sessions"><i class="fa-solid fa-rotate px-1"></i></a>
+                        <a href="<%#=baseURL%>/admin/update-count-students-in-session/<%= session._id %>" class="badge bg-light text-dark" role="button" alt="rafraîchir le compteur de sessions"><i class="fa-solid fa-rotate px-1"></i></a>
                         <span class="badge bg-secondary"><%= session.sessionNbStudents  %><i class="fa-solid fa-user-graduate px-1"></i></span>
                     </div>
                 </div>
@@ -57,15 +57,15 @@
         <div class="col pt-md-3">
             <div class="row row-cols-md-1 justify-content-md-center"> 
                 <div class="col-auto">
-                    <a href="<%=baseURL%>/admin/update-session/<%= session._id %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a>
+                    <a href="<%#=baseURL%>/admin/update-session/<%= session._id %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-pen-to-square px-1"></i>Modifier</a>
                 </div>
                 <% if (typeof students == 'undefined' || students=="") { %>
                     <div class="col-auto">
-                        <a href="<%=baseURL%>/admin/delete-session/<%= session._id %>" class="btn btn-secondary btn-sm m-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer</a>                 
+                        <a href="<%#=baseURL%>/admin/delete-session/<%= session._id %>" class="btn btn-secondary btn-sm m-1" role="button"><i class="fa-solid fa-trash px-1"></i>Supprimer</a>                 
                     </div>
                 <% } %>
                 <div class="col-auto">
-                    <a href="<%=baseURL%>/admin/create-student/<%= session.sessionNumIdentifier %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Ajouter un étudiant</a>
+                    <a href="<%#=baseURL%>/admin/create-student/<%= session.sessionNumIdentifier %>" class="btn btn-outline-success btn-sm m-1" role="button"><i class="fa-solid fa-square-plus px-1"></i>Ajouter un étudiant</a>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
 
 
     <div class="mt-5 mb-5">
-        <a href="<%=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>" class="btn btn-success btn-sm mb-2" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour au centre de formation</a>
-        <a href="<%=baseURL%>/admin/sessions" class="btn btn-success btn-sm mb-2" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
+        <a href="<%#=baseURL%>/admin/antenna/<%= session.sessionAntenna.antennaSlug %>" class="btn btn-success btn-sm mb-2" role="button" ><i class="fa-solid fa-layer-group pe-2"></i> Retour au centre de formation</a>
+        <a href="<%#=baseURL%>/admin/sessions" class="btn btn-success btn-sm mb-2" role="button"><i class="fa-solid fa-list pe-2"></i> Voir la liste de toutes les sessions</a>
     </div>    
 <%- include('../../_footer'); %>

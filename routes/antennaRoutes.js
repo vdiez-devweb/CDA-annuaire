@@ -1,6 +1,7 @@
 import express from "express";
 import { 
     getAntennas,  
+    getAntennasByRegion,  
     getAntenna
 } from "../controllers/antennaController.js";
 
@@ -23,6 +24,7 @@ const router = express.Router();
 
 router.get("/antennas", isAuthenticated, getAntennas);
 // router.get("/antenna/:antennaId", isAuthenticated, getAntenna);
+router.get("/antennas/region/:regionId", isAuthenticated, getAntennasByRegion);
 router.get("/antenna/:antennaSlug", isAuthenticated, getAntenna);
 
 router.get("/admin/antennas", authorizeAdmin, getAdminAntennas);

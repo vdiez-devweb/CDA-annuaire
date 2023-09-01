@@ -106,6 +106,6 @@ const antennaSchema = new Schema({    //on ne spécifie pas l'Id, mongoose le fa
 
 antennaSchema.plugin(uniqueValidator);
 
-const Antenna = mongoose.model("Antenna", antennaSchema); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
+const Antenna = mongoose.model("Antenna", antennaSchema, 'annuaire_antennas'); //fonction mongoose.model(nom de la "table", schéma qui définie la collection)
 
 export default Antenna;

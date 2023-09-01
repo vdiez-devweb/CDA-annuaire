@@ -11,14 +11,14 @@
                         <div class="col-sm-8 mb-2">Région :
                             <% if (currentAntenna.antennaRegion) { %>
                                 <span class="badge bg-light text-dark">
-                                    <a href="<%=baseURL%>/admin/antenna/<%= currentAntenna.antennaRegion %>">                    
+                                    <a href="<%#=baseURL%>/admin/antenna/<%= currentAntenna.antennaRegion %>">                    
                                     <%= tabRegions[currentAntenna.antennaRegion] %>
                                     </a>
                                 </span>
                             <% } else { %> - <% } %>
                         </div>
                         <div class="col-sm-4 text-end">
-                            <!-- <a href="<%=baseURL%>/admin/update-count-sessions/<%= currentAntenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-rotate px-1"></i>rafraîchir le compteur de sessions</a> -->
+                            <!-- <a href="<%#=baseURL%>/admin/update-count-sessions/<%= currentAntenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-rotate px-1"></i>rafraîchir le compteur de sessions</a> -->
                             <span class="badge bg-success"><%= currentAntenna.antennaNbSessions %><i class="fa-solid fa-chalkboard-user px-1"></i></span>
                             <!-- <span class="badge bg-secondary"><%= currentAntenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span> -->
                         </div>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center mt-3"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%=baseURL%>/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche centre</a></div>
+                        <div class="text-center mt-3"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%#=baseURL%>/antenna/<%= currentAntenna.antennaSlug %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche centre</a></div>
                     </div>
                 </div>
             </div>
