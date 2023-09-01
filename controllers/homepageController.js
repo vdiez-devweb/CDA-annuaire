@@ -18,7 +18,8 @@ export const getHomepage = async (req, res, next) => {
         let messageDomaines = ""; 
         
         // TODO récupérer les domaines pour les afficher sous forme de bouton dans la page d’accueil
-        const domaines = ['Infrastructures ​​​​​​​et Cybersécurité','Développement d\'Application','Fondamentaux Numériques','Intelligence Artificielle ​​​​​​​et Data','Méthodes ​​​​​​​Agiles','Cloud ​​​​​​​et Devops'];
+        // const domaines = ['Infrastructures ​​​​​​​et Cybersécurité','Développement d\'Application','Fondamentaux Numériques','Intelligence Artificielle ​​​​​​​et Data','Méthodes ​​​​​​​Agiles','Cloud ​​​​​​​et Devops'];
+        const domaines = "";
         if ("" == domaines) {
             messageDomaines = "Aucun domaine de formation enregistré.";
         }        
@@ -38,7 +39,7 @@ export const getHomepage = async (req, res, next) => {
         }
        
         return res.status(200).render("homepage", {
-            title: "Bienvenue sur l'annuaire des étudiants de Simplon",
+            title: "Accueil",
             regions,
             domaines,
             messageRegions,

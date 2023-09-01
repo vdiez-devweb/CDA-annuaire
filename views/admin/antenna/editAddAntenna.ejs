@@ -5,9 +5,9 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%=baseURL%>/admin/update-antenna">
+            <form method="post" action="<%#=baseURL%>/admin/update-antenna">
         <% } else { %>
-            <form method="post" action="<%=baseURL%>/admin/create-antenna">
+            <form method="post" action="<%#=baseURL%>/admin/create-antenna">
         <% } %>  
             <div class="mb-3 form-group">
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
@@ -135,7 +135,11 @@
                 <div class="text-end mt-2">
                     <button class="btn btn-success" type="submit" value="post">
                     <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> le centre</button>
+<<<<<<< HEAD
                     <a href="<%=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+=======
+                    <a href="<%#=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+>>>>>>> 4-task-security-contourner-memory-store
                 </div>
             </div>
         </form>

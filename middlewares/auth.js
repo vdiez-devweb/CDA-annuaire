@@ -29,6 +29,27 @@ export function createAuthToken(req, res, guidUser, role) {
 
         // Enregistrement du token dans un cookie
         res.cookie(cookieName, token, { httpOnly: true });
+
+        //TODO modifier le fonctionnement pour 
+        //? utiliser les headers plutôt qu'un cookie. 
+        //? ou bien voir si on peut modifier la session en BDD pour y ajouter le token
+        //? attention, bien gérer les modifs dans le logout et les cas d'erreurs
+        // app.use(session({
+        //     name: cookieName,
+        //     secret: process.env.SESSION_SECRET,
+        //     saveUninitialized: false,
+        //     resave: false, //don't save session if unmodified
+        //     store: mongoStore.create({
+        //       mongoUrl: process.env.MONGODB_URI,
+        //       autoRemove: 'native', // Default,
+        //       ttl: 14 * 24 * 60 * 60, //Time to live in seconds //TODO modifier la durée ? ici 14 jours 
+        //       // crypto: {
+        //       //   secret: process.env.SESSION_SECRET
+        //       // },
+        //       collectionName: 'appsessions',
+        //     })
+        //   }));
+          
         //redirection en fonction du role
         if (role == 'admin'){
 

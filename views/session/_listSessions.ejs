@@ -6,7 +6,7 @@
                         <% if ('undefined' == typeof antenna || antenna =="") { %>
                             <!-- on n'affiche le nom du centre que si on n'est pas dans une fiche centre -->
                             <div class="col-8">
-                                Centre : <span class="badge bg-light"><a href="<%=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
+                                Centre : <span class="badge bg-light"><a href="<%#=baseURL%>/antenna/<%= currentSession.sessionAntenna.antennaSlug %>">                    
                                     <%= currentSession.sessionAntenna.antennaName %>
                                 </a></span>
                             </div>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                             
-                        <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%=baseURL%>/session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche session</a></div>
+                        <div class="text-center"><a class="btn btn-outline-secondary btn-sm" role="button" href="<%#=baseURL%>/session/<%= currentSession._id %>"><i class="fa-solid fa-eye px-1 px-1"></i> Voir fiche session</a></div>
                     </div>
                 </div>
             </div>
