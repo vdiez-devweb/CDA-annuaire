@@ -12,6 +12,7 @@
   - [Choix techniques](#choix-techniques)
   - [Étapes d'implémentation](#étapes-dimplémentation)
     - [réalisé `v1.0.0`](#réalisé-v100)
+    - [réalisé `v1.0.1`](#réalisé-v101)
     - [à venir `unrelease`](#à-venir-unrelease)
   - [Installation du projet](#installation-du-projet)
 
@@ -48,13 +49,20 @@ l'application utilise les technologies suivantes :
    5. Gérer la validation des données issues des formulaires et routes paramétriques par la partie backend, via les controllers
    6. Gérer la validation des données issues des formulaires directement dans le front avant envoi du formulaire, avec des scripts JavaScript
 
+### réalisé `v1.0.1`
+
+1. gérer l’authentification à l'application web (token JWT et session stocké dans mongoDB) pour ne pas utiliser MemoryStore en production
+2. améliorer les messages flash quand la base est vide,
+3. amélioré les pages legacy, homepage, dashboard admin
+4. ajouté un meta noindex, nofollow au <head> de la page pour ne pas indexer le site
+5. changé les noms des collections dans les schemas pour les préfixer avec `annuaire_` (cluster MongoDB Atlas partagé avec d'autres applications pour la formation)
+
 ### à venir `unrelease`
 
-3. Ajouter l'authentification sur les routes de l'API et ré activer les routes
-4. Créer le Dashboard administration pour afficher les statistiques des éléments de l'application
-5. Ajouter dans l'application les étudiants liés aux promotions
-6. Ajouter une fonctionnalité de recherche sur les différents éléments de l'application
-7. Ajouter dans l'application des domaines de formations pour fournir un élément supplémentaire qualification des formation, et enrichir la recherche
+1. Ajouter l'authentification sur les routes de l'API et ré activer les routes
+2. Ajouter dans l'application les étudiants liés aux promotions
+3. Ajouter une fonctionnalité de recherche sur les différents éléments de l'application
+4. Ajouter dans l'application des domaines de formations pour fournir un élément supplémentaire qualification des formation, et enrichir la recherche
 
 ## Installation du projet
 
