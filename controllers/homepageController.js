@@ -9,13 +9,13 @@ import Session from "../models/Session.js";
 // };
 
 export const getHomepage = async (req, res, next) => {
+    let msg_success = req.flash('message_success');
+    let msg_error = req.flash('message_error');
+    let messageRegions = "";
+    let messageDomaines = ""; 
     try{
         // const antennas = await Antenna.find();
         // const sessions = await Session.find();
-        let msg_success = req.flash('message_success');
-        let msg_error = req.flash('message_error');
-        let messageRegions = "";
-        let messageDomaines = ""; 
         
         // TODO récupérer les domaines pour les afficher sous forme de bouton dans la page d’accueil
         // const domaines = ['Infrastructures ​​​​​​​et Cybersécurité','Développement d\'Application','Fondamentaux Numériques','Intelligence Artificielle ​​​​​​​et Data','Méthodes ​​​​​​​Agiles','Cloud ​​​​​​​et Devops'];
@@ -51,6 +51,7 @@ export const getHomepage = async (req, res, next) => {
             msg_error,    
         });
     } catch(error) {
+        // next(error);
         return res.status(500).render("homepage", {
             title: "Accueil",
             regions: "",
