@@ -6,6 +6,7 @@ import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
+import RateLimiterMongo from "rate-limiter-flexible";
 
 import connectDB from "./config/connectDB.js";
 //import des routes
@@ -18,12 +19,31 @@ import legacyRouter from "./routes/legacyRoutes.js";
 // import apiAntennaRouter from "./routes/api/antennaRoutes.js";
 // import apiSessionRouter from "./routes/api/sessionRoutes.js";
 
-// import createPopper from '@popperjs/core';
-
 // configurer option dotenv pour les variables environnement
 dotenv.config();
 //on veut connecter la bdd (middleware créé dans le dossier config/connectDB.js pour Mongoose)
-connectDB();
+const mongoConnexion = connectDB();
+/**
+ * rateLimiter
+ */
+const opts = {
+  storeClient: /*mongooseInstance ||*/ mongoConnexion,
+  points: 10, // Number of points
+  duration: 1, // Per second(s)
+};
+console.log(opts);
+  
+const rateLimiterMongo = new RateLimiterMongo(opts);
+// rateLimiterMongo.consume(remoteAddress, 2) // consume 2 points
+//   .then((rateLimiterRes) => {
+//     // 2 points consumed
+//     console.log("consomme 2 pts");
+//   })
+//   .catch((rateLimiterRes) => {
+//     // Not enough points to consume
+//     console.log("Vous ne pouvez plus vous connecter");
+
+//   });
 
 //pour résoudre  __dirname pour les assets
 const __dirname = path.resolve();
@@ -63,9 +83,14 @@ app.use(session({
   })
 }));
 
+/**
+ * Flash messages
+ */
 app.use(flash());
 
-// middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
+/** 
+ *  middleware pour que 'user' et le tableau des régions soient disponibles pour tous les templates
+ */
 app.use(function(req, res, next) {
   res.locals.userInfos = req.session.userInfos,
   //res.locals.flashes = req.flash();
@@ -111,7 +136,7 @@ app.set("views", "views");
 app.use(express.static(path.join(__dirname, "/public")));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap')); //redirect bootstrap
 
-//ou utiliser un fichier route
+//ou utiliser les fichiers de route
 // app.use('/api/auth', userRoutes);
 app.use(userRoutes);
 app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
@@ -121,7 +146,6 @@ app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET 
 //TODO sécuriser les routes API avant de les rendre accessibles
 // app.use(apiAntennaRouter);
 // app.use(apiSessionRouter);
-//app.use(createPopper);
 
 app.listen(process.env.PORT || 8082, () => {
     console.log("Server is listening at port 8082");
