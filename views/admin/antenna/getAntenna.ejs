@@ -16,7 +16,7 @@
                             <% } else { %> - <% } %>
                         </div>
                         <div class="col-sm-4 text-end">
-                            <!-- <a href="<%#=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-rotate px-1"></i>rafraîchir le compteur de sessions</a> -->
+                            <!-- <a href="<%#=baseURL%>/admin/update-count-sessions/<%#= antenna._id %>" class="btn btn-outline-success btn-sm  mb-1 mt-1" role="button"><i class="fa-solid fa-rotate px-1"></i>rafraîchir le compteur de sessions</a> -->
                             <a href="<%#=baseURL%>/admin/update-count-sessions/<%= antenna._id %>" class="badge bg-light text-dark" role="button" alt="rafraîchir le compteur de sessions"><i class="fa-solid fa-rotate px-1"></i></a>
                             <span class="badge bg-success"><%= antenna.antennaNbSessions %><i class="fa-solid fa-chalkboard-user px-1"></i></span>
                             <span class="badge bg-secondary"><%= antenna.antennaNbStudents %><i class="fa-solid fa-user-graduate px-1"></i></span>

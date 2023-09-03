@@ -6,7 +6,6 @@ import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
-// const MongoStore = require('connect-mongo')(session);
 
 import connectDB from "./config/connectDB.js";
 //import des routes
@@ -18,8 +17,6 @@ import legacyRouter from "./routes/legacyRoutes.js";
 //TODO sécuriser les routes API avant de les rendre accessibles
 // import apiAntennaRouter from "./routes/api/antennaRoutes.js";
 // import apiSessionRouter from "./routes/api/sessionRoutes.js";
-
-// import createPopper from '@popperjs/core';
 
 // configurer option dotenv pour les variables environnement
 dotenv.config();
@@ -95,8 +92,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.locals.baseURL = process.env.BASE_URL;
-
 //on veut envoyer les requêtes en json (on peut aussi utiliser app.use(express.json()); )
 // pour toutes les requêtes qui ont 'application/json' comme Content-Type, le body est mis à disposition directement sur l'objet req (req.body)
 app.use(bodyParser.json());
@@ -122,7 +117,6 @@ app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET 
 //TODO sécuriser les routes API avant de les rendre accessibles
 // app.use(apiAntennaRouter);
 // app.use(apiSessionRouter);
-//app.use(createPopper);
 
 app.listen(process.env.PORT || 8082, () => {
     console.log("Server is listening at port 8082");

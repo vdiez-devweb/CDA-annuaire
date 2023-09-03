@@ -1,4 +1,5 @@
-<% if (sessions || sessions != "") { %>
+<% if (sessions && sessions != "") { %>
+<!-- <%# if (sessions || sessions != "") { %> -->
     <table class="table table-bordered mt-3">
         <thead class="table-light">
             <tr>
@@ -43,4 +44,4 @@
 
 <% } else { %>
     <p class="alert alert-warning mt-3"><%= message %></p>
-<% } %>    
+<% } %>
