@@ -2,8 +2,8 @@
 <%- include('_header'); %>
   <h3 class="mt-5">Bienvenue sur l'annuaire des formations</h3>
   <p class="lead">
-    Parcourez les centres de formation Simplon et leurs session, ou les sessions par domaine. Découvrez les élèves qui ont participé aux sessions de formation.</p>
-
+    Parcourez les centres de formation Simplon et leurs session, ou les sessions par domaine. Découvrez les élèves qui ont participé aux sessions de formation.
+  </p>
     <% if (message) { %>
       <p class="alert alert-warning"><%= message %></p>
     <% } %>
@@ -28,10 +28,8 @@
         <% } else { %>
             <p class="alert alert-warning"><%= messageRegions %></p>
         <% } %>        
-
       </div>
       <div class="col-md-6">
-
         <h4><i class="fa-solid fa-chalkboard-user m-1"></i> Sessions de formation par domaine</h4>
         <% if (domaines && domaines != "") { %>
           <% domaines.forEach(function(currentDomain) { %>

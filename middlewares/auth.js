@@ -212,6 +212,8 @@ export function clearToken(res) {
     const cookieName = process.env.COOKIE_AUTH_NAME;
     // Suppression du cookie contenant le token
     res.clearCookie(cookieName) ;
+    // res.clearCookie("connect.sid") ;
+    // res.clearCookie("sid") ;
 }
 
 /**
