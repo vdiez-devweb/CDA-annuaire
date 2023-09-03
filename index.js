@@ -6,7 +6,6 @@ import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import mongoStore from "connect-mongo";
-// const MongoStore = require('connect-mongo')(session);
 
 import connectDB from "./config/connectDB.js";
 //import des routes
