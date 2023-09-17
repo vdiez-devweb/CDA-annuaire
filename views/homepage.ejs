@@ -2,58 +2,54 @@
 <%- include('_header'); %>
   <h3 class="mt-5">Bienvenue sur l'annuaire des formations</h3>
   <p class="lead">
-    Parcourez les centres de formation Simplon et leurs session, ou les sessions par domaine. Découvrez les élèves qui ont participé aux sessions de formation.
+    Parcourez les centres de formation Simplon et leurs session, ou les sessions par domaine. 
+    Découvrez les élèves qui ont participé aux sessions de formation.
   </p>
-    <% if (message) { %>
-      <p class="alert alert-warning"><%= message %></p>
-    <% } %>
-    <div class="row mt-5">
-      <div class="col-md-6">
-        <h4><i class="fa-solid fa-school m-1"></i> Centres de formation par région</h4>
-        <% if (regions && regions != "") { %>
-          <% regions.forEach(function(currentRegion) { %>
-            <a href="/antennas/region/<%= currentRegion._id %>" type="button" class="btn btn-outline-success position-relative m-1" <% if (currentRegion.count == 0 ) { %> disabled<% } %>>
-              <!-- TODO ajouter le lien vers l'affichage des centres de cette région -->
-              <%= tabRegions[currentRegion._id] %>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <%= currentRegion.count %>
-                <span class="visually-hidden">centres de formation</span>
-              </span>
-            </a>
-          <% }); %>
-          <p>
-              <a href="/antennas" class="btn btn-success mb-5 mt-2">
-                <i class="fa-solid fa-list pe-2"></i> Parcourir tous les centres</a>
-          </p>
-        <% } else { %>
-            <p class="alert alert-warning"><%= messageRegions %></p>
-        <% } %>        
-      </div>
-      <div class="col-md-6">
-        <h4><i class="fa-solid fa-chalkboard-user m-1"></i> Sessions de formation par domaine</h4>
-        <% if (domaines && domaines != "") { %>
-          <% domaines.forEach(function(currentDomain) { %>
-            <button type="button" class="btn btn-outline-success position-relative m-1">
-              <%= currentDomain %>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <%#= currentDomain.count %>
-                <span class="visually-hidden">sessions de formation</span>
-              </span>
-            </button>
-          <% }); %>
-        <% } else { %>
-            <p class="alert alert-warning"><%= messageDomaines %></p>
-        <% } %>    
-        
+  <% if (message) { %>
+    <p class="alert alert-warning"><%= message %></p>
+  <% } %>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h4><i class="fa-solid fa-school m-1"></i> Centres de formation par région</h4>
+      <% if (regions && regions != "") { %>
+        <% regions.forEach(function(currentRegion) { %>
+          <a href="/antennas/region/<%= currentRegion._id %>" type="button" 
+            class="btn btn-outline-success position-relative m-1" <% if (currentRegion.count == 0 ) { %> disabled<% } %>>
+            <%= tabRegions[currentRegion._id] %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <%= currentRegion.count %>
+              <span class="visually-hidden">centres de formation</span>
+            </span>
+          </a>
+        <% }); %>
         <p>
-            <a href="/sessions" class="btn btn-success mb-5 mt-2"><i class="fa-solid fa-list pe-2"></i> Parcourir toutes les sessions</a>
+            <a href="/antennas" class="btn btn-success mb-5 mt-2">
+              <i class="fa-solid fa-list pe-2"></i> Parcourir tous les centres</a>
         </p>
-      </div>
+      <% } else { %>
+          <p class="alert alert-warning"><%= messageRegions %></p>
+      <% } %>        
     </div>
-<!-- 
-    <h3>Recherche d'étudiants par critères</h3>
-    <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-    </form> -->
-
-    <%- include('_footer'); %>
+    <div class="col-md-6">
+      <h4><i class="fa-solid fa-chalkboard-user m-1"></i> Sessions de formation par domaine</h4>
+      <% if (domaines && domaines != "") { %>
+        <% domaines.forEach(function(currentDomain) { %>
+          <button type="button" class="btn btn-outline-success position-relative m-1">
+            <%= currentDomain %>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <%#= currentDomain.count %>
+              <span class="visually-hidden">sessions de formation</span>
+            </span>
+          </button>
+        <% }); %>
+      <% } else { %>
+          <p class="alert alert-warning"><%= messageDomaines %></p>
+      <% } %>     
+      <p>
+          <a href="/sessions" class="btn btn-success mb-5 mt-2">
+            <i class="fa-solid fa-list pe-2"></i> Parcourir toutes les sessions
+          </a>
+      </p>
+    </div>
+  </div>
+  <%- include('_footer'); %>
