@@ -5,9 +5,9 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%#=baseURL%>/admin/update-antenna">
+            <form method="post" action="/admin/update-antenna">
         <% } else { %>
-            <form method="post" action="<%#=baseURL%>/admin/create-antenna">
+            <form method="post" action="/admin/create-antenna">
         <% } %>  
             <div class="mb-3 form-group">
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
@@ -135,12 +135,12 @@
                 <div class="text-end mt-2">
                     <button class="btn btn-success" type="submit" value="post">
                     <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> le centre</button>
-                    <a href="<%#=baseURL%>/admin/" class="btn btn-secondary" role="button">Annuler</a>
+                    <a href="/admin/" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
         </form>
         <!-- <div class="mt-5">
-                <a class="btn btn-success btn-sm mb-5" role="button" href="<%#=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+                <a class="btn btn-success btn-sm mb-5" role="button" href="/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
         </div> -->
     </div>
 <%- include('../../_footer'); %>
