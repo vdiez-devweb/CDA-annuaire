@@ -5,12 +5,12 @@
             <p class="alert alert-success"><%= message %></p>
         <% } %>  
         <% if (action === "update") { %>
-            <form method="post" action="<%#=baseURL%>/admin/update-session"> 
+            <form method="post" action="/admin/update-session"> 
         <% } else { %>
-            <form method="post" action="<%#=baseURL%>/admin/create-session">
+            <form method="post" action="/admin/create-session">
         <% } %>  
         <% if (antennas) { %>
-        <!-- <form method="post" action="<%#=baseURL%>/admin/update-session/<%=session._id %>"> -->
+        <!-- <form method="post" action="/admin/update-session/<%=session._id %>"> -->
             <div>
                 <fieldset class="shadow-sm rounded p-4 m-2 bg-light border border-success border-opacity-25">
                     <legend class="">Informations Générales</legend>
@@ -122,15 +122,15 @@
                 <div class="text-end mt-3">
                     <button class="btn btn-success" type="submit" value="post">
                     <% if (action == "update") { %> Modifier <% } else { %> Créer <% } %> la session</button>
-                    <a href="<%#=baseURL%>/admin/<% if (action == "update") { %>session/<%= sessionId%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
+                    <a href="/admin/<% if (action == "update") { %>session/<%= sessionId%><% } else { %>sessions/<% } %>" class="btn btn-secondary" role="button">Annuler</a>
                 </div>
             </div>
             <% } else { %>  
-                <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="<%#=baseURL%>/admin/create-antenna"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
+                <a class="btn btn-outline-success btn-sm mb-5" role="button"  href="/admin/create-antenna"><i class="fa-solid fa-square-plus px-1"></i>Créer un centre de formation</a>
             <% } %>  
         </form>
     </div>
     <div class="mt-5">
-        <a class="btn btn-success btn-sm mb-5" role="button"  href="<%#=baseURL%>/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
+        <a class="btn btn-success btn-sm mb-5" role="button"  href="/admin/"><i class="fa-solid fa-house-lock pe-2"></i>Retour à l'accueil du panneau d'administration</a>
     </div>
 <%- include('../../_footer'); %>

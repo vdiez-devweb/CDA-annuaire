@@ -1,11 +1,11 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import session from "express-session";
 import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait utiliser express.json())
-import flash from "connect-flash";
 import cookieParser from "cookie-parser";
-import mongoStore from "connect-mongo";
+import session from "express-session";
+import mongoStore from "connect-mongo"; // pour stocker les sessions
+import flash from "connect-flash"; // pour utiliser des messages transmis par la session
 
 import connectDB from "./config/connectDB.js";
 //import des routes
@@ -19,7 +19,10 @@ import legacyRouter from "./routes/legacyRoutes.js";
 // import apiSessionRouter from "./routes/api/sessionRoutes.js";
 
 // configurer option dotenv pour les variables environnement
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') { // on ne charge un fichier .env SAUF si on se trouve en environnement de production
+  dotenv.config();
+}
+
 //on veut connecter la bdd (middleware créé dans le dossier config/connectDB.js pour Mongoose)
 connectDB();
 
@@ -31,18 +34,6 @@ const app = express();
 
 //utilisation des cookies pour les jetons JWT
 app.use(cookieParser()) ;
-
-//utilisation de session avec cookie pour stocker le passage des flash messages
-// app.use(session({
-//   name: process.env.SESSION_NAME,
-//   secret: process.env.SESSION_SECRET,
-//   cookie: { 
-//     maxAge: 180000, //en millisecondes 60000 = 1 minute
-//     secure: false 
-//   },
-//   resave: false,
-//   saveUninitialized: false, //évite que le serveur génère un nouvel identifiant de session à chaque fois que l’utilisateur enverra une requête.
-// }));
 
 //utilisation de session avec connection MongoDB pour stocker le passage des flash messages
 app.use(session({
@@ -95,26 +86,46 @@ app.use(function(req, res, next) {
 //on veut envoyer les requêtes en json (on peut aussi utiliser app.use(express.json()); )
 // pour toutes les requêtes qui ont 'application/json' comme Content-Type, le body est mis à disposition directement sur l'objet req (req.body)
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // on indique quel moteur de template on utilise
 app.set("view engine", "ejs");
 // on indique dans quel dossier on trouve les vues
 app.set("views", "views"); 
-
 // on indique dans quel dossier on trouve les fichiers statics (img css etc.) => dossier public
 app.use(express.static(path.join(__dirname, "/public")));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap')); //redirect bootstrap
 
-//ou utiliser un fichier route
-// app.use('/api/auth', userRoutes);
+// utiliser un fichier route
+// remplacer par app.get si on n'a que des méthodes GET dans le routeur
 app.use(userRoutes);
-app.use(homepageRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(antennaRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(sessionRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
-app.use(legacyRouter); // remplacer par app.get si on n'a que des méthodes GET dans le routeur
+app.use(homepageRouter); 
+app.use(antennaRouter); 
+app.use(sessionRouter);
+app.use(legacyRouter);
+
+// Handle 404
+app.use(function(req, res) {
+  res.status(400);
+  res.render('404', {
+    title: '404: Page non trouvée', 
+    url: req.get('Referrer')
+    // url: req.originalurl
+  });
+});
+
+// Handle 500 error (need to be call by next(error) when error occurred)
+app.use(function(error, req, res, next) {
+  res.status(500);
+  res.render('500', {
+    title:'500: Erreur Serveur', 
+    error: error,
+    url: req.get('Referrer')
+  });
+});
+
 //TODO sécuriser les routes API avant de les rendre accessibles
+// app.use('/api/auth', userRoutes);
 // app.use(apiAntennaRouter);
 // app.use(apiSessionRouter);
 
