@@ -131,9 +131,7 @@ app.use(legacyRouter);
 app.use(function(req, res) {
   res.status(400);
   res.render('404', {
-    title: '404: Page non trouvée', 
-    url: req.get('Referrer')
-    // url: req.originalurl
+    title: '404: Page non trouvée' 
   });
 });
 
@@ -142,8 +140,7 @@ app.use(function(error, req, res, next) {
   res.status(500);
   res.render('500', {
     title:'500: Erreur Serveur', 
-    error: error,
-    url: req.get('Referrer')
+    error: error
   });
 });
 

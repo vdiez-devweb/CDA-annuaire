@@ -3,14 +3,13 @@
 
   <div class="row">
     <div class="col-md-6 mb-3">
-      <img src="images/error.png" alt="illustration erreur" class="img-fluid p-2 mb-3">
+      <img src="/images/error.png" alt="illustration erreur" class="img-fluid p-2 mb-3">
     </div>
     <div  class="col-md-6">
       <div class="alert alert-danger" role="alert">
         <h4 class="alert-heading"><%= error.title %></h4>
         <p><i class="fa-solid fa-triangle-exclamation pe-2"></i><%= error.message %></p>
         <a class="btn btn-success btn-sm mb-1" role="button" href="/"><i class="fa-solid fa-home pe-2"></i>Retour à l'accueil</a>
-        <a class="btn btn-outline-success btn-sm mb-1" role="button" href="<%= url %>"><i class="fa-solid fa-rotate-left pe-2"></i>Retour à la page précédente</a>
       </div>
     </div>
   </div>
