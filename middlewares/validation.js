@@ -28,25 +28,25 @@ const dateRegex = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 export const formateDate = (innerDate, typeDisplay) => {
     switch (typeDisplay) {
         case 'form'://'2023-09-10'
-            return innerDate.getFullYear() + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate());
+
+            return innerDate.getFullYear() 
+                    + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) 
+                    + "-" + (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate());
+        case 'tab': //10-09-2023
+
+            return  (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate()) 
+                    + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) 
+                    + "-" + (innerDate.getFullYear() >= 2000 ? innerDate.getFullYear()-2000  : innerDate.getFullYear()-1900);
+        case 'view': //10 septembre 2023
+
+            return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear();
+        case 'complete': //10 septembre 2023 à 10h02
+
+            return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear() 
+                    + " à " + innerDate.getHours() + "h" + innerDate.getMinutes(); //+ "m" + innerDate.getSeconds()
+        default: // = type 'view'
             
-            break;
-        case 'tab': //
-            return  (innerDate.getDate() < 10 ? ("0" + innerDate.getDate()) : innerDate.getDate()) + "-" + (innerDate.getMonth() < 9 ? "0" + (innerDate.getMonth() + 1) : (innerDate.getMonth() + 1)) + "-" + (innerDate.getFullYear() >= 2000 ? innerDate.getFullYear()-2000 : innerDate.getFullYear()-1900);
-
-            break;
-        case 'view': //
             return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear();
-        
-            break;
-        case 'complete': //
-            return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear() + " à " + innerDate.getHours() + "h" + innerDate.getMinutes(); //+ "m" + innerDate.getSeconds()
-        
-            break;
-        default: //
-            return  innerDate.getDate() + " " + innerDate.toLocaleString('default', { month: 'short' }) + " " + innerDate.getFullYear();
-
-            break;
     }
 };
 

@@ -1,4 +1,5 @@
 import express from "express";
+import helmet from "helmet";
 import path from "path";
 import dotenv from "dotenv";
 import bodyParser from  "body-parser"; // pour travailler avec Json (on pourrait utiliser express.json())
@@ -31,6 +32,28 @@ const __dirname = path.resolve();
 
 // Créer App express
 const app = express();
+
+app.disable("x-powered-by");
+// Ask Helmet to ignore the X-Powered-By header. avoid to expose information about the used framework to potential attackers
+// Set Content Security Policies to allow use of external site (font awsome et google fonts)
+const scriptSources = ["'self'", "https://kit.fontawesome.com/be816a8046.js"];
+const styleSources = ["'self'", "https://fonts.googleapis.com/", "'unsafe-inline'"];
+const connectSources = ["'self'", "https://fonts.googleapis.com", "https://ka-f.fontawesome.com/"];
+app.use(
+  helmet({
+    xPoweredBy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: connectSources,
+        scriptSrc: scriptSources,
+        scriptSrcElem: scriptSources,
+        styleSrc: styleSources,
+        styleSrcElem: styleSources,
+      },
+    },
+  })
+);
 
 //utilisation des cookies pour les jetons JWT
 app.use(cookieParser()) ;

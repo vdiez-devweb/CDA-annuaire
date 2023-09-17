@@ -28,7 +28,7 @@ export function createAuthToken(req, res, guidUser, role) {
         req.flash('message_success', "Vous êtes bien connecté à l'application");
 
         // Enregistrement du token dans un cookie
-        res.cookie(cookieName, token, { httpOnly: true });
+        res.cookie(cookieName, token, { httpOnly: true, secure: true });
 
         //TODO modifier le fonctionnement pour 
         //? utiliser les headers plutôt qu'un cookie. 
