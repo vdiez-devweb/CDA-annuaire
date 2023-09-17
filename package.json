@@ -1,6 +1,6 @@
 {
   "name": "annuaire-node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Annuaire Simplon",
   "main": "index.js",
