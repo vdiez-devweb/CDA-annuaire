@@ -281,13 +281,13 @@ export const updateSession = async(req, res, next) => {
         const antennas = await Antenna.find();
         if (0 == antennas) {
             req.flash('message_error', "Aucun centre de formation répertorié.");
-            return res.status(404).redirect(req.get('Referrer'));
+            return res.status(404).redirect("/admin");
         }
         const session = await Session.findOne({ "_id": sessionId }).populate("sessionAntenna");
 
         if (null == session) {
             req.flash('message_error', "Session introuvable.");
-            return res.status(404).redirect(req.get('Referrer'));
+            return res.status(404).redirect("/admin/sessions");
         } 
         
         const antennaSlug = session.sessionAntenna.antennaSlug; //??
@@ -433,9 +433,9 @@ export const updateSession = async(req, res, next) => {
 //            return res.status(404).json({ "ErrorMessage": "Erreur : mise à jour impossible, session non trouvée" });
 //        }
 //        req.flash('message_success', "le compteur d'étudiants de la session " + result.sessionName + " a été rafraîchi ");
-//        return res.status(200).redirect(req.get('Referrer'));
+//        return res.status(200).redirect("/admin");
 //    } catch(error) {
 //        req.flash('message_error', "ERREUR " + error);
-//        return res.status(500).redirect(req.get('Referrer'));
+//        return res.status(500).redirect("/admin");
 //    }
 // };

@@ -1,12 +1,8 @@
 </head>
 <body>
-<header>
-  <div class="px-3 py-2 bg-success fixed-top">
-    
-    <%- include('_navbar'); %>
-
-  </div>
-  <!-- <div class="px-3 py-2 border-bottom mb-3">
+<!--
+  <header>
+   <div class="px-3 py-2 border-bottom mb-3">
     <div class="container">
 
     </div>
@@ -20,30 +16,34 @@
         <button type="button" class="btn btn-success">Sign-up</button>
       </div>
     </div>
-  </div> -->
+  </div> 
 </header>
+-->
+<div class="container main-container" id="haut">
+  <div class="bg-success fixed-top">
+    
+    <%- include('_navbar'); %>
 
-<div class="container main-container mt-5" id="haut">
-
-      <!-- <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg"> -->
+  </div>
+  <!-- <img class="opacity-75 img-fluid mb-0" src="/images/header.jpg"> -->
     <!-- <ul class="nav justify-content-center bg-light border-bottom mb-3">
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%#=baseURL%>/"><i class="fa-solid fa-house"></i></a>
+        <a class="btn btn-success mx-1" href="/"><i class="fa-solid fa-house"></i></a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%#=baseURL%>/antennas">Les centres de formation</a>
+        <a class="btn btn-success mx-1" href="/antennas">Les centres de formation</a>
       </li>
       <li class="nav-item">
-        <a class="btn btn-success mx-1" href="<%#=baseURL%>/sessions">Les sessions</a>
+        <a class="btn btn-success mx-1" href="/sessions">Les sessions</a>
       </li>
     -->
     <!-- <li class="nav-item">
-        <a class="btn btn-secondary mx-1" href="<%#=baseURL%>/admin">Administration du site</a>
+        <a class="btn btn-secondary mx-1" href="/admin">Administration du site</a>
       </li> 
      
      </ul>
     -->
-    <div><%  if (typeof flashes != 'undefined') { %>Messages : <%= flashes %><% } else {%> PAS D'INFO<% } %></div>
+    
     <div><h1 class="pt-5"><%= title %></h1></div>
 
     <% if (typeof message_success != 'undefined' && message_success != '') { %>

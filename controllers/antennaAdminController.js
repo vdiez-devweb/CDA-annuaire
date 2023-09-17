@@ -334,8 +334,8 @@ export const updateAntenna = async(req, res, next) => {
 export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
     const id = req.params.antennaId;
     if (!validateValueObjectId(id)) {
-        req.flash('message_error', "Aucune session trouvée avec l'identifiant." + sessionId);
-        return res.status(404).redirect(req.get('Referrer'));
+        req.flash('message_error', "Aucun centre trouvé avec cet identifiant.");
+        return res.status(404).redirect("/admin/antennas");
     }
 
     const antennaNbSessions =  await Session.countDocuments({sessionAntenna: id});
@@ -351,13 +351,13 @@ export const ajaxUpdateNbSessionsInAntenna = async (req, res, next) => {
        );
        if (null == result) {
            req.flash('message_error', "mise à jour impossible, centre de formation non trouvé");
-           return res.status(404).redirect(req.get('Referrer'));
+           return res.status(404).redirect("/admin/antennas");
        }
        req.flash('message_success', "le compteur de sessions du centre de formation " + result.antennaName + " a été rafraîchi ");
-       return res.status(200).redirect(req.get('Referrer'));
+       return res.status(200).redirect("/admin/antennas");
    } catch(err) {
        req.flash('message_error', "ERREUR " + err);
-       return res.status(500).redirect(req.get('Referrer'));
+       return res.status(500).redirect("/admin/antennas");
    }
 };
 

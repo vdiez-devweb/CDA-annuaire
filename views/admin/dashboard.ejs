@@ -8,7 +8,7 @@
                     <% if (antennas == "" && messageAntenna != "") { %>
                     <p class="alert alert-warning mt-3"><%= messageAntenna %></p>
                 <% } else { %>            
-                    <a href="<%#=baseURL%>/admin/antennas" class="btn btn btn-success position-relative" role="button">
+                    <a href="/admin/antennas" class="btn btn btn-success position-relative" role="button">
                         <i class="fa-solid fa-eye px-1"></i> Voir les centres de formation
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             <%= antennas.length %>
@@ -18,7 +18,7 @@
                 <% } %>            
                 </div>
                 <div class="">
-                    <a href="<%#=baseURL%>/admin/create-antenna" class="btn btn btn-outline-success mt-2" role="button">
+                    <a href="/admin/create-antenna" class="btn btn btn-outline-success mt-2" role="button">
                         <i class="fa-solid fa-square-plus px-1"></i> Créer un centre de formation
                     </a>
                 </div>
@@ -29,7 +29,7 @@
                     <% if (sessions == "" && messageSession != "") { %>
                         <p class="alert alert-warning mt-3"><%= messageSession %></p>
                     <% } else { %>            
-                        <a href="<%#=baseURL%>/admin/sessions" class="btn btn btn-success position-relative" role="button">
+                        <a href="/admin/sessions" class="btn btn btn-success position-relative" role="button">
                             <i class="fa-solid fa-eye px-1"></i> Voir les sessions
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 <%= sessions.length %>
@@ -39,7 +39,7 @@
                     <% } %>            
                 </div>
                 <div class="">
-                    <a href="<%#=baseURL%>/admin/create-session" class="btn btn btn-outline-success mt-2" role="button"><i class="fa-solid fa-square-plus px-1"></i> Créer une session</a>
+                    <a href="/admin/create-session" class="btn btn btn-outline-success mt-2" role="button"><i class="fa-solid fa-square-plus px-1"></i> Créer une session</a>
                 </div>
             </div>
         </div>

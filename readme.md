@@ -10,9 +10,10 @@
   - [table des matières](#table-des-matières)
   - [Sujet du projet : *Créer un annuaire des élèves de Simplon*](#sujet-du-projet--créer-un-annuaire-des-élèves-de-simplon)
   - [Choix techniques](#choix-techniques)
-  - [Étapes d'implémentation](#étapes-dimplémentation)
-    - [réalisé `v1.0.0`](#réalisé-v100)
-    - [réalisé `v1.0.1`](#réalisé-v101)
+  - [Étapes d'implémentation (Changelog)](#étapes-dimplémentation-changelog)
+    - [réalisé `v1.0.0` 30-08-2023](#réalisé-v100-30-08-2023)
+    - [réalisé `v1.0.1` 03-09-2023](#réalisé-v101-03-09-2023)
+    - [réalisé `v1.0.2` 17-09-2023](#réalisé-v102-17-09-2023)
     - [à venir `unrelease`](#à-venir-unrelease)
   - [Installation du projet](#installation-du-projet)
 
@@ -35,9 +36,9 @@ l'application utilise les technologies suivantes :
 - Versioning : *git* en lien avec gitHub, [repo publique](https://github.com/vdiez-devweb/CDA-annuaire.git)
 - Authentification avec *token JWT* et cookie
 
-## Étapes d'implémentation
+## Étapes d'implémentation (Changelog)
 
-### réalisé `v1.0.0`
+### réalisé `v1.0.0` 30-08-2023
 
 1. Créer les éléments dans le modèle de l'application (dans un premier temps les centres et les promos)
 2. Créer les routes pour les accès aux différents modules de l'application (afficher, ajouter, modifier et supprimer)
@@ -49,13 +50,18 @@ l'application utilise les technologies suivantes :
    5. Gérer la validation des données issues des formulaires et routes paramétriques par la partie backend, via les controllers
    6. Gérer la validation des données issues des formulaires directement dans le front avant envoi du formulaire, avec des scripts JavaScript
 
-### réalisé `v1.0.1`
+### réalisé `v1.0.1` 03-09-2023
 
 1. gérer l’authentification à l'application web (token JWT et session stocké dans mongoDB) pour ne pas utiliser MemoryStore en production
 2. améliorer les messages flash quand la base est vide,
 3. amélioré les pages legacy, homepage, dashboard admin
 4. ajouté un meta noindex, nofollow au <head> de la page pour ne pas indexer le site
 5. changé les noms des collections dans les schemas pour les préfixer avec `annuaire_` (cluster MongoDB Atlas partagé avec d'autres applications pour la formation)
+
+### réalisé `v1.0.2` 17-09-2023
+
+1. Ajouté des pages personnalisées pour l'erreur 404 et 500
+2. Améliorations de sécurité suite audit Snyk
 
 ### à venir `unrelease`
 
